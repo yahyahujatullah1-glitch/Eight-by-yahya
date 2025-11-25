@@ -3,326 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIGHT RP - Home</title>
+    <title>EIGHT RP - The Future of Mobile Roleplay</title>
+    <meta name="description" content="The most immersive Mobile GTA 5 Roleplay server.">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Mobile Menu -->
+    <!-- === MOBILE MENU OVERLAY === -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- === SIDEBAR MENU (Mobile) === -->
     <div class="side-menu" id="sideMenu">
-        <div class="side-header"><span>MENU</span><i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i></div>
+        <div class="side-header">
+            <span>MENU</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i>
+        </div>
         <div class="side-links">
+            <div class="menu-label">Navigation</div>
             <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
             <a href="#features"><i class="fa-solid fa-star"></i> Features</a>
+            <a href="#factions"><i class="fa-solid fa-users"></i> Paths</a>
             <a href="#roadmap"><i class="fa-solid fa-map"></i> Roadmap</a>
-            <a href="#team"><i class="fa-solid fa-users"></i> Team</a>
-            <div class="menu-label">Legal</div>
-            <a href="contact.html">Contact Us</a>
-            <a href="terms.html">Terms of Use</a>
-            <a href="privacy.html">Privacy Policy</a>
+            <a href="#team"><i class="fa-solid fa-id-card"></i> Team</a>
+
+            <div class="menu-label">Legal & Help</div>
+            <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+            <a href="terms.html"><i class="fa-solid fa-gavel"></i> Terms of Use</a>
+            <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- === TOP NAVIGATION BAR === -->
     <nav>
         <a href="index.html" class="logo-container">
-            <span class="logo-main">EIGHT</span><span class="logo-sub">ROLEPLAY</span>
+            <span class="logo-main">EIGHT</span>
+            <span class="logo-sub">ROLEPLAY</span>
         </a>
+        
         <div class="nav-links desktop-only">
             <a href="index.html" class="active">Home</a>
             <a href="#features">Features</a>
             <a href="#factions">Factions</a>
-            <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="discord-btn">Discord</a>
+            <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="discord-btn">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
         </div>
-        <div class="menu-btn" onclick="toggleMenu()"><i class="fa-solid fa-bars-staggered"></i></div>
+
+        <div class="menu-btn mobile-only" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- =========================================
+         MAIN CONTENT START
+         ========================================= -->
+    
+    <!-- 1. HERO HEADER -->
     <header>
         <div class="hero-overlay"></div>
         <div class="hero-content reveal">
             <div class="status-pill"><div class="dot"></div> UNDER DEVELOPMENT</div>
             <h1>YOUR WORLD <br><span>AT YOUR FINGERTIPS</span></h1>
-            <p class="hero-sub">Console-quality Roleplay on mobile. Voice Chat | Real Economy.</p>
+            <p class="hero-sub">Experience console-quality Roleplay on your mobile device. <br>Voice Chat | Real Economy | Custom Engine</p>
             <div class="hero-actions">
-                <a href="https://discord.gg/DH8g6YfZxW" class="btn btn-primary">Join Community</a>
-                <a href="#" class="btn btn-outline disabled">App Coming Soon</a>
+                <a href="https://discord.gg/DH8g6YfZxW" class="btn btn-primary"><i class="fa-brands fa-discord"></i> Join Community</a>
+                <a href="#" class="btn btn-outline disabled"><i class="fa-brands fa-android"></i> App Coming Soon</a>
             </div>
         </div>
     </header>
 
-    <!-- Features -->
+    <!-- 2. FEATURES -->
     <section id="features" class="section-pad bg-yellow clip-angle">
         <div class="container">
             <h2 class="section-title dark-text reveal">Game Features</h2>
             <div class="grid-3 reveal">
-                <div class="dark-card"><i class="fa-solid fa-microphone-lines icon-gold"></i><h3>Pro Voice Chat</h3><p>Seamless proximity voice chat optimized for mobile data.</p></div>
-                <div class="dark-card"><i class="fa-solid fa-sack-dollar icon-gold"></i><h3>Real Economy</h3><p>A player-driven market. Every dollar is earned.</p></div>
-                <div class="dark-card"><i class="fa-solid fa-mobile-screen-button icon-gold"></i><h3>Mobile HUD</h3><p>Custom interface designed for touchscreens.</p></div>
+                <div class="dark-card">
+                    <i class="fa-solid fa-microphone-lines icon-gold"></i>
+                    <h3>Pro Voice Chat</h3>
+                    <p>Seamless proximity voice chat optimized for mobile data. No third-party apps required.</p>
+                </div>
+                <div class="dark-card">
+                    <i class="fa-solid fa-sack-dollar icon-gold"></i>
+                    <h3>Real Economy</h3>
+                    <p>A player-driven market. From oil tycoons to street dealers, every dollar is earned.</p>
+                </div>
+                <div class="dark-card">
+                    <i class="fa-solid fa-mobile-screen-button icon-gold"></i>
+                    <h3>Mobile HUD</h3>
+                    <p>A custom interface designed specifically for touchscreens. Clean, fast, and responsive.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Factions -->
+    <!-- 3. FACTIONS (Choose Your Path) -->
     <section id="factions" class="section-pad">
         <div class="container">
             <h2 class="section-title center reveal">Choose Your Path</h2>
             <div class="grid-3 reveal">
-                <div class="faction-box"><div class="img-wrap" style="background-image: url('https://i.ibb.co/Jjy78DSC/1764062528770.png')"></div><div class="txt-wrap"><h3>The Law</h3></div></div>
-                <div class="faction-box"><div class="img-wrap" style="background-image: url('https://i.ibb.co/Q7ybsxpK/1764062542549.png')"></div><div class="txt-wrap"><h3>The Streets</h3></div></div>
-                <div class="faction-box"><div class="img-wrap" style="background-image: url('https://i.ibb.co/pB15zcH0/1764062447563.png')"></div><div class="txt-wrap"><h3>Civilian</h3></div></div>
+                <div class="faction-box">
+                    <div class="img-wrap" style="background-image: url('https://i.ibb.co/Jjy78DSC/1764062528770.png')"></div>
+                    <div class="txt-wrap"><h3>The Law</h3><p>Join the LSPD or FIB to restore order.</p></div>
+                </div>
+                <div class="faction-box">
+                    <div class="img-wrap" style="background-image: url('https://i.ibb.co/Q7ybsxpK/1764062542549.png')"></div>
+                    <div class="txt-wrap"><h3>The Streets</h3><p>Rule the underground and turf wars.</p></div>
+                </div>
+                <div class="faction-box">
+                    <div class="img-wrap" style="background-image: url('https://i.ibb.co/pB15zcH0/1764062447563.png')"></div>
+                    <div class="txt-wrap"><h3>Civilian</h3><p>Build a business empire and get rich.</p></div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Roadmap -->
+    <!-- 4. ROADMAP -->
     <section id="roadmap" class="section-pad bg-gradient">
         <div class="container">
-            <h2 class="section-title center reveal">Roadmap</h2>
+            <h2 class="section-title center reveal">Development Roadmap</h2>
             <div class="timeline reveal">
-                <div class="time-item left"><div class="time-content completed"><h3>Phase 1</h3><p>Core Selection (Done)</p></div></div>
-                <div class="time-item right"><div class="time-content completed"><h3>Phase 2</h3><p>Mechanics (Current)</p></div></div>
-                <div class="time-item left"><div class="time-content"><h3>Phase 3</h3><p>Beta Testing</p></div></div>
-                <div class="time-item right"><div class="time-content"><h3>Phase 4</h3><p>Grand Launch</p></div></div>
+                <div class="time-item left"><div class="time-content completed"><h3>Phase 1: Foundation</h3><p>Server core selection & Asset gathering. (Done)</p></div></div>
+                <div class="time-item right"><div class="time-content completed"><h3>Phase 2: Mechanics</h3><p>Building UI, Inventory & Jobs systems. (Current)</p></div></div>
+                <div class="time-item left"><div class="time-content"><h3>Phase 3: Beta</h3><p>Closed testing for Discord members.</p></div></div>
+                <div class="time-item right"><div class="time-content"><h3>Phase 4: Launch</h3><p>Grand Opening on Android & iOS.</p></div></div>
             </div>
         </div>
     </section>
 
-    <!-- Team -->
+    <!-- 5. TEAM -->
     <section id="team" class="section-pad">
         <div class="container">
             <h2 class="section-title center reveal">The Team</h2>
             <div class="team-grid reveal">
-                <div class="member-card"><div class="role">Curator</div><div class="name">Sharma Ji</div></div>
+                <div class="member-card"><div class="role">Project Curator</div><div class="name">Sharma Ji</div></div>
                 <div class="member-card"><div class="role">Head Dev</div><div class="name">Edgar</div></div>
                 <div class="member-card"><div class="role">Head Dev</div><div class="name">Noone</div></div>
-                <div class="member-card"><div class="role">Dev</div><div class="name">Yahya</div></div>
-                <div class="member-card"><div class="role">Dev</div><div class="name">mesaii</div></div>
-                <div class="member-card"><div class="role">Dev</div><div class="name">Behead</div></div>
+                <div class="member-card"><div class="role">Developer</div><div class="name">Yahya</div></div>
+                <div class="member-card"><div class="role">Developer</div><div class="name">mesaii</div></div>
+                <div class="member-card"><div class="role">Developer</div><div class="name">Behead</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Visual Footer -->
+    <!-- 6. VISUAL FOOTER (Trevor Image & Socials) -->
     <section class="visual-footer">
         <div class="container footer-layout">
             <div class="footer-text reveal">
                 <h2>Endless <br>Possibilities <br><span>IN EIGHT RP</span></h2>
+                <p>The city is waiting for you. Follow our socials for the latest news.</p>
                 <div class="social-stack">
-                    <a href="https://discord.gg/DH8g6YfZxW" class="social-bar discord"><span>Discord</span></a>
-                    <a href="#" class="social-bar youtube"><span>YouTube</span></a>
-                    <a href="#" class="social-bar insta"><span>Instagram</span></a>
+                    <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="social-bar discord"><span>Discord</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="https://youtube.com/@eightroleplay" target="_blank" class="social-bar youtube"><span>YouTube</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="https://www.instagram.com/eight.rp" target="_blank" class="social-bar insta"><span>Instagram</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
-            <img src="https://i.ibb.co/3msSZjkp/1764005043430-removebg-preview.png" class="footer-img reveal">
+            <img src="https://i.ibb.co/3msSZjkp/1764005043430-removebg-preview.png" class="footer-img reveal" alt="Character">
         </div>
     </section>
 
-    <!-- Global Footer -->
+    <!-- 7. GLOBAL LEGAL FOOTER (Links to other pages) -->
     <footer class="global-footer">
         <div class="footer-links">
-            <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="contact.html">Contact</a>
-        </div>
-        <div class="disclaimer"><p>&copy; 2024 Eight RP Team.</p></div>
-    </footer>
-
-    <script src="js/script.js"></script>
-</body>
-</html>
-        <!-- FACTIONS -->
-        <section id="factions" class="section-pad">
-            <div class="container">
-                <h2 class="section-title center reveal">Choose Your Path</h2>
-                <div class="grid-3 reveal">
-                    <div class="faction-box">
-                        <div class="img-wrap" style="background-image: url('https://i.ibb.co/Jjy78DSC/1764062528770.png')"></div>
-                        <div class="txt-wrap"><h3>The Law</h3><p>Join the LSPD or FIB to restore order.</p></div>
-                    </div>
-                    <div class="faction-box">
-                        <div class="img-wrap" style="background-image: url('https://i.ibb.co/Q7ybsxpK/1764062542549.png')"></div>
-                        <div class="txt-wrap"><h3>The Streets</h3><p>Rule the underground and turf wars.</p></div>
-                    </div>
-                    <div class="faction-box">
-                        <div class="img-wrap" style="background-image: url('https://i.ibb.co/pB15zcH0/1764062447563.png')"></div>
-                        <div class="txt-wrap"><h3>Civilian</h3><p>Build a business empire and get rich.</p></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ROADMAP -->
-        <section id="roadmap" class="section-pad bg-gradient">
-            <div class="container">
-                <h2 class="section-title center reveal">Development Roadmap</h2>
-                <div class="timeline reveal">
-                    <div class="time-item left"><div class="time-content completed"><h3>Phase 1: Foundation</h3><p>Server core selection & Asset gathering. (Done)</p></div></div>
-                    <div class="time-item right"><div class="time-content completed"><h3>Phase 2: Mechanics</h3><p>Building UI, Inventory & Jobs systems. (Current)</p></div></div>
-                    <div class="time-item left"><div class="time-content"><h3>Phase 3: Beta</h3><p>Closed testing for Discord members.</p></div></div>
-                    <div class="time-item right"><div class="time-content"><h3>Phase 4: Launch</h3><p>Grand Opening on Android & iOS.</p></div></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TEAM -->
-        <section id="team" class="section-pad">
-            <div class="container">
-                <h2 class="section-title center reveal">The Team</h2>
-                <div class="team-grid reveal">
-                    <!-- Add/Edit Members Here -->
-                    <div class="member-card">
-                        <div class="role">Project Curator</div><div class="name">Sharma Ji</div>
-                    </div>
-                    <div class="member-card">
-                        <div class="role">Head Dev</div><div class="name">Edgar</div>
-                    </div>
-                    <div class="member-card">
-                        <div class="role">Head Dev</div><div class="name">Noone</div>
-                    </div>
-                    <div class="member-card">
-                        <div class="role">Developer</div><div class="name">Yahya</div>
-                    </div>
-                    <div class="member-card">
-                        <div class="role">Developer</div><div class="name">mesaii</div>
-                    </div>
-                    <div class="member-card">
-                        <div class="role">Developer</div><div class="name">Behead</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VISUAL FOOTER (Only on Home Page) -->
-        <section class="visual-footer">
-            <div class="container footer-layout">
-                <div class="footer-text reveal">
-                    <h2>Endless <br>Possibilities <br><span>IN EIGHT RP</span></h2>
-                    <p>The city is waiting for you. Follow our socials for the latest news.</p>
-                    <div class="social-stack">
-                        <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="social-bar discord"><span>Discord</span> <i class="fa-solid fa-arrow-right"></i></a>
-                        <a href="https://youtube.com/@eightroleplay" target="_blank" class="social-bar youtube"><span>YouTube</span> <i class="fa-solid fa-arrow-right"></i></a>
-                        <a href="https://www.instagram.com/eight.rp" target="_blank" class="social-bar insta"><span>Instagram</span> <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <!-- Correct Footer Image -->
-                <img src="https://i.ibb.co/3msSZjkp/1764005043430-removebg-preview.png" class="footer-img reveal" alt="Character">
-            </div>
-        </section>
-
-    </div> <!-- END HOME VIEW -->
-
-
-    <!-- =========================================
-         VIEW 2: TERMS OF USE (Professional)
-         ========================================= -->
-    <div id="terms-view" class="view-section">
-        <div class="text-container">
-            <h1>Terms of Use</h1>
-            <p class="last-updated">Last Updated: October 2023</p>
-
-            <div class="legal-box">
-                <h3>1. Introduction</h3>
-                <p>Welcome to Eight RP. By downloading our client, connecting to our servers, or interacting with our community, you agree to these Terms. Violating these terms may result in temporary or permanent suspension.</p>
-            </div>
-
-            <div class="legal-box">
-                <h3>2. Virtual Currency & Assets</h3>
-                <p>"Grand Coins" or any in-game assets are virtual goods with no real-world monetary value. They cannot be refunded, exchanged for real money, or transferred to other accounts. Eight RP reserves the right to modify the economy at any time.</p>
-            </div>
-
-            <div class="legal-box">
-                <h3>3. Prohibited Activities (RMT & Cheating)</h3>
-                <p>Users are strictly prohibited from:</p>
-                <ul>
-                    <li><strong>Real Money Trading (RMT):</strong> Selling in-game money or cars for real cash.</li>
-                    <li><strong>Cheating/Exploiting:</strong> Using third-party software to gain an unfair advantage.</li>
-                    <li><strong>Ban Evasion:</strong> Creating new accounts to bypass a suspension.</li>
-                </ul>
-            </div>
-            
-            <button class="btn btn-outline" onclick="switchView('home')">Back to Home</button>
-        </div>
-    </div>
-
-
-    <!-- =========================================
-         VIEW 3: PRIVACY POLICY (Professional)
-         ========================================= -->
-    <div id="privacy-view" class="view-section">
-        <div class="text-container">
-            <h1>Privacy Policy</h1>
-            <p class="last-updated">Your data security is our priority.</p>
-
-            <div class="legal-box">
-                <h3>1. Data Collection</h3>
-                <p>To ensure server security and prevent cheating, we collect specific hardware information (HWID), IP addresses, and Discord identifiers upon connection. This data is used solely for authentication and moderation.</p>
-            </div>
-
-            <div class="legal-box">
-                <h3>2. Voice Data</h3>
-                <p>Eight RP utilizes proximity voice chat. While we do not actively record all voice conversations, voice data is processed in real-time to facilitate gameplay. Reports involving voice harassment may be reviewed by administration.</p>
-            </div>
-
-            <div class="legal-box">
-                <h3>3. Third-Party Sharing</h3>
-                <p>We do not sell your personal data. Limited data may be shared with payment processors (e.g., Stripe/PayPal) solely for the purpose of completing optional donations.</p>
-            </div>
-
-            <button class="btn btn-outline" onclick="switchView('home')">Back to Home</button>
-        </div>
-    </div>
-
-
-    <!-- =========================================
-         VIEW 4: CONTACT US (Professional Form)
-         ========================================= -->
-    <div id="contact-view" class="view-section">
-        <div class="text-container">
-            <h1>Contact Support</h1>
-            <p class="last-updated">We are here to help with bans, bugs, and inquiries.</p>
-
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent to Eight RP Support Team.');">
-                <div class="input-group">
-                    <label>In-Game Name / Discord ID</label>
-                    <input type="text" placeholder="e.g. John Doe" required>
-                </div>
-                
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="email@example.com" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Subject</label>
-                    <select>
-                        <option>General Inquiry</option>
-                        <option>Ban Appeal</option>
-                        <option>Bug Report</option>
-                        <option>Donation Issue</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Message</label>
-                    <textarea rows="6" placeholder="Describe your issue in detail..." required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary full-width">Send Message</button>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- === GLOBAL LEGAL FOOTER (Visible on all pages) === -->
-    <footer class="global-footer">
-        <div class="footer-links">
-            <a onclick="switchView('terms')">Terms of Use</a>
+            <a href="terms.html">Terms of Use</a>
             <span class="divider">|</span>
-            <a onclick="switchView('privacy')">Privacy Policy</a>
+            <a href="privacy.html">Privacy Policy</a>
             <span class="divider">|</span>
-            <a onclick="switchView('contact')">Contact Us</a>
+            <a href="contact.html">Contact Us</a>
         </div>
         <div class="disclaimer">
             <p><strong>DISCLAIMER:</strong> Eight RP is a fan-made modification project. We are not affiliated with, endorsed by, or connected to Rockstar Games or Take-Two Interactive.</p>
