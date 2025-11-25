@@ -6,7 +6,7 @@
     <title>Admin Panel - Eight RP</title>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Admin CSS -->
@@ -14,88 +14,134 @@
 </head>
 <body>
 
-    <!-- === LOGIN VIEW === -->
-    <div id="login-view" class="login-container">
-        <div class="login-box">
-            <h2><span style="color:#fff">EIGHT</span> <span style="color:var(--primary)">ADMIN</span></h2>
-            <p>Restricted Access</p>
-            <form onsubmit="event.preventDefault(); attemptLogin();">
+    <!-- === NOTIFICATION TOAST CONTAINER === -->
+    <div id="toast-container"></div>
+
+    <!-- === LOGIN SCREEN === -->
+    <div id="login-view" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>EIGHT<span class="highlight">RP</span></h2>
+                <p class="subtitle">ADMINISTRATION GATEWAY</p>
+            </div>
+            
+            <form onsubmit="event.preventDefault(); attemptLogin();" class="login-form">
                 <div class="input-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="username" placeholder="Username" required>
+                    <i class="fa-solid fa-user-shield"></i>
+                    <input type="text" id="username" placeholder="Admin ID" required autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" placeholder="Password" required>
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" id="password" placeholder="Secure Key" required>
                 </div>
-                <button type="submit" class="login-btn">LOGIN</button>
-                <p id="error-msg" class="error-text"></p>
+                <button type="submit" class="login-btn">AUTHENTICATE <i class="fa-solid fa-arrow-right"></i></button>
+                <p id="error-msg" class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> Access Denied</p>
             </form>
+        </div>
+        <div class="login-footer">
+            &copy; 2024 Eight Roleplay Internal System
         </div>
     </div>
 
-    <!-- === DASHBOARD VIEW (Hidden by default) === -->
-    <div id="dashboard-view" class="dashboard-container" style="display: none;">
+    <!-- === MAIN DASHBOARD === -->
+    <div id="dashboard-view" class="dashboard-layout" style="display: none;">
         
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="brand">EIGHT<span>RP</span></div>
-            <div class="menu">
-                <a href="#" class="active"><i class="fa-solid fa-users"></i> Players</a>
-                <a href="#"><i class="fa-solid fa-ban"></i> Ban List</a>
-                <a href="#"><i class="fa-solid fa-list"></i> Whitelist</a>
-                <a href="#" class="logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            <div class="brand">EIGHT<span>PANEL</span></div>
+            
+            <nav class="side-nav">
+                <div class="nav-label">Main</div>
+                <a href="#" class="nav-item active"><i class="fa-solid fa-users-gear"></i> Player Base</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gavel"></i> Ban Appeals</a>
+                
+                <div class="nav-label">System</div>
+                <a href="#" class="nav-item"><i class="fa-solid fa-server"></i> Server Status</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-file-code"></i> Logs</a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar">A</div>
+                <div class="info">
+                    <span class="name">Super Admin</span>
+                    <span class="role">Level 5 Access</span>
+                </div>
+                <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header>
-                <h1>Player Management</h1>
-                <div class="user-info">Admin: <span style="color:var(--primary)">Head Dev</span></div>
+        <!-- Content Area -->
+        <main class="content-area">
+            <!-- Top Header -->
+            <header class="top-bar">
+                <h1 class="page-title">Player Management</h1>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search player ID, Name, Discord...">
+                </div>
             </header>
 
             <!-- Stats Cards -->
-            <div class="stats-grid">
+            <div class="stats-row">
                 <div class="stat-card">
-                    <h3>Total Players</h3>
-                    <span class="number">1,240</span>
+                    <div class="stat-icon yellow"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3>Total Registered</h3>
+                        <span class="number">14,205</span>
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <h3>Online Now</h3>
-                    <span class="number" style="color:#00ff88">342</span>
+                    <div class="stat-icon green"><i class="fa-solid fa-signal"></i></div>
+                    <div class="stat-info">
+                        <h3>Online Now</h3>
+                        <span class="number">842</span>
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <h3>Banned</h3>
-                    <span class="number" style="color:red">12</span>
+                    <div class="stat-icon red"><i class="fa-solid fa-ban"></i></div>
+                    <div class="stat-info">
+                        <h3>Banned Users</h3>
+                        <span class="number">124</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-coins"></i></div>
+                    <div class="stat-info">
+                        <h3>Economy Flow</h3>
+                        <span class="number">$420M</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Player Table -->
-            <div class="table-wrapper">
-                <div class="table-header">
-                    <h3>Database Records</h3>
-                    <button class="add-btn" onclick="addFakeUser()">+ Add Mock User</button>
+            <!-- Data Table -->
+            <div class="table-container">
+                <div class="table-toolbar">
+                    <h3><i class="fa-solid fa-database"></i> Live Database Records</h3>
+                    <button class="btn-add" onclick="addFakeUser()"><i class="fa-solid fa-plus"></i> Simulate New Player</button>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Discord</th>
-                            <th>Money ($)</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="player-table-body">
-                        <!-- JavaScript will fill this -->
-                    </tbody>
-                </table>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Character Name</th>
+                                <th>Discord Tag</th>
+                                <th>Net Worth</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="player-table-body">
+                            <!-- JS INJECTS DATA HERE -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>
 
     <script src="js/admin.js"></script>
 </body>
-              </html>
+    </html>
