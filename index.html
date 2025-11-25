@@ -16,9 +16,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
-    <!-- NOTIFICATION CONTAINER -->
-<div id="toast-container"></div>
 
     <!-- === MOBILE MENU OVERLAY === -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
@@ -45,9 +42,10 @@
 
     <!-- === TOP NAVIGATION BAR === -->
     <nav>
-        <!-- Updated Image Logo -->
-        <div class="logo" onclick="switchView('home')">
-            <img src="https://i.ibb.co/3m8R27Q/1764065611411.png" alt="Eight RP Logo">
+        <!-- NEW TEXT LOGO STRUCTURE -->
+        <div class="logo-container" onclick="switchView('home')">
+            <span class="logo-main">EIGHT</span>
+            <span class="logo-sub">ROLEPLAY</span>
         </div>
         
         <div class="nav-links desktop-only">
@@ -181,6 +179,7 @@
                         <a href="https://www.instagram.com/eight.rp" target="_blank" class="social-bar insta"><span>Instagram</span> <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
+                <!-- Correct Footer Image -->
                 <img src="https://i.ibb.co/3msSZjkp/1764005043430-removebg-preview.png" class="footer-img reveal" alt="Character">
             </div>
         </section>
@@ -257,8 +256,7 @@
             <h1>Contact Support</h1>
             <p class="last-updated">We are here to help with bans, bugs, and inquiries.</p>
 
-            <!-- Updated Form Tag -->
-<form class="contact-form" id="contactForm">
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent to Eight RP Support Team.');">
                 <div class="input-group">
                     <label>In-Game Name / Discord ID</label>
                     <input type="text" placeholder="e.g. John Doe" required>
