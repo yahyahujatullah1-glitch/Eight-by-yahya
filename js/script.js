@@ -1,6 +1,3 @@
-/* =========================================
-   NAVIGATION & MENU LOGIC
-   ========================================= */
 function toggleMenu() {
     const menu = document.getElementById('sideMenu');
     const overlay = document.querySelector('.menu-overlay');
@@ -21,90 +18,33 @@ function menuLink(viewName, hash = null) {
 }
 
 function switchView(viewName) {
+    // Hide all views
     document.querySelectorAll('.view-section').forEach(view => {
         view.classList.remove('active-view');
-        // Reset animations so they play again when you come back
-        view.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
     });
 
+    // Show target view
     const target = document.getElementById(viewName + '-view');
     if(target) {
         target.classList.add('active-view');
-        // Re-trigger animations for the new view
-        setTimeout(() => triggerAnimations(), 100);
     }
     
+    // Scroll to top
     window.scrollTo(0,0);
 }
 
-/* =========================================
-   SCROLL ANIMATIONS (Intersection Observer)
-   ========================================= */
-const observerOptions = {
-    threshold: 0.15, // Trigger when 15% visible
-    rootMargin: "0px 0px -50px 0px" // Trigger slightly before bottom
-};
-
+// Reveal Animation on Scroll
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
         }
     });
-}, observerOptions);
+}, { threshold: 0.1 });
 
-function triggerAnimations() {
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-}
-
-// Initial Load
 document.addEventListener('DOMContentLoaded', () => {
-    triggerAnimations();
-    
-    // Attach Event Listener to Form
-    const contactForm = document.getElementById('contactForm');
-    if(contactForm) {
-        contactForm.addEventListener('submit', handleFormSubmit);
-    }
-});
-
-/* =========================================
-   PROFESSIONAL FORM HANDLING & TOAST
-   ========================================= */
-function handleFormSubmit(e) {
-    e.preventDefault(); // Stop page reload
-    
-    const btn = e.target.querySelector('button');
-    const originalText = btn.innerText;
-
-    // 1. Loading State
-    btn.innerText = "Sending...";
-    btn.style.opacity = "0.7";
-    btn.disabled = true;
-
-    // 2. Simulate Server Delay (1.5 seconds)
-    setTimeout(() => {
-        // 3. Success State
-        btn.innerText = "Message Sent!";
-        btn.style.background = "#4CAF50"; // Green
-        btn.style.color = "white";
-
-        // 4. Show Professional Notification
-        showToast("Success", "Your message has been sent to the team.");
-
-        // 5. Reset Form
-        e.target.reset();
-
-        // 6. Reset Button after 3 seconds
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.background = ""; // Reset to CSS default
-            btn.style.opacity = "1";
-            btn.disabled = false;
-        }, 3000);
-
-    }, 1500);
-}
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+});}
 
 // Custom Notification Function
 function showToast(title, message) {
