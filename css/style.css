@@ -160,4 +160,62 @@ header h1 span { color: var(--primary); }
 /* --- GLOBAL FOOTER --- */
 .global-footer { background: black; padding: 40px 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; color: #555; width: 100%; }
 .footer-links { margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
-.footer-links a { color: #888; text-deco
+.footer-links a { color: #888; text-decoration: underline; transition: 0.3s; }
+.footer-links a:hover { color: var(--primary); }
+.divider { color: #333; }
+.disclaimer p { max-width: 800px; margin: 5px auto; line-height: 1.5; }
+.copyright { margin-top: 15px; color: #444; font-weight: 700; letter-spacing: 1px; }
+
+/* =================================================================
+   MOBILE & TABLET RESPONSIVENESS FIXES
+   ================================================================= */
+@media (max-width: 768px) {
+    /* Navbar */
+    .nav-links.desktop-only { display: none; }
+    .menu-btn { display: block; }
+    
+    /* Hero Section */
+    header { padding-top: 80px; min-height: 90vh; }
+    header h1 { font-size: 55px; line-height: 1; }
+    .hero-sub { font-size: 15px; padding: 0 10px; }
+    .hero-actions { flex-direction: column; width: 100%; padding: 0 10px; }
+    .btn { width: 100%; max-width: 100%; }
+
+    /* Yellow Section */
+    .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
+    .section-title { font-size: 40px; }
+
+    /* Roadmap Timeline Mobile Fix (Single Column) */
+    .timeline::after { left: 20px; }
+    .time-item { width: 100%; padding-left: 50px; padding-right: 0; margin-bottom: 20px; }
+    .time-item::after { left: 11px; }
+    .left, .right { text-align: left; left: 0; }
+    .left::after, .right::after { left: 11px; }
+
+    /* Visual Footer Mobile Fix */
+    .footer-layout { flex-direction: column; align-items: flex-start; }
+    .footer-text h2 { font-size: 50px; }
+    .social-stack { width: 100%; }
+    
+    /* Fix Footer Image position on Mobile */
+    .footer-img { 
+        position: relative; 
+        right: auto; 
+        height: 350px; 
+        margin-top: 20px; 
+        margin-right: -40px; 
+        align-self: flex-end; 
+        opacity: 0.5; 
+        margin-bottom: -50px; 
+    }
+
+    /* Team Grid Mobile */
+    .team-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Pages Mobile */
+    .text-container { padding: 100px 20px 40px; }
+    .text-container h1 { font-size: 40px; }
+    
+    /* Global Footer */
+    .footer-links { gap: 10px; }
+}
