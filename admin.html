@@ -4,141 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Eight RP</title>
-    
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Admin CSS -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
-    <!-- === NOTIFICATION TOAST CONTAINER === -->
+    <!-- TOAST NOTIFICATIONS -->
     <div id="toast-container"></div>
 
-    <!-- === LOGIN SCREEN === -->
-    <div id="login-view" class="login-wrapper">
-        <div class="login-card">
-            <div class="login-header">
-                <h2>EIGHT<span class="highlight">RP</span></h2>
-                <p class="subtitle">ADMINISTRATION GATEWAY</p>
+    <!-- EDIT PLAYER MODAL (Hidden) -->
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Edit Player Data</h3>
+                <i class="fa-solid fa-xmark" onclick="closeModal()"></i>
             </div>
-            
-            <form onsubmit="event.preventDefault(); attemptLogin();" class="login-form">
-                <div class="input-group">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <input type="text" id="username" placeholder="Admin ID" required autocomplete="off">
+            <form onsubmit="event.preventDefault(); savePlayerChanges();">
+                <input type="hidden" id="edit-id">
+                <div class="form-grid">
+                    <div class="input-wrapper">
+                        <label>Character Name</label>
+                        <input type="text" id="edit-name" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Wallet Balance ($)</label>
+                        <input type="number" id="edit-money" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Player Level</label>
+                        <input type="number" id="edit-level" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Admin Rank (0-5)</label>
+                        <input type="number" id="edit-admin" min="0" max="5" required>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-key"></i>
-                    <input type="password" id="password" placeholder="Secure Key" required>
-                </div>
-                <button type="submit" class="login-btn">AUTHENTICATE <i class="fa-solid fa-arrow-right"></i></button>
-                <p id="error-msg" class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> Access Denied</p>
+                <button type="submit" class="btn-save">Save Changes</button>
             </form>
-        </div>
-        <div class="login-footer">
-            &copy; 2024 Eight Roleplay Internal System
         </div>
     </div>
 
-    <!-- === MAIN DASHBOARD === -->
-    <div id="dashboard-view" class="dashboard-layout" style="display: none;">
+    <!-- LOGIN SCREEN -->
+    <div id="login-view" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header"><h2>EIGHT<span class="highlight">RP</span></h2><p class="subtitle">ADMINISTRATION GATEWAY</p></div>
+            <form onsubmit="event.preventDefault(); attemptLogin();" class="login-form">
+                <div class="input-group"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="Admin ID" required></div>
+                <div class="input-group"><i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Secure Key" required></div>
+                <button type="submit" class="login-btn">AUTHENTICATE</button>
+                <p id="error-msg" class="error-text">Access Denied</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD LAYOUT -->
+    <div id="dashboard-layout" class="dashboard-layout" style="display: none;">
         
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">EIGHT<span>PANEL</span></div>
-            
             <nav class="side-nav">
-                <div class="nav-label">Main</div>
-                <a href="#" class="nav-item active"><i class="fa-solid fa-users-gear"></i> Player Base</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-chart-line"></i> Analytics</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-gavel"></i> Ban Appeals</a>
+                <div class="nav-label">Management</div>
+                <a onclick="switchTab('players')" class="nav-item active" id="nav-players"><i class="fa-solid fa-users"></i> Players</a>
+                <a onclick="switchTab('appeals')" class="nav-item" id="nav-appeals"><i class="fa-solid fa-gavel"></i> Ban Appeals</a>
                 
                 <div class="nav-label">System</div>
-                <a href="#" class="nav-item"><i class="fa-solid fa-server"></i> Server Status</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-file-code"></i> Logs</a>
+                <a onclick="switchTab('analytics')" class="nav-item" id="nav-analytics"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+                <a onclick="switchTab('status')" class="nav-item" id="nav-status"><i class="fa-solid fa-server"></i> Server Status</a>
+                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs"><i class="fa-solid fa-terminal"></i> Live Logs</a>
             </nav>
-
             <div class="user-profile">
                 <div class="avatar">A</div>
-                <div class="info">
-                    <span class="name">Super Admin</span>
-                    <span class="role">Level 5 Access</span>
-                </div>
+                <div class="info"><span class="name">Super Admin</span><span class="role">Level 5</span></div>
                 <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </aside>
 
         <!-- Content Area -->
         <main class="content-area">
-            <!-- Top Header -->
-            <header class="top-bar">
-                <h1 class="page-title">Player Management</h1>
-                <div class="search-bar">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search player ID, Name, Discord...">
+            
+            <!-- VIEW: PLAYERS (Default) -->
+            <section id="view-players" class="tab-view">
+                <header class="top-bar"><h1 class="page-title">Player Management</h1></header>
+                <div class="table-container">
+                    <div class="table-toolbar">
+                        <h3>Database Records</h3>
+                        <button class="btn-add" onclick="addFakeUser()">+ New Simulation</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>ID</th><th>Name</th><th>Level</th><th>Money</th><th>Admin</th><th>Status</th><th style="text-align:right;">Edit</th></tr></thead>
+                            <tbody id="player-table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
-            </header>
+            </section>
 
-            <!-- Stats Cards -->
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-icon yellow"><i class="fa-solid fa-users"></i></div>
-                    <div class="stat-info">
-                        <h3>Total Registered</h3>
-                        <span class="number">14,205</span>
-                    </div>
+            <!-- VIEW: APPEALS -->
+            <section id="view-appeals" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">Ban Appeals</h1></header>
+                <div class="appeals-grid" id="appeals-container">
+                    <!-- JS populates this -->
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon green"><i class="fa-solid fa-signal"></i></div>
-                    <div class="stat-info">
-                        <h3>Online Now</h3>
-                        <span class="number">842</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon red"><i class="fa-solid fa-ban"></i></div>
-                    <div class="stat-info">
-                        <h3>Banned Users</h3>
-                        <span class="number">124</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon purple"><i class="fa-solid fa-coins"></i></div>
-                    <div class="stat-info">
-                        <h3>Economy Flow</h3>
-                        <span class="number">$420M</span>
-                    </div>
-                </div>
-            </div>
+            </section>
 
-            <!-- Data Table -->
-            <div class="table-container">
-                <div class="table-toolbar">
-                    <h3><i class="fa-solid fa-database"></i> Live Database Records</h3>
-                    <button class="btn-add" onclick="addFakeUser()"><i class="fa-solid fa-plus"></i> Simulate New Player</button>
+            <!-- VIEW: ANALYTICS -->
+            <section id="view-analytics" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">Analytics Overview</h1></header>
+                <div class="stats-row">
+                    <div class="stat-card"><div class="stat-icon yellow"><i class="fa-solid fa-money-bill"></i></div><div class="stat-info"><h3>Total Economy</h3><span class="number">$420M</span></div></div>
+                    <div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-car"></i></div><div class="stat-info"><h3>Vehicles Owned</h3><span class="number">8,204</span></div></div>
+                    <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-house"></i></div><div class="stat-info"><h3>Properties</h3><span class="number">1,045</span></div></div>
                 </div>
-                
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Character Name</th>
-                                <th>Discord Tag</th>
-                                <th>Net Worth</th>
-                                <th>Status</th>
-                                <th style="text-align: right;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="player-table-body">
-                            <!-- JS INJECTS DATA HERE -->
-                        </tbody>
-                    </table>
+            </section>
+
+            <!-- VIEW: SERVER STATUS -->
+            <section id="view-status" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">Server Health</h1></header>
+                <div class="status-grid">
+                    <div class="health-card">
+                        <h3>CPU Load</h3>
+                        <div class="progress-bar"><div class="fill" id="cpu-fill" style="width: 45%"></div></div>
+                        <span class="stat-val" id="cpu-val">45%</span>
+                    </div>
+                    <div class="health-card">
+                        <h3>RAM Usage</h3>
+                        <div class="progress-bar"><div class="fill" id="ram-fill" style="width: 60%; background: #8b5cf6;"></div></div>
+                        <span class="stat-val" id="ram-val">12GB / 32GB</span>
+                    </div>
+                    <div class="health-card">
+                        <h3>Network Latency</h3>
+                        <div class="stat-val green-text" id="ping-val">24ms</div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- VIEW: LOGS -->
+            <section id="view-logs" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">System Logs</h1></header>
+                <div class="terminal-window" id="log-window">
+                    <div class="log-line"><span class="time">[14:02]</span> System initialized...</div>
+                </div>
+            </section>
+
         </main>
     </div>
 
