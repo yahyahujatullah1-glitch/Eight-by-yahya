@@ -4,36 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Eight RP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Nav (Simplified for sub-pages) -->
+
+    <!-- === MOBILE MENU OVERLAY === -->
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- === SIDEBAR MENU (Mobile) === -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-header">
+            <span>MENU</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i>
+        </div>
+        <div class="side-links">
+            <div class="menu-label">Navigation</div>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="index.html#features"><i class="fa-solid fa-star"></i> Features</a>
+            
+            <div class="menu-label">Legal & Help</div>
+            <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+            <a href="terms.html"><i class="fa-solid fa-gavel"></i> Terms of Use</a>
+            <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+        </div>
+    </div>
+
+    <!-- === NAVIGATION BAR === -->
     <nav>
-        <a href="index.html" class="logo-container"><span class="logo-main">EIGHT</span><span class="logo-sub">ROLEPLAY</span></a>
-        <div class="nav-links desktop-only"><a href="index.html">Back to Home</a></div>
+        <a href="index.html" class="logo-container">
+            <span class="logo-main">EIGHT</span>
+            <span class="logo-sub">ROLEPLAY</span>
+        </a>
+        
+        <div class="nav-links desktop-only">
+            <a href="index.html">Back to Home</a>
+            <a href="contact.html">Contact Support</a>
+        </div>
+
+        <!-- Mobile Menu Button (Now Included) -->
+        <div class="menu-btn mobile-only" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </div>
     </nav>
 
+    <!-- === CONTENT === -->
     <div class="page-header-wrap">
         <h1 class="page-title">Privacy Policy</h1>
-        <p style="color:#666">Last Updated: October 2023</p>
+        <p style="color:#666; font-style: italic;">Last Updated: October 2024</p>
     </div>
 
     <div class="container legal-content">
         <div class="legal-box">
             <h3>1. Data Collection</h3>
-            <p>To ensure server security, we collect HWID and IP addresses for authentication purposes.</p>
+            <p>To ensure server security and prevent cheating, we collect specific hardware information (HWID), IP addresses, and Discord identifiers upon connection. This data is used solely for authentication and moderation.</p>
         </div>
+
         <div class="legal-box">
             <h3>2. Voice Data</h3>
-            <p>Voice chat is processed in real-time. We do not store recordings unless reported.</p>
+            <p>Eight RP utilizes proximity voice chat. While we do not actively record all voice conversations, voice data is processed in real-time to facilitate gameplay. Reports involving voice harassment may be reviewed by administration.</p>
+        </div>
+
+        <div class="legal-box">
+            <h3>3. Third-Party Sharing</h3>
+            <p>We do not sell your personal data. Limited data may be shared with payment processors (e.g., Stripe/PayPal) solely for the purpose of completing optional donations.</p>
         </div>
     </div>
 
+    <!-- === FOOTER === -->
     <footer class="global-footer">
-        <div class="footer-links"><a href="index.html">Home</a> | <a href="terms.html">Terms</a></div>
-        <p>&copy; 2025 Eight RP.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <span class="divider">|</span>
+            <a href="terms.html">Terms</a>
+            <span class="divider">|</span>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="disclaimer"><p>&copy; 2024 Eight RP Team.</p></div>
     </footer>
+
+    <!-- Script for Menu -->
+    <script src="js/script.js"></script>
 </body>
 </html>
