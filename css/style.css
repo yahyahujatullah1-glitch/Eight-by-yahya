@@ -35,21 +35,36 @@ ul { padding-left: 20px; }
 .section-pad { padding: 80px 0; }
 .center { text-align: center; }
 
+
 /* --- NAVIGATION --- */
 nav {
-    position: fixed; top: 0; width: 100%; height: 70px; padding: 0 5%;
+    position: fixed; top: 0; width: 100%; height: 80px; padding: 0 5%;
     display: flex; justify-content: space-between; align-items: center;
     background: rgba(15, 15, 19, 0.95); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 1000;
 }
-.logo { font-family: var(--font-head); font-size: 28px; letter-spacing: 2px; }
-.logo span { color: var(--primary); }
+
+/* Updated Logo Styling for Image */
+.logo {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo img {
+    height: 45px; /* Perfect height for navbar */
+    width: auto;
+    object-fit: contain;
+    transition: 0.3s transform;
+}
+
+/* Hover effect: Slight zoom */
+.logo:hover img {
+    transform: scale(1.05);
+}
 
 .nav-links { display: flex; gap: 30px; align-items: center; }
-.nav-links a { font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #ccc; }
-.nav-links a:hover { color: var(--primary); }
-.discord-btn { background: #5865F2; padding: 8px 20px; border-radius: 4px; color: white !important; font-weight: 700; }
-.menu-btn { display: none; font-size: 24px; color: white; cursor: pointer; padding: 10px; }
 
 /* --- SIDEBAR MENU --- */
 .side-menu {
