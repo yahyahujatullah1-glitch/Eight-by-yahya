@@ -1,63 +1,61 @@
-// --- CREDENTIALS (SIMULATED) ---
-const ADMIN_USER = "eight@admin9192";
-const ADMIN_PASS = "eight39";
+// --- CONFIG ---
+const CREDENTIALS = { user: "eight@admin9192", pass: "eight39" };
 
-// --- FAKE DATABASE (Local Storage) ---
-// If no data exists, create some fake players
-if (!localStorage.getItem('eightRP_players')) {
-    const initialPlayers = [
-        { id: 101, name: "Sharma Ji", discord: "sharma#999", money: 5000000, status: "Active" },
-        { id: 102, name: "Edgar", discord: "edgar#123", money: 120000, status: "Active" },
-        { id: 103, name: "Random Guy", discord: "troll#000", money: 50, status: "Banned" }
+// --- INITIALIZE MOCK DB ---
+if (!localStorage.getItem('eightDB')) {
+    const dummyData = [
+        { id: 1001, name: "Sharma Ji", discord: "sharma#0001", money: 15000000, status: "Active" },
+        { id: 1002, name: "Edgar", discord: "edgar_dev", money: 500000, status: "Active" },
+        { id: 1003, name: "TrollAccount", discord: "hacker123", money: 0, status: "Banned" },
+        { id: 1004, name: "Mesaii", discord: "mesaii#888", money: 2500000, status: "Active" },
     ];
-    localStorage.setItem('eightRP_players', JSON.stringify(initialPlayers));
+    localStorage.setItem('eightDB', JSON.stringify(dummyData));
 }
 
-// --- LOGIN FUNCTION ---
+// --- LOGIN LOGIC ---
 function attemptLogin() {
-    const userInput = document.getElementById('username').value;
-    const passInput = document.getElementById('password').value;
-    const errorMsg = document.getElementById('error-msg');
+    const u = document.getElementById('username').value;
+    const p = document.getElementById('password').value;
+    const err = document.getElementById('error-msg');
 
-    if (userInput === ADMIN_USER && passInput === ADMIN_PASS) {
-        // Success
-        document.getElementById('login-view').style.display = "none";
-        document.getElementById('dashboard-view').style.display = "flex";
-        loadTable(); // Load data
+    if (u === CREDENTIALS.user && p === CREDENTIALS.pass) {
+        document.getElementById('login-view').style.display = 'none';
+        document.getElementById('dashboard-view').style.display = 'flex';
+        renderTable();
+        showToast("Welcome back, Commander.", "success");
     } else {
-        // Fail
-        errorMsg.style.display = "block";
-        errorMsg.innerText = "Invalid Credentials Access Denied.";
+        err.style.display = 'block';
+        document.querySelector('.login-card').style.animation = 'none';
+        setTimeout(() => document.querySelector('.login-card').style.animation = 'shake 0.4s', 10);
     }
 }
 
-// --- LOGOUT ---
 function logout() {
-    location.reload(); // Simply reload page to reset
+    location.reload();
 }
 
-// --- LOAD TABLE DATA ---
-function loadTable() {
-    const players = JSON.parse(localStorage.getItem('eightRP_players'));
+// --- TABLE RENDERER ---
+function renderTable() {
+    const players = JSON.parse(localStorage.getItem('eightDB'));
     const tbody = document.getElementById('player-table-body');
-    tbody.innerHTML = ""; // Clear existing
+    tbody.innerHTML = "";
 
-    players.forEach((player, index) => {
-        // Determine Badge Color
-        const badgeClass = player.status === "Active" ? "active-badge" : "banned-badge";
-        
+    players.forEach((p, i) => {
+        const statusClass = p.status === "Active" ? "status-active" : "status-banned";
         const row = `
             <tr>
-                <td>#${player.id}</td>
-                <td><strong>${player.name}</strong></td>
-                <td style="color:#aaa">${player.discord}</td>
-                <td style="color:var(--primary)">$${player.money.toLocaleString()}</td>
-                <td><span class="badge ${badgeClass}">${player.status}</span></td>
-                <td>
-                    <button class="action-btn btn-ban" onclick="toggleBan(${index})">
-                        ${player.status === "Active" ? "Ban" : "Unban"}
+                <td style="color:#666">#${p.id}</td>
+                <td><strong>${p.name}</strong></td>
+                <td style="color:#888"><i class="fa-brands fa-discord"></i> ${p.discord}</td>
+                <td style="color:var(--success)">$${p.money.toLocaleString()}</td>
+                <td><span class="status-pill ${statusClass}">${p.status}</span></td>
+                <td style="text-align: right;">
+                    <button class="action-btn btn-ban" onclick="toggleStatus(${i})" title="Ban/Unban">
+                        <i class="fa-solid fa-${p.status === 'Active' ? 'ban' : 'check'}"></i>
                     </button>
-                    <button class="action-btn btn-kick" onclick="deleteUser(${index})">Delete</button>
+                    <button class="action-btn btn-delete" onclick="deleteUser(${i})" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `;
@@ -65,46 +63,59 @@ function loadTable() {
     });
 }
 
-// --- ADMIN ACTIONS ---
-
-// 1. Toggle Ban Status
-function toggleBan(index) {
-    let players = JSON.parse(localStorage.getItem('eightRP_players'));
+// --- ACTIONS ---
+function toggleStatus(index) {
+    let data = JSON.parse(localStorage.getItem('eightDB'));
+    data[index].status = data[index].status === "Active" ? "Banned" : "Active";
+    localStorage.setItem('eightDB', JSON.stringify(data));
+    renderTable();
     
-    if (players[index].status === "Active") {
-        players[index].status = "Banned";
-    } else {
-        players[index].status = "Active";
-    }
-
-    localStorage.setItem('eightRP_players', JSON.stringify(players));
-    loadTable(); // Refresh table
+    const msg = data[index].status === "Banned" ? "Player Banned Successfully" : "Player Unbanned";
+    showToast(msg);
 }
 
-// 2. Delete User
 function deleteUser(index) {
-    if(confirm("Are you sure you want to delete this player data?")) {
-        let players = JSON.parse(localStorage.getItem('eightRP_players'));
-        players.splice(index, 1); // Remove from array
-        localStorage.setItem('eightRP_players', JSON.stringify(players));
-        loadTable();
+    if(confirm("Delete this player permanently?")) {
+        let data = JSON.parse(localStorage.getItem('eightDB'));
+        data.splice(index, 1);
+        localStorage.setItem('eightDB', JSON.stringify(data));
+        renderTable();
+        showToast("Player record deleted", "danger");
     }
 }
 
-// 3. Add Mock User (For testing)
 function addFakeUser() {
-    let players = JSON.parse(localStorage.getItem('eightRP_players'));
-    const names = ["DrifterX", "CopRoleplay", "MafiaBoss", "Newbie101"];
-    
-    const newPlayer = {
-        id: Math.floor(Math.random() * 900) + 100,
-        name: names[Math.floor(Math.random() * names.length)],
-        discord: "user#" + Math.floor(Math.random() * 9999),
-        money: Math.floor(Math.random() * 100000),
+    let data = JSON.parse(localStorage.getItem('eightDB'));
+    const names = ["Drifter", "Officer_John", "Mafia_Boss", "Citizen_Kane"];
+    const newP = {
+        id: 1000 + data.length + 1,
+        name: names[Math.floor(Math.random() * names.length)] + Math.floor(Math.random()*100),
+        discord: "user_" + Math.floor(Math.random()*9999),
+        money: Math.floor(Math.random() * 1000000),
         status: "Active"
     };
+    data.push(newP);
+    localStorage.setItem('eightDB', JSON.stringify(data));
+    renderTable();
+    showToast("New player simulated");
+}
 
-    players.push(newPlayer);
-    localStorage.setItem('eightRP_players', JSON.stringify(players));
-    loadTable();
+// --- TOAST NOTIFICATION SYSTEM ---
+function showToast(message, type = "normal") {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
+    
+    if(type === "danger") toast.style.borderLeftColor = "#ef4444";
+    if(type === "success") toast.style.borderLeftColor = "#10b981";
+
+    container.appendChild(toast);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(100%)";
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
