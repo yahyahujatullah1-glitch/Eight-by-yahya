@@ -196,3 +196,76 @@ header h1 span { color: var(--primary); }
 
     .team-grid { grid-template-columns: 1fr 1fr; }
 }
+/* =========================================
+   INTERACTIVE UI ANIMATIONS
+   ========================================= */
+
+/* 1. Navbar Scroll Effect (Glass Darkens) */
+nav {
+    transition: background 0.3s ease, padding 0.3s ease;
+}
+
+nav.scrolled {
+    background: rgba(5, 5, 5, 0.98); /* Darker when scrolling */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 0 5%; /* Shrink slightly if desired, or keep same */
+    height: 70px; /* Compact height */
+}
+
+/* 2. Card Hover Effects (Lift & Glow) */
+.dark-card, .faction-box, .member-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-card:hover, .faction-box:hover, .member-card:hover {
+    transform: translateY(-10px); /* Moves up */
+    border-color: var(--primary); /* Yellow Border appears */
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.1); /* Subtle Yellow Glow */
+}
+
+/* 3. Icon Animation inside Cards */
+.dark-card i, .faction-box i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.dark-card:hover i {
+    transform: scale(1.2) rotate(5deg); /* Icons grow and tilt */
+    color: white; /* Icon turns white on hover */
+    text-shadow: 0 0 10px var(--primary);
+}
+
+/* 4. Image Zoom inside Faction Cards */
+.faction-box .img-wrap {
+    transition: transform 0.5s ease, filter 0.5s ease;
+    overflow: hidden;
+}
+
+.faction-box:hover .img-wrap {
+    transform: scale(1.1); /* Zoom in image */
+    filter: grayscale(0%); /* Color comes back */
+}
+
+/* 5. Button Click Effect */
+.btn {
+    transition: transform 0.1s, box-shadow 0.3s;
+}
+
+.btn:active {
+    transform: scale(0.95); /* Button presses down */
+}
+
+/* 6. Scroll Reveal Animation Classes */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered Animation for Grids (Optional Polish) */
+.grid-3 .dark-card:nth-child(2) { transition-delay: 0.1s; }
+.grid-3 .dark-card:nth-child(3) { transition-delay: 0.2s; }
