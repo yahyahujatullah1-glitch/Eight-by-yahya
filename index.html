@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    
+    <!-- NOTIFICATION CONTAINER -->
+<div id="toast-container"></div>
 
     <!-- === MOBILE MENU OVERLAY === -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
@@ -251,7 +254,8 @@
             <h1>Contact Support</h1>
             <p class="last-updated">We are here to help with bans, bugs, and inquiries.</p>
 
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent to Eight RP Support Team.');">
+            <!-- Updated Form Tag -->
+<form class="contact-form" id="contactForm">
                 <div class="input-group">
                     <label>In-Game Name / Discord ID</label>
                     <input type="text" placeholder="e.g. John Doe" required>
