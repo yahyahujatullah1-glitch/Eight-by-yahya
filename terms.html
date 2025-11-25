@@ -3,41 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Eight RP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Terms of Use - Eight RP</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <!-- === MOBILE MENU OVERLAY === -->
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- === SIDEBAR MENU === -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-header"><span>MENU</span><i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i></div>
+        <div class="side-links">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="index.html#features"><i class="fa-solid fa-star"></i> Features</a>
+            <div class="menu-label">Legal</div>
+            <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+            <a href="terms.html"><i class="fa-solid fa-gavel"></i> Terms of Use</a>
+            <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+        </div>
+    </div>
+
+    <!-- === NAVIGATION === -->
     <nav>
-        <a href="index.html" class="logo-container"><span class="logo-main">EIGHT</span><span class="logo-sub">ROLEPLAY</span></a>
-        <div class="nav-links desktop-only"><a href="index.html">Back to Home</a></div>
+        <a href="index.html" class="logo-container">
+            <span class="logo-main">EIGHT</span><span class="logo-sub">ROLEPLAY</span>
+        </a>
+        <div class="nav-links desktop-only">
+            <a href="index.html">Back to Home</a>
+            <a href="contact.html">Contact Support</a>
+        </div>
+        <div class="menu-btn mobile-only" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </div>
     </nav>
 
+    <!-- === CONTENT === -->
     <div class="page-header-wrap">
-        <h1 class="page-title">Contact Support</h1>
+        <h1 class="page-title">Terms of Use</h1>
+        <p style="color:#666; font-style: italic;">Last Updated: October 2024</p>
     </div>
 
-    <div class="container">
-        <form class="contact-form">
-            <div class="input-group">
-                <label>Name / Discord ID</label>
-                <input type="text" required>
-            </div>
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" required>
-            </div>
-            <div class="input-group">
-                <label>Message</label>
-                <textarea rows="6" required></textarea>
-            </div>
-            <button class="btn btn-primary full-width">Send</button>
-        </form>
+    <div class="container legal-content">
+        <div class="legal-box">
+            <h3>1. Introduction</h3>
+            <p>Welcome to Eight RP. By downloading our client or connecting to our servers, you agree to be bound by these Terms.</p>
+        </div>
+        <div class="legal-box">
+            <h3>2. Virtual Currency</h3>
+            <p>"Grand Coins" and in-game assets are virtual goods with <strong>no real-world value</strong>. Purchases are non-refundable.</p>
+        </div>
+        <div class="legal-box">
+            <h3>3. Prohibited Conduct</h3>
+            <ul>
+                <li><strong>RMT:</strong> Selling in-game assets for real cash is strictly banned.</li>
+                <li><strong>Cheating:</strong> Using mod menus or exploits will result in a permanent ban.</li>
+            </ul>
+        </div>
     </div>
 
+    <!-- === FOOTER === -->
     <footer class="global-footer">
-        <p>&copy; 2024 Eight RP.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a> | <a href="privacy.html">Privacy</a> | <a href="contact.html">Contact</a>
+        </div>
+        <div class="disclaimer"><p>&copy; 2024 Eight RP Team.</p></div>
     </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
