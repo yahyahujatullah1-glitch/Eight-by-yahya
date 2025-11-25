@@ -13,22 +13,35 @@ function menuLink(viewName, hash = null) {
         setTimeout(() => {
             const el = document.querySelector(hash);
             if(el) el.scrollIntoView({behavior: 'smooth'});
-        }, 300); // Slight delay for smoother feel
+        }, 200);
     }
 }
 
 function switchView(viewName) {
-    const views = document.querySelectorAll('.view-section');
-    views.forEach(view => view.classList.remove('active-view'));
+    // Hide all views
+    document.querySelectorAll('.view-section').forEach(view => {
+        view.classList.remove('active-view');
+    });
+
+    // Show target view
     const target = document.getElementById(viewName + '-view');
-    if(target) target.classList.add('active-view');
+    if(target) {
+        target.classList.add('active-view');
+    }
+    
+    // Scroll to top
     window.scrollTo(0,0);
 }
 
-// Scroll Animations
+// Reveal Animation on Scroll
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        }
     });
 }, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+});
