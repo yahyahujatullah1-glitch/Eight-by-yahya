@@ -4,206 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Panel - Eight RP</title>
-    
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Admin CSS -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
-    <!-- === TOAST NOTIFICATIONS === -->
     <div id="toast-container"></div>
 
-    <!-- === EDIT PLAYER MODAL (Hidden) === -->
+    <!-- EDIT MODAL -->
     <div id="edit-modal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3>Edit Database Record</h3>
-                <i class="fa-solid fa-xmark" onclick="closeModal()"></i>
-            </div>
+            <div class="modal-header"><h3>Edit Record</h3><i class="fa-solid fa-xmark" onclick="closeModal()"></i></div>
             <form onsubmit="event.preventDefault(); savePlayerChanges();">
-                <!-- Hidden Input for UID -->
                 <input type="hidden" id="edit-id">
-                
                 <div class="form-grid">
-                    <div class="input-wrapper">
-                        <label>Username</label>
-                        <input type="text" id="edit-name" required>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Cash Balance ($)</label>
-                        <input type="number" id="edit-money" required>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Player Level</label>
-                        <input type="number" id="edit-level" required>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Admin Level</label>
-                        <input type="number" id="edit-admin" min="0" required>
-                    </div>
+                    <div class="input-wrapper"><label>Username</label><input type="text" id="edit-name" required></div>
+                    <div class="input-wrapper"><label>Cash ($)</label><input type="number" id="edit-money" required></div>
+                    <div class="input-wrapper"><label>Level</label><input type="number" id="edit-level" required></div>
+                    <!-- Admin level is handled in the Admin Tab now, but kept here for manual overrides -->
+                    <div class="input-wrapper"><label>Admin Lvl (0-11)</label><input type="number" id="edit-admin" min="0" max="11" required></div>
                 </div>
-                <button type="submit" class="btn-save">Save Changes to MySQL</button>
+                <button type="submit" class="btn-save">Save to MySQL</button>
             </form>
         </div>
     </div>
 
-    <!-- === LOGIN SCREEN === -->
+    <!-- LOGIN -->
     <div id="login-view" class="login-wrapper">
         <div class="login-card">
-            <div class="login-header">
-                <h2>EIGHT<span class="highlight">RP</span></h2>
-                <p class="subtitle">DATABASE ACCESS</p>
-            </div>
-            
+            <div class="login-header"><h2>EIGHT<span class="highlight">RP</span></h2><p class="subtitle">DATABASE ACCESS</p></div>
             <form onsubmit="event.preventDefault(); attemptLogin();" class="login-form">
-                <div class="input-group">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <input type="text" id="username" placeholder="Admin ID" required autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-key"></i>
-                    <input type="password" id="password" placeholder="Secure Key" required>
-                </div>
-                <button type="submit" class="login-btn">AUTHENTICATE <i class="fa-solid fa-arrow-right"></i></button>
-                <p id="error-msg" class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> Invalid Credentials</p>
+                <div class="input-group"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="Admin ID" required></div>
+                <div class="input-group"><i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Password" required></div>
+                <button type="submit" class="login-btn">AUTHENTICATE</button>
+                <p id="error-msg" class="error-text">Invalid Credentials</p>
             </form>
-        </div>
-        <div class="login-footer">
-            &copy; 2024 Eight Roleplay Systems
         </div>
     </div>
 
-    <!-- === MAIN DASHBOARD LAYOUT === -->
+    <!-- DASHBOARD -->
     <div id="dashboard-layout" class="dashboard-layout" style="display: none;">
         
-        <!-- Sidebar (Becomes Topbar on Mobile) -->
-        <aside class="sidebar">
-            <div class="brand">EIGHT<span>PANEL</span></div>
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="adminSidebar">
+            <div class="brand">
+                EIGHT<span>PANEL</span>
+                <!-- Mobile Close Button -->
+                <i class="fa-solid fa-xmark mobile-close" onclick="toggleAdminMenu()"></i>
+            </div>
             
             <nav class="side-nav">
                 <div class="nav-label">Management</div>
                 <a onclick="switchTab('players')" class="nav-item active" id="nav-players">
-                    <i class="fa-solid fa-users-gear"></i> Player DB
+                    <i class="fa-solid fa-users"></i> Players
                 </a>
-                <a onclick="switchTab('staff')" class="nav-item" id="nav-staff">
-                    <i class="fa-solid fa-shield-cat"></i> Staff
-                </a>
-                
-                <div class="nav-label">System</div>
-                <a onclick="switchTab('status')" class="nav-item" id="nav-status">
-                    <i class="fa-solid fa-server"></i> Server Health
-                </a>
-                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs">
-                    <i class="fa-solid fa-terminal"></i> Live Logs
+                <a onclick="switchTab('admins')" class="nav-item" id="nav-admins">
+                    <i class="fa-solid fa-user-secret"></i> Administrators
                 </a>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar" id="admin-avatar-display">A</div>
-                <div class="info">
-                    <span class="name" id="admin-name-display">Admin</span>
-                    <span class="role" id="admin-role-display">Access Granted</span>
-                </div>
+                <div class="avatar">A</div>
+                <div class="info"><span class="name">Super User</span><span class="role">Owner</span></div>
                 <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </aside>
 
-        <!-- Content Area -->
+        <!-- CONTENT -->
         <main class="content-area">
             
-            <!-- VIEW: PLAYERS (Default) -->
-            <section id="view-players" class="tab-view">
-                <header class="top-bar">
-                    <h1 class="page-title">Users Table</h1>
-                    <div class="search-bar" style="display:none;"> <!-- Hidden on mobile for space -->
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Search UID or Username...">
-                    </div>
-                </header>
+            <!-- Mobile Menu Toggle Button -->
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleAdminMenu()"><i class="fa-solid fa-bars"></i> Menu</button>
+                <h3>Eight RP Admin</h3>
+            </div>
 
+            <!-- VIEW 1: PLAYERS (Normal Users) -->
+            <section id="view-players" class="tab-view">
+                <header class="top-bar"><h1 class="page-title">Player Management</h1></header>
                 <div class="table-container">
-                    <div class="table-toolbar">
-                        <h3><i class="fa-solid fa-database"></i> MySQL Records</h3>
-                        <!-- Optional Add Button -->
-                        <!-- <button class="btn-add" onclick="addFakeUser()">+ Sim User</button> -->
-                    </div>
-                    
                     <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
                                     <th>UID</th>
                                     <th>Username</th>
-                                    <th>Level</th>
-                                    <th>Cash ($)</th>
-                                    <th>Admin Lvl</th>
+                                    <th>Stats</th>
+                                    <th>VIP</th>
                                     <th>Status</th>
                                     <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="player-table-body">
-                                <!-- JS Injects Database Rows Here -->
-                            </tbody>
+                            <tbody id="player-table-body"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- VIEW: STAFF (Local Simulation) -->
-            <section id="view-staff" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">Staff Access</h1></header>
-                <div class="table-container">
-                    <div class="table-toolbar">
-                        <h3>Authorized Personnel</h3>
-                        <button class="btn-add" onclick="addNewAdmin()">+ Add Admin</button>
-                    </div>
+            <!-- VIEW 2: ADMINS (Staff Management) -->
+            <section id="view-admins" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">Admin Management</h1></header>
+                <div class="table-container" style="border-color: var(--primary);">
                     <div class="table-responsive">
                         <table>
-                            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th style="text-align:right;">Action</th></tr></thead>
-                            <tbody id="staff-table-body"></tbody>
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Admin Name</th>
+                                    <th>Rank Title</th>
+                                    <th>Level</th>
+                                    <th style="text-align: right;">Promote / Demote</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-table-body"></tbody>
                         </table>
                     </div>
-                </div>
-            </section>
-
-            <!-- VIEW: SERVER STATUS -->
-            <section id="view-status" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">System Health</h1></header>
-                <div class="status-grid">
-                    <div class="health-card">
-                        <h3>CPU Load</h3>
-                        <div class="progress-bar"><div class="fill" id="cpu-fill" style="width: 45%"></div></div>
-                        <span class="stat-val" id="cpu-val">45%</span>
-                    </div>
-                    <div class="health-card">
-                        <h3>RAM Usage</h3>
-                        <div class="progress-bar"><div class="fill" id="ram-fill" style="width: 60%; background: #8b5cf6;"></div></div>
-                        <span class="stat-val" id="ram-val">12GB / 32GB</span>
-                    </div>
-                    <div class="health-card">
-                        <h3>Database</h3>
-                        <div class="stat-val green-text">Connected</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- VIEW: LOGS -->
-            <section id="view-logs" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">System Logs</h1></header>
-                <div class="terminal-window" id="log-window">
-                    <div class="log-line"><span class="time">[SYSTEM]</span> Connecting to MySQL Database...</div>
-                    <div class="log-line"><span class="time">[SYSTEM]</span> Connection Successful.</div>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <!-- Logic Script -->
     <script src="js/admin.js"></script>
 </body>
     </html>
