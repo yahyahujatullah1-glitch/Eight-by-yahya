@@ -325,3 +325,44 @@ tr:hover { background: rgba(255,255,255,0.02); }
     .table-responsive { overflow-x: auto; }
     .login-card { width: 100%; margin: 20px; }
   }
+/* --- New Admin Buttons --- */
+.btn-up { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.btn-up:hover { background: #10b981; color: white; }
+
+.btn-down { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.btn-down:hover { background: #ef4444; color: white; }
+
+.btn-fire { background: #000; border: 1px solid #333; color: #666; }
+.btn-fire:hover { border-color: red; color: red; }
+
+.btn-promote { background: var(--primary); color: black; }
+
+/* Badge for Admin Level */
+.lvl-badge { background: #333; color: white; padding: 5px 10px; border-radius: 4px; font-weight: 700; border: 1px solid #444; }
+
+/* --- Mobile Header & Toggle --- */
+.mobile-header { display: none; padding: 15px; border-bottom: 1px solid #333; align-items: center; justify-content: space-between; background: var(--bg-card); }
+.mobile-header h3 { margin: 0; font-size: 18px; color: var(--primary); }
+.menu-toggle { background: transparent; border: 1px solid #333; color: white; padding: 5px 10px; border-radius: 4px; }
+
+/* Mobile Menu Close Icon */
+.mobile-close { display: none; font-size: 24px; cursor: pointer; color: #666; }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .dashboard-layout { flex-direction: column; }
+    
+    .sidebar { 
+        position: fixed; left: -100%; top: 0; height: 100vh; width: 280px; 
+        z-index: 999; transition: 0.3s; box-shadow: 10px 0 50px black;
+    }
+    .sidebar.open { left: 0; }
+    .mobile-close { display: block; position: absolute; right: 20px; top: 20px; }
+
+    .mobile-header { display: flex; } /* Show menu button on mobile */
+    .top-bar { display: none; } /* Hide heavy top bar on mobile */
+    .page-title { display: none; }
+    
+    .table-container { border: none; background: transparent; }
+    .table-responsive { background: var(--bg-card); border-radius: 8px; border: 1px solid #333; }
+}
