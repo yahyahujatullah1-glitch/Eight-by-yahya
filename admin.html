@@ -4,86 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Panel - Eight RP</title>
+    
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin CSS -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
+    <!-- === TOAST NOTIFICATIONS === -->
     <div id="toast-container"></div>
+    <div class="mobile-overlay" onclick="toggleAdminMenu()"></div>
 
-    <!-- EDIT MODAL -->
+    <!-- === CUSTOM CONFIRMATION MODAL === -->
+    <div id="confirm-modal" class="modal-overlay" style="z-index: 6000;">
+        <div class="confirm-box">
+            <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 id="confirm-title">Are you sure?</h3>
+            <p id="confirm-text">This action cannot be undone.</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+                <button class="btn-confirm" id="confirm-yes-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- === EDIT PLAYER MODAL === -->
     <div id="edit-modal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-header"><h3>Edit Record</h3><i class="fa-solid fa-xmark" onclick="closeModal()"></i></div>
+            <div class="modal-header">
+                <h3>Edit Database Record</h3>
+                <i class="fa-solid fa-xmark" onclick="closeModal()"></i>
+            </div>
             <form onsubmit="event.preventDefault(); savePlayerChanges();">
                 <input type="hidden" id="edit-id">
                 <div class="form-grid">
-                    <div class="input-wrapper"><label>Username</label><input type="text" id="edit-name" required></div>
-                    <div class="input-wrapper"><label>Cash ($)</label><input type="number" id="edit-money" required></div>
-                    <div class="input-wrapper"><label>Level</label><input type="number" id="edit-level" required></div>
-                    <!-- Admin level is handled in the Admin Tab now, but kept here for manual overrides -->
-                    <div class="input-wrapper"><label>Admin Lvl (0-11)</label><input type="number" id="edit-admin" min="0" max="11" required></div>
+                    <div class="input-wrapper">
+                        <label>Username</label>
+                        <input type="text" id="edit-name" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Cash Balance ($)</label>
+                        <input type="number" id="edit-money" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Player Level</label>
+                        <input type="number" id="edit-level" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Admin Level (0-11)</label>
+                        <input type="number" id="edit-admin" min="0" max="11" required>
+                    </div>
                 </div>
-                <button type="submit" class="btn-save">Save to MySQL</button>
+                <button type="submit" class="btn-save">Save Changes to MySQL</button>
             </form>
         </div>
     </div>
 
-    <!-- LOGIN -->
+    <!-- === LOGIN SCREEN === -->
     <div id="login-view" class="login-wrapper">
         <div class="login-card">
-            <div class="login-header"><h2>EIGHT<span class="highlight">RP</span></h2><p class="subtitle">DATABASE ACCESS</p></div>
-            <form onsubmit="event.preventDefault(); attemptLogin();" class="login-form">
-                <div class="input-group"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="Admin ID" required></div>
-                <div class="input-group"><i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Password" required></div>
-                <button type="submit" class="login-btn">AUTHENTICATE</button>
-                <p id="error-msg" class="error-text">Invalid Credentials</p>
+            <div class="login-header">
+                <h2>EIGHT<span class="highlight">RP</span></h2>
+                <p class="subtitle">DATABASE ACCESS</p>
+            </div>
+            <form onsubmit="event.preventDefault(); attemptLogin();">
+                <div class="input-group">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <input type="text" id="username" placeholder="Admin ID" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" id="password" placeholder="Secure Key" required>
+                </div>
+                <button type="submit" class="login-btn">AUTHENTICATE <i class="fa-solid fa-arrow-right"></i></button>
+                <p id="error-msg" class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> Invalid Credentials</p>
             </form>
         </div>
+        <div class="login-footer">&copy; 2024 Eight Roleplay Systems</div>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- === MAIN DASHBOARD LAYOUT === -->
     <div id="dashboard-layout" class="dashboard-layout" style="display: none;">
         
-        <!-- SIDEBAR -->
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <div class="brand-mobile">EIGHT<span>PANEL</span></div>
+            <button class="menu-toggle" onclick="toggleAdminMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
         <aside class="sidebar" id="adminSidebar">
-            <div class="brand">
-                EIGHT<span>PANEL</span>
-                <!-- Mobile Close Button -->
-                <i class="fa-solid fa-xmark mobile-close" onclick="toggleAdminMenu()"></i>
+            <div class="sidebar-header">
+                <div class="brand">EIGHT<span>PANEL</span></div>
+                <i class="fa-solid fa-xmark close-sidebar" onclick="toggleAdminMenu()"></i>
             </div>
             
             <nav class="side-nav">
                 <div class="nav-label">Management</div>
                 <a onclick="switchTab('players')" class="nav-item active" id="nav-players">
-                    <i class="fa-solid fa-users"></i> Players
+                    <i class="fa-solid fa-users"></i> User Database
                 </a>
                 <a onclick="switchTab('admins')" class="nav-item" id="nav-admins">
-                    <i class="fa-solid fa-user-secret"></i> Administrators
+                    <i class="fa-solid fa-user-shield"></i> Administrators
+                </a>
+                
+                <div class="nav-label">System</div>
+                <a onclick="switchTab('status')" class="nav-item" id="nav-status">
+                    <i class="fa-solid fa-server"></i> Server Health
+                </a>
+                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs">
+                    <i class="fa-solid fa-terminal"></i> Live Logs
                 </a>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar">A</div>
-                <div class="info"><span class="name">Super User</span><span class="role">Owner</span></div>
+                <div class="avatar" id="admin-avatar-display">A</div>
+                <div class="info">
+                    <span class="name" id="admin-name-display">Super User</span>
+                    <span class="role" id="admin-role-display">Owner</span>
+                </div>
                 <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </aside>
 
-        <!-- CONTENT -->
+        <!-- Content Area -->
         <main class="content-area">
             
-            <!-- Mobile Menu Toggle Button -->
-            <div class="mobile-header">
-                <button class="menu-toggle" onclick="toggleAdminMenu()"><i class="fa-solid fa-bars"></i> Menu</button>
-                <h3>Eight RP Admin</h3>
-            </div>
-
             <!-- VIEW 1: PLAYERS (Normal Users) -->
             <section id="view-players" class="tab-view">
-                <header class="top-bar"><h1 class="page-title">Player Management</h1></header>
+                <header class="top-bar"><h1 class="page-title">User Management</h1></header>
                 <div class="table-container">
+                    <div class="table-toolbar">
+                        <h3><i class="fa-solid fa-database"></i> MySQL Records</h3>
+                    </div>
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -91,12 +149,13 @@
                                     <th>UID</th>
                                     <th>Username</th>
                                     <th>Stats</th>
-                                    <th>VIP</th>
                                     <th>Status</th>
                                     <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="player-table-body"></tbody>
+                            <tbody id="player-table-body">
+                                <!-- JS Injects Database Rows Here -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -104,8 +163,11 @@
 
             <!-- VIEW 2: ADMINS (Staff Management) -->
             <section id="view-admins" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">Admin Management</h1></header>
+                <header class="top-bar"><h1 class="page-title">Staff Management</h1></header>
                 <div class="table-container" style="border-color: var(--primary);">
+                    <div class="table-toolbar">
+                        <h3><i class="fa-solid fa-crown"></i> Staff Team</h3>
+                    </div>
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -117,9 +179,37 @@
                                     <th style="text-align: right;">Promote / Demote</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-table-body"></tbody>
+                            <tbody id="admin-table-body">
+                                <!-- JS Injects Admin Rows Here -->
+                            </tbody>
                         </table>
                     </div>
+                </div>
+            </section>
+
+            <!-- VIEW 3: SERVER STATUS -->
+            <section id="view-status" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">System Health</h1></header>
+                <div class="status-grid">
+                    <div class="health-card">
+                        <h3>CPU Load</h3>
+                        <div class="progress-bar"><div class="fill" id="cpu-fill" style="width: 45%"></div></div>
+                        <span class="stat-val" id="cpu-val">45%</span>
+                    </div>
+                    <div class="health-card">
+                        <h3>RAM Usage</h3>
+                        <div class="progress-bar"><div class="fill" id="ram-fill" style="width: 60%; background: #8b5cf6;"></div></div>
+                        <span class="stat-val" id="ram-val">12GB / 32GB</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: LOGS -->
+            <section id="view-logs" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">System Logs</h1></header>
+                <div class="terminal-window" id="log-window">
+                    <div class="log-line"><span class="time">[SYSTEM]</span> Establishing secure connection...</div>
+                    <div class="log-line"><span class="time">[SYSTEM]</span> Connected to Database.</div>
                 </div>
             </section>
 
@@ -128,4 +218,4 @@
 
     <script src="js/admin.js"></script>
 </body>
-    </html>
+</html>
