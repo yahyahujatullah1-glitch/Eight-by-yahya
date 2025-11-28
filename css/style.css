@@ -176,18 +176,78 @@ header h1 span { color: var(--primary); }
 .txt-wrap { padding: 25px; text-align: center; }
 .txt-wrap h3 { font-family: var(--font-head); font-size: 26px; color: var(--primary); margin-bottom: 5px; }
 .txt-wrap p { font-size: 13px; color: #ccc; }
-
 /* =========================================
-   6. ROADMAP
+   6. ROADMAP (ANIMATION CORE)
    ========================================= */
 .bg-gradient { background: linear-gradient(to bottom, var(--bg-dark), #000); }
 .timeline { position: relative; max-width: 800px; margin: 0 auto; width: 100%; }
-.timeline::after { content: ''; position: absolute; width: 2px; background: #333; top: 0; bottom: 0; left: 50%; margin-left: -1px; }
-.time-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
+
+/* The Vertical Line */
+.timeline::after { 
+    content: ''; 
+    position: absolute; 
+    width: 2px; 
+    background: #333; 
+    top: 0; 
+    /* bottom: 0;  <-- REMOVED THIS to allow animation */
+    height: 0; /* Start Height 0 */
+    left: 50%; 
+    margin-left: -1px;
+    transition: height 1.5s ease-out; /* The Grow Animation */
+}
+
+/* Class added by JS to trigger growth */
+.timeline.animate-line::after {
+    height: 100%;
+}
+
+.time-item { 
+    padding: 10px 40px; 
+    position: relative; 
+    width: 50%; 
+    box-sizing: border-box;
+    opacity: 0; /* Start Hidden */
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+/* Class added by JS to show items */
+.time-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered Delays */
+.time-item:nth-child(1) { transition-delay: 0.2s; }
+.time-item:nth-child(2) { transition-delay: 0.4s; }
+.time-item:nth-child(3) { transition-delay: 0.6s; }
+.time-item:nth-child(4) { transition-delay: 0.8s; }
+
 .time-item.left { left: 0; text-align: right; }
 .time-item.right { left: 50%; }
-.time-item::after { content: ''; position: absolute; width: 14px; height: 14px; right: -7px; background: var(--bg-dark); border: 2px solid var(--primary); top: 20px; border-radius: 50%; z-index: 2; }
-.left::after { right: -7px; } .right::after { left: -7px; }
+
+/* The Dots */
+.time-item::after { 
+    content: ''; 
+    position: absolute; 
+    width: 14px; 
+    height: 14px; 
+    right: -7px; 
+    background: var(--bg-dark); 
+    border: 2px solid var(--primary); 
+    top: 20px; 
+    border-radius: 50%; 
+    z-index: 2; 
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+}
+
+.time-item.show::after {
+    animation: pulse-dot 2s infinite; /* Pulse only when shown */
+}
+
+.left::after { right: -7px; } 
+.right::after { left: -7px; }
+
 .time-content { padding: 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid #333; }
 .time-content h3 { color: white; font-size: 18px; margin-bottom: 5px; }
 .time-content p { color: #888; font-size: 13px; }
