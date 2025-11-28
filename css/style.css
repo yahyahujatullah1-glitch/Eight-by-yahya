@@ -16,7 +16,7 @@
 
 html, body {
     width: 100%;
-    overflow-x: hidden; /* CRITICAL: Stops side scrolling on mobile */
+    overflow-x: hidden;
     background-color: var(--bg-dark);
     color: var(--text-white);
     font-family: var(--font-body);
@@ -26,6 +26,12 @@ html, body {
 
 a { text-decoration: none; color: inherit; cursor: pointer; transition: 0.3s; }
 ul { padding-left: 20px; }
+
+/* --- PRO UPGRADE: CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 /* =========================================
    2. UTILITIES & ANIMATIONS
@@ -54,6 +60,18 @@ ul { padding-left: 20px; }
 }
 .animated-pill { animation: glow-pulse 2s infinite ease-in-out; }
 
+/* --- PRO UPGRADE: GLITCH EFFECT --- */
+.glitch-hover { position: relative; display: inline-block; }
+.glitch-hover:hover { animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: var(--primary); }
+@keyframes glitch-anim {
+    0% { transform: translate(0) }
+    20% { transform: translate(-2px, 2px) }
+    40% { transform: translate(-2px, -2px) }
+    60% { transform: translate(2px, 2px) }
+    80% { transform: translate(2px, -2px) }
+    100% { transform: translate(0) }
+}
+
 /* =========================================
    3. NAVIGATION BAR
    ========================================= */
@@ -66,7 +84,6 @@ nav {
 }
 nav.scrolled { background: rgba(5, 5, 5, 0.98); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-/* Logo Text Style */
 .logo-container { display: flex; flex-direction: column; justify-content: center; line-height: 1; text-align: left; }
 .logo-main { font-family: var(--font-head); font-size: 32px; color: white; letter-spacing: 2px; }
 .logo-sub { font-family: var(--font-body); font-size: 10px; font-weight: 800; color: var(--primary); letter-spacing: 3px; margin-left: 2px; }
@@ -77,7 +94,7 @@ nav.scrolled { background: rgba(5, 5, 5, 0.98); box-shadow: 0 10px 30px rgba(0,0
 .discord-btn { background: #5865F2; padding: 8px 20px; border-radius: 4px; color: white !important; font-weight: 700; }
 .menu-btn { display: none; font-size: 24px; color: white; cursor: pointer; padding: 10px; }
 
-/* --- SIDEBAR MENU (Mobile) --- */
+/* SIDEBAR MENU */
 .side-menu {
     position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
     background: #0a0a0a; z-index: 2000; padding: 30px; display: flex; flex-direction: column;
@@ -102,6 +119,20 @@ header {
     display: flex; align-items: center; justify-content: center; text-align: center;
     position: relative; padding-top: 80px;
 }
+/* --- PRO UPGRADE: FLOATING PARTICLES --- */
+.particles {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    animation: floating 60s linear infinite;
+    opacity: 0.3; z-index: 1; pointer-events: none;
+}
+@keyframes floating { from { transform: translateY(0); } to { transform: translateY(-550px); } }
+
 .hero-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(15,15,19,0.5), var(--bg-dark)); }
 .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; padding: 0 20px; }
 
@@ -129,7 +160,7 @@ header h1 span { color: var(--primary); }
 
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; }
 
-/* Feature Cards */
+/* Cards */
 .dark-card { background: #1a1a1a; padding: 30px; border-radius: 8px; color: white; position: relative; border: 1px solid transparent; transition: 0.3s; }
 .hover-tilt:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .icon-gold { font-size: 40px; color: var(--primary); margin-bottom: 20px; transition: 0.3s; }
@@ -137,7 +168,7 @@ header h1 span { color: var(--primary); }
 .dark-card h3 { font-family: var(--font-head); font-size: 28px; margin-bottom: 10px; }
 .dark-card p { color: #aaa; line-height: 1.6; }
 
-/* Faction Cards */
+/* Factions */
 .faction-box { background: var(--bg-card); border-radius: 10px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
 .faction-box:hover { border-color: var(--primary); transform: scale(1.02); }
 .img-wrap { height: 180px; background-size: cover; background-position: center; filter: grayscale(40%); transition: 0.5s; }
@@ -147,23 +178,16 @@ header h1 span { color: var(--primary); }
 .txt-wrap p { font-size: 13px; color: #ccc; }
 
 /* =========================================
-   6. ROADMAP (DESKTOP DEFAULT)
+   6. ROADMAP
    ========================================= */
 .bg-gradient { background: linear-gradient(to bottom, var(--bg-dark), #000); }
 .timeline { position: relative; max-width: 800px; margin: 0 auto; width: 100%; }
-
-/* The Vertical Line (Center) */
 .timeline::after { content: ''; position: absolute; width: 2px; background: #333; top: 0; bottom: 0; left: 50%; margin-left: -1px; }
-
 .time-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
 .time-item.left { left: 0; text-align: right; }
 .time-item.right { left: 50%; }
-
-/* The Dots (Center) */
 .time-item::after { content: ''; position: absolute; width: 14px; height: 14px; right: -7px; background: var(--bg-dark); border: 2px solid var(--primary); top: 20px; border-radius: 50%; z-index: 2; }
-.left::after { right: -7px; }
-.right::after { left: -7px; }
-
+.left::after { right: -7px; } .right::after { left: -7px; }
 .time-content { padding: 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid #333; }
 .time-content h3 { color: white; font-size: 18px; margin-bottom: 5px; }
 .time-content p { color: #888; font-size: 13px; }
@@ -178,7 +202,6 @@ header h1 span { color: var(--primary); }
 .role { font-size: 10px; text-transform: uppercase; color: var(--accent); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; display: block; }
 .name { font-size: 16px; font-weight: 700; }
 
-/* Visual Footer */
 .visual-footer { position: relative; background: linear-gradient(to top, #000, var(--bg-dark)); padding-top: 100px; overflow: hidden; min-height: 600px; display: flex; align-items: center; border-top: 1px solid #222; width: 100%; }
 .footer-layout { display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative; z-index: 5; }
 .footer-text h2 { font-family: var(--font-head); font-size: 80px; line-height: 0.9; margin-bottom: 30px; }
@@ -189,19 +212,12 @@ header h1 span { color: var(--primary); }
 .youtube { background: linear-gradient(90deg, #FF0000, #c40000); }
 .insta { background: linear-gradient(90deg, #C13584, #833ab4); }
 .social-bar:hover { padding-left: 30px; }
-
-/* Footer Image */
 .footer-img { position: absolute; right: -100px; bottom: 0; height: 100%; max-height: 700px; object-fit: contain; z-index: 1; pointer-events: none; mask-image: linear-gradient(to bottom, black 90%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%); opacity: 0.6; }
 
-/* Global Footer */
 .global-footer { background: black; padding: 40px 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; color: #555; width: 100%; }
 .footer-links { margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
 .footer-links a { color: #888; text-decoration: underline; }
-.disclaimer p { max-width: 800px; margin: 5px auto; line-height: 1.5; }
 
-/* =========================================
-   8. PAGES & FORMS
-   ========================================= */
 .page-header-wrap { padding: 120px 0 40px; text-align: center; }
 .page-title { font-family: var(--font-head); font-size: 60px; color: var(--primary); }
 .legal-content { max-width: 800px; margin: 0 auto 80px; }
@@ -212,126 +228,40 @@ header h1 span { color: var(--primary); }
 .input-group input:focus { border-color: var(--primary); outline: none; }
 .full-width { width: 100%; }
 
-/* =================================================================
-   9. MOBILE & TABLET RESPONSIVENESS FIXES (CRITICAL)
-   ================================================================= */
+/* =========================================
+   9. MOBILE RESPONSIVENESS FIXES
+   ========================================= */
 @media (max-width: 768px) {
-    /* 1. Navbar & Logo */
     .nav-links.desktop-only { display: none; }
     .menu-btn { display: block; }
     .logo-main { font-size: 28px; }
     .logo-sub { font-size: 9px; letter-spacing: 2px; }
 
-    /* 2. Hero Section */
     header { padding-top: 80px; min-height: 90vh; }
     header h1 { font-size: 50px; line-height: 1; }
     .hero-sub { font-size: 15px; padding: 0 10px; }
     .hero-actions { flex-direction: column; width: 100%; padding: 0 10px; }
     .btn { width: 100%; max-width: 100%; }
 
-    /* 3. Section Titles */
     .section-title { font-size: 40px; }
     .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
 
-    /* 4. ROADMAP FIX (Single Column) */
+    /* FIXED ROADMAP (SINGLE COLUMN) */
     .timeline { margin: 0; padding: 0; width: 100%; }
     .timeline::after { left: 20px; bottom: 0; }
-    
-    .time-item { 
-        width: 100%; 
-        padding-left: 50px; /* Space for the line */
-        padding-right: 0; 
-        margin-bottom: 30px;
-    }
-    
+    .time-item { width: 100%; padding-left: 50px; padding-right: 0; margin-bottom: 30px; }
     .time-item.left, .time-item.right { text-align: left; left: 0; }
-    
-    /* Fix Dots Position */
     .time-item::after { left: 13px; right: auto; top: 22px; }
     .time-item.left::after, .time-item.right::after { left: 13px; }
 
-    /* 5. Footer Layout */
+    /* FOOTER FIX */
     .footer-layout { flex-direction: column; align-items: flex-start; }
     .footer-text h2 { font-size: 50px; }
     .social-stack { width: 100%; }
-    
-    /* Footer Image */
-    .footer-img { 
-        position: relative; 
-        right: auto; 
-        height: 350px; 
-        margin-top: 20px; 
-        margin-right: -40px; 
-        align-self: flex-end; 
-        opacity: 0.5; 
-        margin-bottom: -50px; 
-    }
+    .footer-img { position: relative; right: auto; height: 350px; margin-top: 20px; margin-right: -40px; align-self: flex-end; opacity: 0.5; margin-bottom: -50px; }
 
-    /* 6. Team Grid */
     .team-grid { grid-template-columns: 1fr 1fr; }
-
-    /* 7. Pages */
     .text-container { padding: 100px 20px 40px; }
     .text-container h1 { font-size: 40px; }
     .footer-links { gap: 10px; }
-}
-/* --- PRELOADER --- */
-#preloader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 9999;
-    display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.5s ease;
-}
-.loader-content { text-align: center; }
-.loader-content h1 { font-family: var(--font-head); font-size: 60px; color: white; margin-bottom: 20px; letter-spacing: 5px; }
-.loading-bar { width: 200px; height: 4px; background: #333; margin: 0 auto 10px; border-radius: 2px; overflow: hidden; }
-.bar-fill { height: 100%; width: 0%; background: var(--primary); animation: load 2s ease-in-out forwards; }
-.loader-content p { color: #666; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; }
-
-@keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
-/* GLITCH EFFECT */
-.glitch-hover { position: relative; display: inline-block; }
-.glitch-hover:hover { animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: var(--primary); }
-
-@keyframes glitch-anim {
-    0% { transform: translate(0) }
-    20% { transform: translate(-2px, 2px) }
-    40% { transform: translate(-2px, -2px) }
-    60% { transform: translate(2px, 2px) }
-    80% { transform: translate(2px, -2px) }
-    100% { transform: translate(0) }
-                 }
-/* --- CUSTOM SCROLLBAR --- */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #0a0a0a; 
-}
-::-webkit-scrollbar-thumb {
-    background: #333; 
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary); /* Turns Gold on hover */
-}
-/* --- FLOATING PARTICLES --- */
-.particles {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
-        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-    background-size: 550px 550px, 350px 350px, 250px 250px;
-    background-position: 0 0, 40px 60px, 130px 270px;
-    animation: floating 60s linear infinite;
-    opacity: 0.3;
-    z-index: 1;
-    pointer-events: none;
-}
-
-@keyframes floating {
-    from { transform: translateY(0); }
-    to { transform: translateY(-550px); }
-}
-
+                }
