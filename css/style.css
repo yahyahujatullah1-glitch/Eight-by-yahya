@@ -231,98 +231,89 @@ header h1 span { color: var(--primary); }
 /* =========================================
    9. MOBILE RESPONSIVENESS FIXES
    ========================================= */
+/* =================================================================
+   9. MOBILE & TABLET RESPONSIVENESS FIXES (FINAL)
+   ================================================================= */
 @media (max-width: 768px) {
+    /* 1. Navbar & Logo */
     .nav-links.desktop-only { display: none; }
     .menu-btn { display: block; }
     .logo-main { font-size: 28px; }
     .logo-sub { font-size: 9px; letter-spacing: 2px; }
 
+    /* 2. Hero Section */
     header { padding-top: 80px; min-height: 90vh; }
     header h1 { font-size: 50px; line-height: 1; }
     .hero-sub { font-size: 15px; padding: 0 10px; }
     .hero-actions { flex-direction: column; width: 100%; padding: 0 10px; }
     .btn { width: 100%; max-width: 100%; }
 
+    /* 3. Section Titles */
     .section-title { font-size: 40px; }
     .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
 
-    /* FIXED ROADMAP (SINGLE COLUMN) */
-    .timeline { margin: 0; padding: 0; width: 100%; }
-    .timeline::after { left: 20px; bottom: 0; }
-    .time-item { width: 100%; padding-left: 50px; padding-right: 0; margin-bottom: 30px; }
-    .time-item.left, .time-item.right { text-align: left; left: 0; }
-    .time-item::after { left: 13px; right: auto; top: 22px; }
-    .time-item.left::after, .time-item.right::after { left: 13px; }
+    /* 4. ROADMAP FIX (PERFECT ALIGNMENT) */
+    .timeline { 
+        margin: 0; 
+        padding: 0; 
+        width: 100%; 
+    }
+    
+    /* Move Vertical Line away from edge */
+    .timeline::after { 
+        left: 30px; /* Moved from 20px to 30px for space */
+        bottom: 0;
+    }
+    
+    /* Adjust Content Boxes */
+    .time-item { 
+        width: 100%; 
+        padding-left: 80px; /* More space between line and box */
+        padding-right: 0; 
+        margin-bottom: 30px;
+    }
+    
+    /* Reset Left/Right Alignments */
+    .time-item.left, .time-item.right { 
+        text-align: left; 
+        left: 0; 
+    }
+    
+    /* Fix Dot Positioning to center on the new line */
+    .time-item::after { 
+        left: 23px; /* Perfectly centered on the 30px line */
+        right: auto; 
+        top: 24px; /* Aligned with top of the box */
+        width: 16px; /* Slightly bigger for visibility */
+        height: 16px;
+    }
+    
+    .time-item.left::after, .time-item.right::after { 
+        left: 23px; 
+    }
 
-    /* FOOTER FIX */
+    /* 5. Footer Layout */
     .footer-layout { flex-direction: column; align-items: flex-start; }
     .footer-text h2 { font-size: 50px; }
     .social-stack { width: 100%; }
-    .footer-img { position: relative; right: auto; height: 350px; margin-top: 20px; margin-right: -40px; align-self: flex-end; opacity: 0.5; margin-bottom: -50px; }
+    
+    /* Footer Image */
+    .footer-img { 
+        position: relative; 
+        right: auto; 
+        height: 350px; 
+        margin-top: 20px; 
+        margin-right: -40px; 
+        align-self: flex-end; 
+        opacity: 0.5; 
+        margin-bottom: -50px; 
+    }
 
+    /* 6. Team Grid */
     .team-grid { grid-template-columns: 1fr 1fr; }
+
+    /* 7. Pages */
     .text-container { padding: 100px 20px 40px; }
     .text-container h1 { font-size: 40px; }
     .footer-links { gap: 10px; }
-                }
-/* --- ANIMATED ROADMAP --- */
-
-/* 1. Line Growth Animation */
-.timeline::after {
-    height: 0; /* Start hidden */
-    transition: height 1.5s ease-out; /* Smooth growth */
-}
-
-/* When the section is visible (add class via JS later) */
-.timeline.animate-line::after {
-    height: 100%;
-}
-
-/* 2. Staggered Item Appearance */
-.time-item {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
-
-.time-item.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Delay for each item (1st, 2nd, 3rd, 4th) */
-.time-item:nth-child(1) { transition-delay: 0.2s; }
-.time-item:nth-child(2) { transition-delay: 0.4s; }
-.time-item:nth-child(3) { transition-delay: 0.6s; }
-.time-item:nth-child(4) { transition-delay: 0.8s; }
-
-/* 3. Glowing Dots */
-.time-item::after {
-    background: var(--bg-dark);
-    border: 2px solid var(--primary);
-    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
-    transition: box-shadow 0.3s;
-}
-
-/* Pulse effect when item is shown */
-.time-item.show::after {
-    animation: dotPulse 2s infinite;
-}
-
-@keyframes dotPulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-}
-
-/* Hover Effect on Boxes */
-.time-content {
-    transition: transform 0.3s, border-color 0.3s;
-    border: 1px solid #333;
-}
-
-.time-content:hover {
-    transform: scale(1.03);
-    border-color: var(--primary);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
