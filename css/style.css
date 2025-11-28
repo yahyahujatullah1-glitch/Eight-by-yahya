@@ -1,4 +1,6 @@
-/* --- VARIABLES --- */
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
 :root {
     --bg-dark: #0f0f13;
     --bg-card: #181820;
@@ -10,37 +12,61 @@
     --font-body: 'Montserrat', sans-serif;
 }
 
-/* --- GLOBAL RESET (Fixes Mobile Layout) --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
     width: 100%;
-    overflow-x: hidden; /* STOPS SIDE SCROLLING */
+    overflow-x: hidden; /* CRITICAL: Stops side scrolling on mobile */
     background-color: var(--bg-dark);
     color: var(--text-white);
     font-family: var(--font-body);
     scroll-behavior: smooth;
+    position: relative;
 }
 
 a { text-decoration: none; color: inherit; cursor: pointer; transition: 0.3s; }
 ul { padding-left: 20px; }
 
-/* --- UTILITIES --- */
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-.reveal.active { opacity: 1; transform: translateY(0); }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; }
+/* =========================================
+   2. UTILITIES & ANIMATIONS
+   ========================================= */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; width: 100%; }
 .section-pad { padding: 80px 0; position: relative; }
 .center { text-align: center; }
 
-/* --- NAVIGATION BAR --- */
+/* Scroll Reveal */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* Pulse Animation */
+@keyframes pulse-dot {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.7; }
+}
+.pulse { animation: pulse-dot 1.5s infinite; }
+
+/* Badge Glow */
+@keyframes glow-pulse {
+    0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); border-color: rgba(255, 215, 0, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); border-color: rgba(255, 215, 0, 1); }
+    100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); border-color: rgba(255, 215, 0, 0.5); }
+}
+.animated-pill { animation: glow-pulse 2s infinite ease-in-out; }
+
+/* =========================================
+   3. NAVIGATION BAR
+   ========================================= */
 nav {
     position: fixed; top: 0; left: 0; width: 100%; height: 80px; padding: 0 5%;
     display: flex; justify-content: space-between; align-items: center;
     background: rgba(15, 15, 19, 0.95); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 1000;
+    transition: 0.3s;
 }
+nav.scrolled { background: rgba(5, 5, 5, 0.98); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-/* LOGO TEXT STYLE */
+/* Logo Text Style */
 .logo-container { display: flex; flex-direction: column; justify-content: center; line-height: 1; text-align: left; }
 .logo-main { font-family: var(--font-head); font-size: 32px; color: white; letter-spacing: 2px; }
 .logo-sub { font-family: var(--font-body); font-size: 10px; font-weight: 800; color: var(--primary); letter-spacing: 3px; margin-left: 2px; }
@@ -67,7 +93,9 @@ nav {
 .menu-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 1500; display: none; backdrop-filter: blur(4px); }
 .menu-overlay.active { display: block; }
 
-/* --- HERO SECTION --- */
+/* =========================================
+   4. HERO SECTION
+   ========================================= */
 header {
     min-height: 100vh; width: 100%;
     background: url('https://i.ibb.co/tMvqP3J2/1764004594852.png') center/cover no-repeat;
@@ -76,55 +104,81 @@ header {
 }
 .hero-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(15,15,19,0.5), var(--bg-dark)); }
 .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; padding: 0 20px; }
-.status-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,215,0,0.1); border: 1px solid var(--primary); color: var(--primary); padding: 6px 20px; border-radius: 50px; font-weight: 700; font-size: 12px; margin-bottom: 25px; backdrop-filter: blur(5px); }
+
+.status-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border: 1px solid var(--primary); color: var(--primary); padding: 6px 20px; border-radius: 50px; font-weight: 700; font-size: 12px; margin-bottom: 25px; backdrop-filter: blur(5px); }
 .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); }
+
 header h1 { font-family: var(--font-head); font-size: 100px; line-height: 0.9; margin-bottom: 20px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
 header h1 span { color: var(--primary); }
 .hero-sub { font-size: 18px; color: #ddd; margin-bottom: 40px; }
+
 .hero-actions { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 .btn { padding: 15px 35px; border-radius: 4px; font-weight: 700; font-size: 14px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; border: none; }
 .btn-primary { background: var(--primary); color: black; }
+.btn-primary:hover { background: white; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2); }
 .btn-outline { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: white; }
+.btn.disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* --- FEATURES --- */
+/* =========================================
+   5. FEATURES & FACTIONS
+   ========================================= */
 .bg-yellow { background: var(--primary); color: black; width: 100%; }
 .clip-angle { clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%); }
 .section-title { font-family: var(--font-head); font-size: 60px; margin-bottom: 40px; color: white; }
 .section-title.dark-text { color: black; text-align: center; }
+
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; }
-.dark-card { background: #1a1a1a; padding: 30px; border-radius: 8px; color: white; position: relative; }
-.icon-gold { font-size: 40px; color: var(--primary); margin-bottom: 20px; }
+
+/* Feature Cards */
+.dark-card { background: #1a1a1a; padding: 30px; border-radius: 8px; color: white; position: relative; border: 1px solid transparent; transition: 0.3s; }
+.hover-tilt:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+.icon-gold { font-size: 40px; color: var(--primary); margin-bottom: 20px; transition: 0.3s; }
+.hover-tilt:hover .icon-gold { transform: scale(1.2); color: white; }
 .dark-card h3 { font-family: var(--font-head); font-size: 28px; margin-bottom: 10px; }
 .dark-card p { color: #aaa; line-height: 1.6; }
 
-/* --- FACTIONS --- */
+/* Faction Cards */
 .faction-box { background: var(--bg-card); border-radius: 10px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
-.img-wrap { height: 180px; background-size: cover; background-position: center; filter: grayscale(40%); }
-.faction-box:hover .img-wrap { filter: grayscale(0%); }
-.txt-wrap { padding: 20px; text-align: center; }
-.txt-wrap h3 { font-family: var(--font-head); font-size: 26px; color: var(--primary); }
+.faction-box:hover { border-color: var(--primary); transform: scale(1.02); }
+.img-wrap { height: 180px; background-size: cover; background-position: center; filter: grayscale(40%); transition: 0.5s; }
+.faction-box:hover .img-wrap { filter: grayscale(0%) scale(1.1); }
+.txt-wrap { padding: 25px; text-align: center; }
+.txt-wrap h3 { font-family: var(--font-head); font-size: 26px; color: var(--primary); margin-bottom: 5px; }
+.txt-wrap p { font-size: 13px; color: #ccc; }
 
-/* --- ROADMAP --- */
+/* =========================================
+   6. ROADMAP (DESKTOP DEFAULT)
+   ========================================= */
 .bg-gradient { background: linear-gradient(to bottom, var(--bg-dark), #000); }
 .timeline { position: relative; max-width: 800px; margin: 0 auto; width: 100%; }
+
+/* The Vertical Line (Center) */
 .timeline::after { content: ''; position: absolute; width: 2px; background: #333; top: 0; bottom: 0; left: 50%; margin-left: -1px; }
+
 .time-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
 .time-item.left { left: 0; text-align: right; }
 .time-item.right { left: 50%; }
+
+/* The Dots (Center) */
 .time-item::after { content: ''; position: absolute; width: 14px; height: 14px; right: -7px; background: var(--bg-dark); border: 2px solid var(--primary); top: 20px; border-radius: 50%; z-index: 2; }
 .left::after { right: -7px; }
 .right::after { left: -7px; }
+
 .time-content { padding: 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid #333; }
 .time-content h3 { color: white; font-size: 18px; margin-bottom: 5px; }
+.time-content p { color: #888; font-size: 13px; }
 .completed h3 { color: var(--primary); }
 
-/* --- TEAM --- */
+/* =========================================
+   7. TEAM & FOOTER
+   ========================================= */
 .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; width: 100%; }
-.member-card { background: var(--bg-card); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+.member-card { background: var(--bg-card); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+.member-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 .role { font-size: 10px; text-transform: uppercase; color: var(--accent); font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; display: block; }
 .name { font-size: 16px; font-weight: 700; }
 
-/* --- VISUAL FOOTER (Home Only) --- */
+/* Visual Footer */
 .visual-footer { position: relative; background: linear-gradient(to top, #000, var(--bg-dark)); padding-top: 100px; overflow: hidden; min-height: 600px; display: flex; align-items: center; border-top: 1px solid #222; width: 100%; }
 .footer-layout { display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative; z-index: 5; }
 .footer-text h2 { font-family: var(--font-head); font-size: 80px; line-height: 0.9; margin-bottom: 30px; }
@@ -134,64 +188,33 @@ header h1 span { color: var(--primary); }
 .discord { background: linear-gradient(90deg, #5865F2, #4752c4); }
 .youtube { background: linear-gradient(90deg, #FF0000, #c40000); }
 .insta { background: linear-gradient(90deg, #C13584, #833ab4); }
+.social-bar:hover { padding-left: 30px; }
+
+/* Footer Image */
 .footer-img { position: absolute; right: -100px; bottom: 0; height: 100%; max-height: 700px; object-fit: contain; z-index: 1; pointer-events: none; mask-image: linear-gradient(to bottom, black 90%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%); opacity: 0.6; }
 
-/* --- PAGES & LEGAL --- */
-.page-header-wrap { padding: 120px 0 40px; text-align: center; }
-.page-title { font-family: var(--font-head); font-size: 60px; color: var(--primary); }
-.legal-content { max-width: 800px; margin: 0 auto 80px; }
-.legal-box { background: var(--bg-card); padding: 30px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 20px; }
-.legal-box h3 { color: white; margin-bottom: 15px; font-size: 20px; }
-.legal-box p { color: #aaa; line-height: 1.6; margin-bottom: 10px; }
-.legal-box ul { color: #aaa; line-height: 1.6; padding-left: 20px; }
-
-/* --- CONTACT FORM --- */
-.contact-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-.input-group label { display: block; color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-.input-group input, .input-group textarea, .input-group select { width: 100%; background: #111; border: 1px solid #333; padding: 15px; color: white; border-radius: 5px; font-family: var(--font-body); }
-.input-group input:focus { border-color: var(--primary); outline: none; }
-
-/* --- GLOBAL FOOTER --- */
+/* Global Footer */
 .global-footer { background: black; padding: 40px 20px; text-align: center; border-top: 1px solid #222; font-size: 13px; color: #555; width: 100%; }
 .footer-links { margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
 .footer-links a { color: #888; text-decoration: underline; }
 .disclaimer p { max-width: 800px; margin: 5px auto; line-height: 1.5; }
 
-
 /* =========================================
-   INTERACTIVE UI ANIMATIONS
+   8. PAGES & FORMS
    ========================================= */
+.page-header-wrap { padding: 120px 0 40px; text-align: center; }
+.page-title { font-family: var(--font-head); font-size: 60px; color: var(--primary); }
+.legal-content { max-width: 800px; margin: 0 auto 80px; }
+.legal-box { background: var(--bg-card); padding: 30px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 20px; }
+.contact-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+.input-group label { display: block; color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.input-group input, .input-group textarea, .input-group select { width: 100%; background: #111; border: 1px solid #333; padding: 15px; color: white; border-radius: 5px; font-family: var(--font-body); }
+.input-group input:focus { border-color: var(--primary); outline: none; }
+.full-width { width: 100%; }
 
-/* 1. Navbar Scroll Effect (Glass Darkens) */
-nav {
-    transition: background 0.3s ease, padding 0.3s ease;
-}
-
-nav.scrolled {
-    background: rgba(5, 5, 5, 0.98); /* Darker when scrolling */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    padding: 0 5%; /* Shrink slightly if desired, or keep same */
-    height: 70px; /* Compact height */
-}
-
-/* 2. Card Hover Effects (Lift & Glow) */
-.dark-card, .faction-box, .member-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.dark-card:hover, .faction-box:hover, .member-card:hover {
-    transform: translateY(-10px); /* Moves up */
-    border-color: var(--primary); /* Yellow Border appears */
-    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.1); /* Subtle Yellow Glow */
-}
-
-/* 3. Icon Animation inside Cards */
-.dark-card i, .faction-box i {
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.dark-card:hover i {
-    tran/* ================= MOBILE RESPONSIVENESS (FIXED) ================= */
+/* =================================================================
+   9. MOBILE & TABLET RESPONSIVENESS FIXES (CRITICAL)
+   ================================================================= */
 @media (max-width: 768px) {
     /* 1. Navbar & Logo */
     .nav-links.desktop-only { display: none; }
@@ -211,43 +234,21 @@ nav.scrolled {
     .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
 
     /* 4. ROADMAP FIX (Single Column) */
-    .timeline { 
-        margin: 0; 
-        padding: 0;
-        width: 100%;
-    }
+    .timeline { margin: 0; padding: 0; width: 100%; }
+    .timeline::after { left: 20px; bottom: 0; }
     
-    /* Move the vertical line to the LEFT side */
-    .timeline::after { 
-        left: 20px; 
-        bottom: 0;
-    }
-
-    /* Make items take full width */
     .time-item { 
         width: 100%; 
         padding-left: 50px; /* Space for the line */
         padding-right: 0; 
         margin-bottom: 30px;
     }
-
-    /* Reset Left/Right specific styles so they look the same */
-    .time-item.left, .time-item.right { 
-        text-align: left; 
-        left: 0; 
-    }
-
-    /* Fix the Dot Position */
-    .time-item::after { 
-        left: 13px; /* Align with the line at 20px */
-        right: auto; /* Remove desktop setting */
-        top: 22px; /* Align with box top */
-    }
     
-    /* Ensure Left/Right dots are in same place */
-    .time-item.left::after, .time-item.right::after { 
-        left: 13px; 
-    }
+    .time-item.left, .time-item.right { text-align: left; left: 0; }
+    
+    /* Fix Dots Position */
+    .time-item::after { left: 13px; right: auto; top: 22px; }
+    .time-item.left::after, .time-item.right::after { left: 13px; }
 
     /* 5. Footer Layout */
     .footer-layout { flex-direction: column; align-items: flex-start; }
@@ -273,72 +274,4 @@ nav.scrolled {
     .text-container { padding: 100px 20px 40px; }
     .text-container h1 { font-size: 40px; }
     .footer-links { gap: 10px; }
-}sform: scale(1.2) rotate(5deg); /* Icons grow and tilt */
-    color: white; /* Icon turns white on hover */
-    text-shadow: 0 0 10px var(--primary);
-}
-
-/* 4. Image Zoom inside Faction Cards */
-.faction-box .img-wrap {
-    transition: transform 0.5s ease, filter 0.5s ease;
-    overflow: hidden;
-}
-
-.faction-box:hover .img-wrap {
-    transform: scale(1.1); /* Zoom in image */
-    filter: grayscale(0%); /* Color comes back */
-}
-
-/* 5. Button Click Effect */
-.btn {
-    transition: transform 0.1s, box-shadow 0.3s;
-}
-
-.btn:active {
-    transform: scale(0.95); /* Button presses down */
-}
-
-/* 6. Scroll Reveal Animation Classes */
-.reveal {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Staggered Animation for Grids (Optional Polish) */
-.grid-3 .dark-card:nth-child(2) { transition-delay: 0.1s; }
-.grid-3 .dark-card:nth-child(3) { transition-delay: 0.2s; }
-
-/* --- ANIMATIONS FOR BADGE --- */
-@keyframes glow-pulse {
-    0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); border-color: rgba(255, 215, 0, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); border-color: rgba(255, 215, 0, 1); }
-    100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); border-color: rgba(255, 215, 0, 0.5); }
-}
-
-.animated-pill {
-    animation: glow-pulse 2s infinite ease-in-out;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-}
-
-.pulse {
-    animation: pulse-dot 1.5s infinite;
-}
-
-@keyframes pulse-dot {
-    0% { transform: scale(0.9); opacity: 0.7; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(0.9); opacity: 0.7; }
-}
-
-/* Fix for Mobile Overflow (Just in case) */
-html, body {
-    overflow-x: hidden !important;
-    width: 100%;
 }
