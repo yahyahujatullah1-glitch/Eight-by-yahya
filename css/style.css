@@ -161,7 +161,75 @@ header h1 span { color: var(--primary); }
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; }
 
 /* Cards */
-.dark-card { background: #1a1a1a; padding: 30px; border-radius: 8px; color: white; position: relative; border: 1px solid transparent; transition: 0.3s; }
+.dark-card { background: #1a1a1a; padding: 30px; border-radius: 8px; color: white; position: rel
+            /* =========================================
+   6. ROADMAP (FIXED LAYERING)
+   ========================================= */
+.bg-gradient { background: linear-gradient(to bottom, var(--bg-dark), #000); }
+.timeline { position: relative; max-width: 800px; margin: 0 auto; width: 100%; }
+
+/* The Vertical Line (Layer 0 - Bottom) */
+.timeline::after { 
+    content: ''; 
+    position: absolute; 
+    width: 2px; 
+    background: #333; 
+    top: 0; 
+    height: 0; 
+    left: 50%; 
+    margin-left: -1px;
+    transition: height 1.5s ease-out; 
+    z-index: 0; /* Puts line BEHIND everything */
+}
+
+.timeline.animate-line::after { height: 100%; }
+
+.time-item { 
+    padding: 10px 40px; 
+    position: relative; 
+    width: 50%; 
+    box-sizing: border-box;
+    opacity: 0; 
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+    z-index: 1; /* Puts content ABOVE line */
+}
+
+.time-item.show { opacity: 1; transform: translateY(0); }
+
+/* Delays */
+.time-item:nth-child(1) { transition-delay: 0.2s; }
+.time-item:nth-child(2) { transition-delay: 0.4s; }
+.time-item:nth-child(3) { transition-delay: 0.6s; }
+.time-item:nth-child(4) { transition-delay: 0.8s; }
+
+.time-item.left { left: 0; text-align: right; }
+.time-item.right { left: 50%; }
+
+/* The Dots (Layer 2 - Top) */
+.time-item::after { 
+    content: ''; 
+    position: absolute; 
+    width: 14px; 
+    height: 14px; 
+    right: -7px; 
+    background: var(--bg-dark); /* Masks the line behind it */
+    border: 2px solid var(--primary); 
+    top: 20px; 
+    border-radius: 50%; 
+    z-index: 2; /* Puts dot ON TOP of line */
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+}
+
+.time-item.show::after { animation: pulse-dot 2s infinite; }
+
+.left::after { right: -7px; } 
+.right::after { left: -7px; }
+
+.time-content { padding: 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid #333; position: relative; z-index: 2; }
+.time-content h3 { color: white; font-size: 18px; margin-bottom: 5px; }
+.time-content p { color: #888; font-size: 13px; }
+.completed h3 { color: var(--primary); }ative; border: 1px solid transparent; transition: 0.3s; }
 .hover-tilt:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .icon-gold { font-size: 40px; color: var(--primary); margin-bottom: 20px; transition: 0.3s; }
 .hover-tilt:hover .icon-gold { transform: scale(1.2); color: white; }
@@ -176,82 +244,7 @@ header h1 span { color: var(--primary); }
 .txt-wrap { padding: 25px; text-align: center; }
 .txt-wrap h3 { font-family: var(--font-head); font-size: 26px; color: var(--primary); margin-bottom: 5px; }
 .txt-wrap p { font-size: 13px; color: #ccc; }
-/* =========================================
-   6. ROADMAP (ANIMATION CORE)
-   ========================================= */
-.bg-gradient { background: linear-gradient(to bottom, var(--bg-dark), #000); }
-.timeline { position: relative; max-width: 800px; margin: 0 auto; width: 100%; }
 
-/* The Vertical Line */
-.timeline::after { 
-    content: ''; 
-    position: absolute; 
-    width: 2px; 
-    background: #333; 
-    top: 0; 
-    /* bottom: 0;  <-- REMOVED THIS to allow animation */
-    height: 0; /* Start Height 0 */
-    left: 50%; 
-    margin-left: -1px;
-    transition: height 1.5s ease-out; /* The Grow Animation */
-}
-
-/* Class added by JS to trigger growth */
-.timeline.animate-line::after {
-    height: 100%;
-}
-
-.time-item { 
-    padding: 10px 40px; 
-    position: relative; 
-    width: 50%; 
-    box-sizing: border-box;
-    opacity: 0; /* Start Hidden */
-    transform: translateY(30px);
-    transition: all 0.6s ease-out;
-}
-
-/* Class added by JS to show items */
-.time-item.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Staggered Delays */
-.time-item:nth-child(1) { transition-delay: 0.2s; }
-.time-item:nth-child(2) { transition-delay: 0.4s; }
-.time-item:nth-child(3) { transition-delay: 0.6s; }
-.time-item:nth-child(4) { transition-delay: 0.8s; }
-
-.time-item.left { left: 0; text-align: right; }
-.time-item.right { left: 50%; }
-
-/* The Dots */
-.time-item::after { 
-    content: ''; 
-    position: absolute; 
-    width: 14px; 
-    height: 14px; 
-    right: -7px; 
-    background: var(--bg-dark); 
-    border: 2px solid var(--primary); 
-    top: 20px; 
-    border-radius: 50%; 
-    z-index: 2; 
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
-}
-
-.time-item.show::after {
-    animation: pulse-dot 2s infinite; /* Pulse only when shown */
-}
-
-.left::after { right: -7px; } 
-.right::after { left: -7px; }
-
-.time-content { padding: 20px; background: var(--bg-card); border-radius: 8px; border: 1px solid #333; }
-.time-content h3 { color: white; font-size: 18px; margin-bottom: 5px; }
-.time-content p { color: #888; font-size: 13px; }
-.completed h3 { color: var(--primary); }
 
 /* =========================================
    7. TEAM & FOOTER
@@ -312,44 +305,38 @@ header h1 span { color: var(--primary); }
     .section-title { font-size: 40px; }
     .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
 
-    /* 4. ROADMAP FIX (MOBILE ANIMATION COMPATIBLE) */
-    .timeline { 
-        margin: 0; 
-        padding: 0; 
-        width: 100%; 
-    }
+    /* 4. ROADMAP FIX (MOBILE) */
+    .timeline { margin: 0; padding: 0; width: 100%; }
     
+    /* Line Position */
     .timeline::after { 
-        left: 30px; /* Line position */
-        margin-left: 0;
-        /* Do NOT set height here, let the global animation handle it */
+        left: 30px; 
+        margin-left: 0; 
+        z-index: 0; /* Ensure it stays behind on mobile too */
     }
     
     .time-item { 
         width: 100%; 
         padding-left: 80px; 
         padding-right: 0; 
-        margin-bottom: 30px;
+        margin-bottom: 30px; 
+        z-index: 1;
     }
     
-    .time-item.left, .time-item.right { 
-        text-align: left; 
-        left: 0; 
-    }
+    .time-item.left, .time-item.right { text-align: left; left: 0; }
     
-    /* Fix Dots Position */
+    /* Dot Position */
     .time-item::after { 
-        left: 23px; /* Centered on the line */
+        left: 23px; /* Centered on the 30px line */
         right: auto; 
         top: 24px; 
         width: 16px; 
         height: 16px;
+        z-index: 2; /* Ensure it sits on top */
+        background: var(--bg-dark); /* Ensures line doesn't show through */
     }
     
-    .time-item.left::after, .time-item.right::after { 
-        left: 23px; 
-    }
-
+    .time-item.left::after, .time-item.right::after { left: 23px; }
     /* 5. Footer Layout */
     .footer-layout { flex-direction: column; align-items: flex-start; }
     .footer-text h2 { font-size: 50px; }
