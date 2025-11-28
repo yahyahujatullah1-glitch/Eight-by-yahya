@@ -49,3 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const hiddenElements = document.querySelectorAll('.reveal');
     hiddenElements.forEach((el) => observer.observe(el));
 });
+// --- ROADMAP ANIMATION TRIGGER ---
+const roadmapObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Animate the vertical line
+            const timeline = entry.target.querySelector('.timeline');
+            if (timeline) timeline.classList.add('animate-line');
+
+            // Animate each box one by one
+            const items = entry.target.querySelectorAll('.time-item');
+            items.forEach(item => item.classList.add('show'));
+            
+            // Stop observing once triggered
+            roadmapObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 }); // Trigger when 30% of roadmap is visible
+
+// Attach observer to the roadmap section
+document.addEventListener('DOMContentLoaded', () => {
+    const roadmapSection = document.querySelector('#roadmap');
+    if (roadmapSection) {
+        roadmapObserver.observe(roadmapSection);
+    }
+});
