@@ -157,45 +157,7 @@ header h1 span { color: var(--primary); }
 .footer-links a { color: #888; text-decoration: underline; }
 .disclaimer p { max-width: 800px; margin: 5px auto; line-height: 1.5; }
 
-/* ================= MOBILE & TABLET FIXES ================= */
-@media (max-width: 768px) {
-    .nav-links.desktop-only { display: none; }
-    .menu-btn { display: block; }
-    
-    /* Logo Fix */
-    .logo-main { font-size: 28px; }
-    .logo-sub { font-size: 9px; }
 
-    /* Hero Fix */
-    header { padding-top: 80px; min-height: 90vh; }
-    header h1 { font-size: 50px; line-height: 1; }
-    .hero-sub { font-size: 15px; padding: 0 10px; }
-    .hero-actions { flex-direction: column; width: 100%; padding: 0 10px; }
-    .btn { width: 100%; max-width: 100%; }
-
-    /* Section Fixes */
-    .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
-    .section-title { font-size: 40px; }
-
-    /* Roadmap Fix */
-    .timeline::after { left: 20px; }
-    .time-item { width: 100%; padding-left: 50px; padding-right: 0; margin-bottom: 20px; }
-    .time-item::after { left: 11px; }
-    .left, .right { text-align: left; left: 0; }
-    .left::after, .right::after { left: 11px; }
-
-    /* Footer Image Mobile Fix (Critical) */
-    .footer-layout { flex-direction: column; align-items: flex-start; }
-    .footer-text h2 { font-size: 50px; }
-    .social-stack { width: 100%; }
-    .footer-img { 
-        position: relative; right: auto; height: 350px; 
-        margin-top: 20px; margin-right: -40px; align-self: flex-end; 
-        opacity: 0.5; margin-bottom: -50px; 
-    }
-
-    .team-grid { grid-template-columns: 1fr 1fr; }
-}
 /* =========================================
    INTERACTIVE UI ANIMATIONS
    ========================================= */
@@ -229,7 +191,89 @@ nav.scrolled {
 }
 
 .dark-card:hover i {
-    transform: scale(1.2) rotate(5deg); /* Icons grow and tilt */
+    tran/* ================= MOBILE RESPONSIVENESS (FIXED) ================= */
+@media (max-width: 768px) {
+    /* 1. Navbar & Logo */
+    .nav-links.desktop-only { display: none; }
+    .menu-btn { display: block; }
+    .logo-main { font-size: 28px; }
+    .logo-sub { font-size: 9px; letter-spacing: 2px; }
+
+    /* 2. Hero Section */
+    header { padding-top: 80px; min-height: 90vh; }
+    header h1 { font-size: 50px; line-height: 1; }
+    .hero-sub { font-size: 15px; padding: 0 10px; }
+    .hero-actions { flex-direction: column; width: 100%; padding: 0 10px; }
+    .btn { width: 100%; max-width: 100%; }
+
+    /* 3. Section Titles */
+    .section-title { font-size: 40px; }
+    .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
+
+    /* 4. ROADMAP FIX (Single Column) */
+    .timeline { 
+        margin: 0; 
+        padding: 0;
+        width: 100%;
+    }
+    
+    /* Move the vertical line to the LEFT side */
+    .timeline::after { 
+        left: 20px; 
+        bottom: 0;
+    }
+
+    /* Make items take full width */
+    .time-item { 
+        width: 100%; 
+        padding-left: 50px; /* Space for the line */
+        padding-right: 0; 
+        margin-bottom: 30px;
+    }
+
+    /* Reset Left/Right specific styles so they look the same */
+    .time-item.left, .time-item.right { 
+        text-align: left; 
+        left: 0; 
+    }
+
+    /* Fix the Dot Position */
+    .time-item::after { 
+        left: 13px; /* Align with the line at 20px */
+        right: auto; /* Remove desktop setting */
+        top: 22px; /* Align with box top */
+    }
+    
+    /* Ensure Left/Right dots are in same place */
+    .time-item.left::after, .time-item.right::after { 
+        left: 13px; 
+    }
+
+    /* 5. Footer Layout */
+    .footer-layout { flex-direction: column; align-items: flex-start; }
+    .footer-text h2 { font-size: 50px; }
+    .social-stack { width: 100%; }
+    
+    /* Footer Image */
+    .footer-img { 
+        position: relative; 
+        right: auto; 
+        height: 350px; 
+        margin-top: 20px; 
+        margin-right: -40px; 
+        align-self: flex-end; 
+        opacity: 0.5; 
+        margin-bottom: -50px; 
+    }
+
+    /* 6. Team Grid */
+    .team-grid { grid-template-columns: 1fr 1fr; }
+
+    /* 7. Pages */
+    .text-container { padding: 100px 20px 40px; }
+    .text-container h1 { font-size: 40px; }
+    .footer-links { gap: 10px; }
+}sform: scale(1.2) rotate(5deg); /* Icons grow and tilt */
     color: white; /* Icon turns white on hover */
     text-shadow: 0 0 10px var(--primary);
 }
