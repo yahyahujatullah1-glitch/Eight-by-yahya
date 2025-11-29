@@ -1,34 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Rules - Eight RP</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- MOBILE MENU OVERLAY -->
+    <!-- MOBILE MENU -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
-
-    <!-- SIDEBAR MENU (Mobile) -->
     <div class="side-menu" id="sideMenu">
-        <div class="side-header">
-            <span>MENU</span>
-            <i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i>
-        </div>
+        <div class="side-header"><span>MENU</span><i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i></div>
         <div class="side-links">
             <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
             <a href="rules.html" class="active"><i class="fa-solid fa-book-open"></i> Project Rules</a>
-            <a href="index.html#features"><i class="fa-solid fa-star"></i> Features</a>
-            <div class="menu-label">Legal</div>
             <a href="contact.html">Contact</a>
         </div>
     </div>
@@ -36,53 +24,104 @@
     <!-- NAVBAR -->
     <nav>
         <a href="index.html" class="logo-img-wrap">
-            <img src="https://i.ibb.co/3m8R27Q/1764065611411.png" alt="Eight RP Logo" class="nav-logo">
+            <img src="https://i.ibb.co/3m8R27Q/1764065611411.png" alt="Logo" class="nav-logo">
         </a>
         <div class="nav-links desktop-only">
-            <a href="index.html">Back to Home</a>
+            <a href="index.html">Home</a>
             <a href="rules.html" class="active" style="color:var(--primary)">Rules</a>
         </div>
-        <div class="menu-btn mobile-only" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars-staggered"></i>
-        </div>
+        <div class="menu-btn mobile-only" onclick="toggleMenu()"><i class="fa-solid fa-bars-staggered"></i></div>
     </nav>
 
     <!-- HEADER -->
     <div class="page-header-wrap">
         <h1 class="page-title">Project Rules</h1>
-        <p style="color:#888;">Live Rulebook • Last Updated Automatically</p>
+        <p style="color:#888;">Live Rulebook • Updated Automatically</p>
     </div>
 
     <!-- RULES CONTAINER -->
     <div class="rules-container">
         
-        <!-- SIDEBAR TABS (Static Categories) -->
+        <!-- SIDEBAR (Dynamic) -->
         <aside class="rules-sidebar">
             <h3>Table of Contents</h3>
-            <!-- Data-category MUST match the slugs you use in Admin Panel -->
-            <button class="rule-tab" data-category="general">1. General Rules</button>
-            <button class="rule-tab" data-category="roleplay">2. Roleplay Terms</button>
-            <button class="rule-tab" data-category="crimes">3. Criminal Rules</button>
-            <button class="rule-tab" data-category="zones">4. Safe Zones</button>
-            <button class="rule-tab" data-category="admin">5. Admin Rules</button>
+            <div id="dynamic-tabs">
+                <p style="color:#666; font-size:12px;">Loading Categories...</p>
+            </div>
         </aside>
 
-        <!-- DYNAMIC CONTENT AREA -->
+        <!-- CONTENT (Dynamic) -->
         <main class="rules-content" id="rules-content-area">
-            <!-- JS will inject rules here -->
+            <p style="text-align:center; color:#666;">Loading Rulebook...</p>
         </main>
     </div>
 
-    <!-- FOOTER -->
     <footer class="global-footer">
-        <div class="footer-links">
-            <a href="index.html">Home</a> | <a href="contact.html">Contact</a>
-        </div>
-        <div class="disclaimer"><p>&copy; 2025 Eight RP Team. All Rights Reserved.</p></div>
+        <div class="disclaimer"><p>&copy; 2025 Eight RP Team.</p></div>
     </footer>
 
-    <!-- LOGIC SCRIPTS -->
-    <script src="js/script.js"></script> <!-- General Site Logic -->
-    <script type="module" src="js/rules.js"></script> <!-- Specific Rules Logic -->
+    <!-- LOGIC -->
+    <script src="js/script.js"></script>
+    <script type="module">
+        import { supabase } from './js/supabase.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Fetch Categories
+            const { data: categories } = await supabase.from('categories').select('*').order('order_index', { ascending: true });
+            
+            // 2. Fetch Rules
+            const { data: rules } = await supabase.from('rules').select('*');
+
+            // 3. Build UI
+            const tabContainer = document.getElementById('dynamic-tabs');
+            tabContainer.innerHTML = "";
+
+            if (categories && categories.length > 0) {
+                categories.forEach((cat, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = `rule-tab ${index === 0 ? 'active' : ''}`;
+                    btn.innerText = cat.name;
+                    btn.onclick = () => switchCategory(cat.slug, rules, cat.name, btn);
+                    tabContainer.appendChild(btn);
+                });
+
+                // Load first tab
+                renderCategory(categories[0].slug, rules, categories[0].name);
+            } else {
+                tabContainer.innerHTML = "<p>No categories found.</p>";
+            }
+        });
+
+        function renderCategory(slug, allRules, title) {
+            const container = document.getElementById('rules-content-area');
+            const filtered = allRules.filter(r => r.category_slug === slug);
+            
+            let html = `<h2 class="rule-head reveal active">${title}</h2>`;
+            
+            if (filtered.length === 0) {
+                html += `<div class="rule-box reveal active"><p>No rules added yet.</p></div>`;
+            } else {
+                filtered.forEach(rule => {
+                    html += `
+                        <div class="rule-box reveal active">
+                            <h4>${rule.title}</h4>
+                            <p>${rule.content}</p>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        function switchCategory(slug, allRules, title, btn) {
+            document.querySelectorAll('.rule-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderCategory(slug, allRules, title);
+            
+            if(window.innerWidth < 768) {
+                document.getElementById('rules-content-area').scrollIntoView({behavior:'smooth'});
+            }
+        }
+    </script>
 </body>
-              </html>
+</html>
