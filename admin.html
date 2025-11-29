@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Panel - Eight RP</title>
-    
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Admin CSS -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
-    <!-- === TOAST NOTIFICATIONS === -->
     <div id="toast-container"></div>
     <div class="mobile-overlay" onclick="toggleAdminMenu()"></div>
 
-    <!-- === CUSTOM CONFIRMATION MODAL === -->
+    <!-- CUSTOM CONFIRM MODAL -->
     <div id="confirm-modal" class="modal-overlay" style="z-index: 6000;">
         <div class="confirm-box">
             <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
@@ -31,191 +26,159 @@
         </div>
     </div>
 
-    <!-- === EDIT PLAYER MODAL === -->
+    <!-- EDIT PLAYER MODAL -->
     <div id="edit-modal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3>Edit Database Record</h3>
-                <i class="fa-solid fa-xmark" onclick="closeModal()"></i>
-            </div>
-            <form onsubmit="event.preventDefault(); savePlayerChanges();">
+            <div class="modal-header"><h3>Edit Player</h3><i class="fa-solid fa-xmark" onclick="closeModal()"></i></div>
+            <form onsubmit="event.preventDefault(); window.savePlayerChanges();">
                 <input type="hidden" id="edit-id">
                 <div class="form-grid">
-                    <div class="input-wrapper">
-                        <label>Username</label>
-                        <input type="text" id="edit-name" required>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Cash Balance ($)</label>
-                        <input type="number" id="edit-money" required>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Player Level</label>
-                        <input type="number" id="edit-level" required>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Admin Level (0-11)</label>
-                        <input type="number" id="edit-admin" min="0" max="11" required>
-                    </div>
+                    <div class="input-wrapper"><label>Username</label><input type="text" id="edit-name" required></div>
+                    <div class="input-wrapper"><label>Cash ($)</label><input type="number" id="edit-money" required></div>
+                    <div class="input-wrapper"><label>Level</label><input type="number" id="edit-level" required></div>
+                    <div class="input-wrapper"><label>Admin Lvl</label><input type="number" id="edit-admin" min="0" max="11" required></div>
                 </div>
-                <button type="submit" class="btn-save">Save Changes to MySQL</button>
+                <button type="submit" class="btn-save">Save MySQL</button>
             </form>
         </div>
     </div>
 
-    <!-- === LOGIN SCREEN === -->
+    <!-- LOGIN -->
     <div id="login-view" class="login-wrapper">
         <div class="login-card">
-            <div class="login-header">
-                <h2>EIGHT<span class="highlight">RP</span></h2>
-                <p class="subtitle">DATABASE ACCESS</p>
-            </div>
-            <form onsubmit="event.preventDefault(); attemptLogin();">
-                <div class="input-group">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <input type="text" id="username" placeholder="Admin ID" required autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-key"></i>
-                    <input type="password" id="password" placeholder="Secure Key" required>
-                </div>
-                <button type="submit" class="login-btn">AUTHENTICATE <i class="fa-solid fa-arrow-right"></i></button>
-                <p id="error-msg" class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> Invalid Credentials</p>
+            <div class="login-header"><h2>EIGHT<span class="highlight">RP</span></h2><p class="subtitle">ADMIN GATEWAY</p></div>
+            <form onsubmit="event.preventDefault(); window.attemptLogin();">
+                <div class="input-group"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="Admin ID" required></div>
+                <div class="input-group"><i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Secure Key" required></div>
+                <button type="submit" class="login-btn">AUTHENTICATE</button>
+                <p id="error-msg" class="error-text">Invalid Credentials</p>
             </form>
         </div>
-        <div class="login-footer">&copy; 2024 Eight Roleplay Systems</div>
     </div>
 
-    <!-- === MAIN DASHBOARD LAYOUT === -->
+    <!-- DASHBOARD -->
     <div id="dashboard-layout" class="dashboard-layout" style="display: none;">
         
-        <!-- Mobile Header -->
         <header class="mobile-header">
             <div class="brand-mobile">EIGHT<span>PANEL</span></div>
-            <button class="menu-toggle" onclick="toggleAdminMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <button class="menu-toggle" onclick="toggleAdminMenu()"><i class="fa-solid fa-bars"></i></button>
         </header>
 
-        <!-- Sidebar Navigation -->
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="adminSidebar">
             <div class="sidebar-header">
                 <div class="brand">EIGHT<span>PANEL</span></div>
                 <i class="fa-solid fa-xmark close-sidebar" onclick="toggleAdminMenu()"></i>
             </div>
-            
             <nav class="side-nav">
-                <div class="nav-label">Management</div>
-                <a onclick="switchTab('players')" class="nav-item active" id="nav-players">
-                    <i class="fa-solid fa-users"></i> User Database
-                </a>
-                <a onclick="switchTab('admins')" class="nav-item" id="nav-admins">
-                    <i class="fa-solid fa-user-shield"></i> Administrators
-                </a>
+                <div class="nav-label">Database</div>
+                <a onclick="switchTab('players')" class="nav-item active" id="nav-players"><i class="fa-solid fa-users"></i> Players</a>
+                <a onclick="switchTab('admins')" class="nav-item" id="nav-admins"><i class="fa-solid fa-user-shield"></i> Admins</a>
                 
-                <div class="nav-label">System</div>
-                <a onclick="switchTab('status')" class="nav-item" id="nav-status">
-                    <i class="fa-solid fa-server"></i> Server Health
-                </a>
-                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs">
-                    <i class="fa-solid fa-terminal"></i> Live Logs
-                </a>
-            </nav>
+                <!-- NEW RULES TAB -->
+                <a onclick="switchTab('rules')" class="nav-item" id="nav-rules"><i class="fa-solid fa-book"></i> Manage Rules</a>
 
+                <div class="nav-label">System</div>
+                <a onclick="switchTab('status')" class="nav-item" id="nav-status"><i class="fa-solid fa-server"></i> Server Health</a>
+                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs"><i class="fa-solid fa-terminal"></i> Live Logs</a>
+            </nav>
             <div class="user-profile">
-                <div class="avatar" id="admin-avatar-display">A</div>
-                <div class="info">
-                    <span class="name" id="admin-name-display">Super User</span>
-                    <span class="role" id="admin-role-display">Owner</span>
-                </div>
+                <div class="avatar">A</div>
+                <div class="info"><span class="name">Super User</span><span class="role">Owner</span></div>
                 <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </aside>
 
-        <!-- Content Area -->
+        <!-- CONTENT -->
         <main class="content-area">
             
-            <!-- VIEW 1: PLAYERS (Normal Users) -->
+            <!-- VIEW 1: PLAYERS -->
             <section id="view-players" class="tab-view">
-                <header class="top-bar"><h1 class="page-title">User Management</h1></header>
+                <header class="top-bar"><h1 class="page-title">Player Management</h1></header>
                 <div class="table-container">
-                    <div class="table-toolbar">
-                        <h3><i class="fa-solid fa-database"></i> MySQL Records</h3>
-                    </div>
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>UID</th>
-                                    <th>Username</th>
-                                    <th>Stats</th>
-                                    <th>Status</th>
-                                    <th style="text-align: right;">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="player-table-body">
-                                <!-- JS Injects Database Rows Here -->
-                            </tbody>
+                            <thead><tr><th>UID</th><th>Username</th><th>Stats</th><th>Status</th><th style="text-align: right;">Actions</th></tr></thead>
+                            <tbody id="player-table-body"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- VIEW 2: ADMINS (Staff Management) -->
+            <!-- VIEW 2: ADMINS -->
             <section id="view-admins" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">Staff Management</h1></header>
+                <header class="top-bar"><h1 class="page-title">Staff Team</h1></header>
                 <div class="table-container" style="border-color: var(--primary);">
-                    <div class="table-toolbar">
-                        <h3><i class="fa-solid fa-crown"></i> Staff Team</h3>
-                    </div>
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>UID</th>
-                                    <th>Admin Name</th>
-                                    <th>Rank Title</th>
-                                    <th>Level</th>
-                                    <th style="text-align: right;">Promote / Demote</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-table-body">
-                                <!-- JS Injects Admin Rows Here -->
-                            </tbody>
+                            <thead><tr><th>UID</th><th>Name</th><th>Rank</th><th>Level</th><th style="text-align: right;">Manage</th></tr></thead>
+                            <tbody id="admin-table-body"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- VIEW 3: SERVER STATUS -->
+            <!-- VIEW 3: RULES (SUPABASE) -->
+            <section id="view-rules" class="tab-view" style="display:none;">
+                <header class="top-bar"><h1 class="page-title">Project Rules</h1></header>
+                
+                <div class="legal-box" style="margin-bottom:30px;">
+                    <h3 style="margin-bottom:15px; color:white;">Add Rule</h3>
+                    <form onsubmit="event.preventDefault(); window.addRule();">
+                        <div class="form-grid">
+                            <div class="input-wrapper">
+                                <label>Category</label>
+                                <select id="rule-category" style="width:100%; background:#000; border:var(--border); color:white; padding:12px; border-radius:6px;">
+                                    <option value="general">General</option>
+                                    <option value="roleplay">Roleplay</option>
+                                    <option value="crimes">Crimes</option>
+                                    <option value="zones">Safe Zones</option>
+                                    <option value="admin">Admin Rules</option>
+                                </select>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>Title</label>
+                                <input type="text" id="rule-title" placeholder="e.g. 1.1 Respect" required>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Content</label>
+                            <textarea id="rule-content" rows="3" style="width:100%; background:#000; border:var(--border); color:white; padding:10px; border-radius:4px;" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-save">Add Rule</button>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-toolbar"><h3>Current Rules</h3></div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>Cat</th><th>Title</th><th>Content</th><th style="text-align:right;">Action</th></tr></thead>
+                            <tbody id="rules-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: STATUS -->
             <section id="view-status" class="tab-view" style="display:none;">
                 <header class="top-bar"><h1 class="page-title">System Health</h1></header>
                 <div class="status-grid">
-                    <div class="health-card">
-                        <h3>CPU Load</h3>
-                        <div class="progress-bar"><div class="fill" id="cpu-fill" style="width: 45%"></div></div>
-                        <span class="stat-val" id="cpu-val">45%</span>
-                    </div>
-                    <div class="health-card">
-                        <h3>RAM Usage</h3>
-                        <div class="progress-bar"><div class="fill" id="ram-fill" style="width: 60%; background: #8b5cf6;"></div></div>
-                        <span class="stat-val" id="ram-val">12GB / 32GB</span>
-                    </div>
+                    <div class="health-card"><h3>CPU</h3><div class="progress-bar"><div class="fill" id="cpu-fill" style="width:45%"></div></div><span class="stat-val" id="cpu-val">45%</span></div>
+                    <div class="health-card"><h3>RAM</h3><div class="progress-bar"><div class="fill" id="ram-fill" style="width:60%; background:#8b5cf6;"></div></div><span class="stat-val" id="ram-val">12GB</span></div>
                 </div>
             </section>
 
-            <!-- VIEW 4: LOGS -->
+            <!-- VIEW 5: LOGS -->
             <section id="view-logs" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">System Logs</h1></header>
-                <div class="terminal-window" id="log-window">
-                    <div class="log-line"><span class="time">[SYSTEM]</span> Establishing secure connection...</div>
-                    <div class="log-line"><span class="time">[SYSTEM]</span> Connected to Database.</div>
-                </div>
+                <header class="top-bar"><h1 class="page-title">Logs</h1></header>
+                <div class="terminal-window" id="log-window"><div class="log-line">System initialized...</div></div>
             </section>
 
         </main>
     </div>
 
-    <script src="js/admin.js"></script>
+    <!-- TYPE MODULE REQUIRED FOR SUPABASE -->
+    <script type="module" src="js/admin.js"></script>
 </body>
-</html>
+                                                                     </html>
