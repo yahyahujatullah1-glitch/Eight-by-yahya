@@ -268,9 +268,16 @@ header h1 span { color: var(--primary); }
 .social-text span { font-size: 12px; opacity: 0.8; text-transform: uppercase; }
 .arrow-btn { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 50%; font-size: 14px; }
 
-.tiktok-card { background: linear-gradient(135deg, #000000, #252525); border-left: 5px solid #ff0050; }
+/* Card Gradients */
+
+/* Changed from TikTok to YouTube */
+.youtube-card { 
+    background: linear-gradient(135deg, #000000, #1a1a1a); 
+    border-left: 5px solid #FF0000; /* YouTube Red */
+}
+
 .insta-card { background: linear-gradient(135deg, #405de6, #833ab4, #c13584); }
-.discord-card { background: linear-gradient(135deg, #5865F2, #4752c4); }
+.discord-card { background: linear-gradient(135deg, #5865F2, #4752c4); } 
 
 /* =========================================
    8. PAGES (Rules, Legal)
