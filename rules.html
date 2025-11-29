@@ -59,9 +59,7 @@
     <footer class="global-footer">
         <div class="disclaimer"><p>&copy; 2025 Eight RP Team.</p></div>
     </footer>
-
-    <!-- LOGIC -->
-    <script src="js/script.js"></script>
+<!-- LOGIC -->
     <script type="module">
         import { supabase } from './js/supabase.js';
 
@@ -94,7 +92,8 @@
 
         function renderCategory(slug, allRules, title) {
             const container = document.getElementById('rules-content-area');
-            const filtered = allRules.filter(r => r.category_slug === slug);
+            // UPDATED: Check 'category' column instead of 'category_slug'
+            const filtered = allRules.filter(r => r.category === slug);
             
             let html = `<h2 class="rule-head reveal active">${title}</h2>`;
             
