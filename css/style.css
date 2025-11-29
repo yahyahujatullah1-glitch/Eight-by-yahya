@@ -270,14 +270,19 @@ header h1 span { color: var(--primary); }
 
 /* Card Gradients */
 
-/* Changed from TikTok to YouTube */
+/* Card Gradients */
+
+/* 1. YouTube Card (Updated to Professional Red) */
 .youtube-card { 
-    background: linear-gradient(135deg, #000000, #1a1a1a); 
-    border-left: 5px solid #FF0000; /* YouTube Red */
+    background: linear-gradient(135deg, #c4302b, #ff0000, #ff4b4b); 
+    border-left: 5px solid #ffffff; /* White accent for contrast */
 }
 
+/* 2. Instagram Card (Keep as is) */
 .insta-card { background: linear-gradient(135deg, #405de6, #833ab4, #c13584); }
-.discord-card { background: linear-gradient(135deg, #5865F2, #4752c4); } 
+
+/* 3. Discord Card (Keep as is) */
+.discord-card { background: linear-gradient(135deg, #5865F2, #4752c4); }
 
 /* =========================================
    8. PAGES (Rules, Legal)
