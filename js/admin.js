@@ -202,14 +202,20 @@ window.addRule = async function() {
     const title = document.getElementById('rule-title').value;
     const content = document.getElementById('rule-content').value;
 
-    const { error } = await supabase.from('rules').insert([{ category_slug, title, content }]);
+    console.log("Attempting to add rule:", { category_slug, title, content });
 
-    if (error) showToast("Error adding rule", "red");
-    else {
-        showToast("Rule Added");
-        renderRulesTable();
+    const { data, error } = await supabase
+        .from('rules')
+        .insert([{ category_slug, title, content }]);
+
+    if (error) {
+        console.error("SUPABASE ERROR:", error); // Check Console (F12) for this!
+        showToast("Error: " + error.message, "red");
+    } else {
+        showToast("Rule Added Successfully");
         document.getElementById('rule-title').value = "";
         document.getElementById('rule-content').value = "";
+        renderRulesTable();
     }
 }
 
