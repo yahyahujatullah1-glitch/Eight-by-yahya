@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EIGHT RP - The Future of Mobile Roleplay</title>
+    <meta name="description" content="The most immersive Mobile GTA 5 Roleplay server.">
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,7 +18,7 @@
     <!-- MOBILE MENU OVERLAY -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
-    <!-- SIDEBAR MENU -->
+    <!-- SIDEBAR MENU (Mobile) -->
     <div class="side-menu" id="sideMenu">
         <div class="side-header">
             <span>MENU</span>
@@ -24,6 +27,7 @@
         <div class="side-links">
             <div class="menu-label">Navigation</div>
             <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="rules.html"><i class="fa-solid fa-book-open"></i> Project Rules</a> <!-- NEW LINK -->
             <a href="#features"><i class="fa-solid fa-star"></i> Features</a>
             <a href="#factions"><i class="fa-solid fa-users"></i> Paths</a>
             <a href="#roadmap"><i class="fa-solid fa-map"></i> Roadmap</a>
@@ -38,16 +42,15 @@
 
     <!-- NAVBAR -->
     <nav>
-        <a href="index.html" class="logo-container">
-            <!-- Added "glitch-hover" class here -->
-            <span class="logo-main glitch-hover">EIGHT</span>
-            <span class="logo-sub">ROLEPLAY</span>
+        <!-- 1. UPDATED IMAGE LOGO -->
+        <a href="index.html" class="logo-img-wrap">
+            <img src="https://i.ibb.co/3m8R27Q/1764065611411.png" alt="Eight RP Logo" class="nav-logo">
         </a>
         
         <div class="nav-links desktop-only">
             <a href="index.html" class="active">Home</a>
+            <a href="rules.html">Rules</a> <!-- NEW LINK -->
             <a href="#features">Features</a>
-            <a href="#factions">Factions</a>
             <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="discord-btn">
                 <i class="fa-brands fa-discord"></i> Discord
             </a>
@@ -60,7 +63,7 @@
 
     <!-- HERO HEADER -->
     <header>
-        <!-- Particle Effect Layer -->
+        <!-- Particle Effect -->
         <div class="particles"></div>
         <div class="hero-overlay"></div>
         
@@ -78,7 +81,7 @@
         </div>
     </header>
 
-    <!-- FEATURES -->
+    <!-- FEATURES SECTION -->
     <section id="features" class="section-pad bg-yellow clip-angle">
         <div class="container">
             <h2 class="section-title dark-text reveal">Why Choose Eight RP?</h2>
@@ -102,9 +105,119 @@
         </div>
     </section>
 
-    <!-- FACTIONS -->
+    <!-- FACTIONS SECTION -->
     <section id="factions" class="section-pad">
         <div class="container">
+            <h2 class="section-title center reveal">Choose Your Path</h2>
+            <div class="grid-3 reveal">
+                <!-- Card 1 -->
+                <div class="faction-box">
+                    <div class="img-wrap" style="background-image: url('https://i.ibb.co/Jjy78DSC/1764062528770.png')"></div>
+                    <div class="txt-wrap"><h3>STATE</h3><p>Join the BPD or LVPD to maintain law & order.</p></div>
+                </div>
+                <!-- Card 2 -->
+                <div class="faction-box">
+                    <div class="img-wrap" style="background-image: url('https://i.ibb.co/Q7ybsxpK/1764062542549.png')"></div>
+                    <div class="txt-wrap"><h3>Hoods</h3><p>Rule the crime in your way. Takeover all the businesses.</p></div>
+                </div>
+                <!-- Card 3 -->
+                <div class="faction-box">
+                    <div class="img-wrap" style="background-image: url('https://i.ibb.co/pB15zcH0/1764062447563.png')"></div>
+                    <div class="txt-wrap"><h3>Citizen</h3><p>Build a business empire and get rich.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROADMAP SECTION -->
+    <section id="roadmap" class="section-pad bg-gradient">
+        <div class="container">
+            <h2 class="section-title center reveal">Roadmap</h2>
+            <div class="timeline reveal">
+                <div class="time-item left"><div class="time-content completed"><h3>Phase 1</h3><p>Core Selection (Done)</p></div></div>
+                <div class="time-item right"><div class="time-content completed"><h3>Phase 2</h3><p>Mechanics (Current)</p></div></div>
+                <div class="time-item left"><div class="time-content"><h3>Phase 3</h3><p>Beta Testing</p></div></div>
+                <div class="time-item right"><div class="time-content"><h3>Phase 4</h3><p>Grand Launch</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section id="team" class="section-pad">
+        <div class="container">
+            <h2 class="section-title center reveal">The Team</h2>
+            <div class="team-grid reveal">
+                <div class="member-card"><div class="role">Curator</div><div class="name">Sharma Ji</div></div>
+                <div class="member-card"><div class="role">Head Dev</div><div class="name">Edgar</div></div>
+                <div class="member-card"><div class="role">Head Dev</div><div class="name">Noone</div></div>
+                <div class="member-card"><div class="role">Dev</div><div class="name">Yahya</div></div>
+                <div class="member-card"><div class="role">Dev</div><div class="name">mesaii</div></div>
+                <div class="member-card"><div class="role">Dev</div><div class="name">Behead</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. REDESIGNED SOCIAL HUB (Trevor Background) -->
+    <section class="social-hub-section">
+        <!-- Background Character (Centered) -->
+        <img src="https://i.ibb.co/3msSZjkp/1764005043430-removebg-preview.png" class="bg-char-center">
+        
+        <div class="container social-container reveal">
+            <h2 class="section-title center" style="margin-bottom:10px;">Join The Community</h2>
+            <p style="text-align:center; color:#ccc; margin-bottom:40px;">Stay updated with the latest news, giveaways, and leaks!</p>
+            
+            <div class="social-big-grid">
+                <!-- TikTok -->
+                <a href="#" target="_blank" class="social-big-card tiktok-card">
+                    <div class="social-left">
+                        <i class="fa-brands fa-tiktok social-icon-big"></i>
+                        <div class="social-text">
+                            <h4>TikTok</h4>
+                            <span>11,000+ Subscribers</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square arrow-btn"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/eight.rp" target="_blank" class="social-big-card insta-card">
+                    <div class="social-left">
+                        <i class="fa-brands fa-instagram social-icon-big"></i>
+                        <div class="social-text">
+                            <h4>Instagram</h4>
+                            <span>4,000+ Followers</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square arrow-btn"></i>
+                </a>
+
+                <!-- Discord -->
+                <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="social-big-card discord-card">
+                    <div class="social-left">
+                        <i class="fa-brands fa-discord social-icon-big"></i>
+                        <div class="social-text">
+                            <h4>Discord</h4>
+                            <span>Join the Server</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square arrow-btn"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GLOBAL FOOTER -->
+    <footer class="global-footer">
+        <div class="footer-links">
+            <a href="rules.html">Rules</a> | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="contact.html">Contact</a>
+        </div>
+        <div class="disclaimer"><p>&copy; 2025 Eight RP Team. All Rights Reserved.</p></div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script src="js/script.js"></script>
+</body>
+</html>        <div class="container">
             <h2 class="section-title center reveal">Choose Your Path</h2>
             <div class="grid-3 reveal">
                 <div class="faction-box">
