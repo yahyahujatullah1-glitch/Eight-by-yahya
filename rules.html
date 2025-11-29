@@ -1,1 +1,88 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Rules - Eight RP</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- SIDEBAR MENU (Mobile) -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-header">
+            <span>MENU</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i>
+        </div>
+        <div class="side-links">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="rules.html" class="active"><i class="fa-solid fa-book-open"></i> Project Rules</a>
+            <a href="index.html#features"><i class="fa-solid fa-star"></i> Features</a>
+            <div class="menu-label">Legal</div>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="logo-img-wrap">
+            <img src="https://i.ibb.co/3m8R27Q/1764065611411.png" alt="Eight RP Logo" class="nav-logo">
+        </a>
+        <div class="nav-links desktop-only">
+            <a href="index.html">Back to Home</a>
+            <a href="rules.html" class="active" style="color:var(--primary)">Rules</a>
+        </div>
+        <div class="menu-btn mobile-only" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="page-header-wrap">
+        <h1 class="page-title">Project Rules</h1>
+        <p style="color:#888;">Live Rulebook • Last Updated Automatically</p>
+    </div>
+
+    <!-- RULES CONTAINER -->
+    <div class="rules-container">
+        
+        <!-- SIDEBAR TABS (Static Categories) -->
+        <aside class="rules-sidebar">
+            <h3>Table of Contents</h3>
+            <!-- Data-category MUST match the slugs you use in Admin Panel -->
+            <button class="rule-tab" data-category="general">1. General Rules</button>
+            <button class="rule-tab" data-category="roleplay">2. Roleplay Terms</button>
+            <button class="rule-tab" data-category="crimes">3. Criminal Rules</button>
+            <button class="rule-tab" data-category="zones">4. Safe Zones</button>
+            <button class="rule-tab" data-category="admin">5. Admin Rules</button>
+        </aside>
+
+        <!-- DYNAMIC CONTENT AREA -->
+        <main class="rules-content" id="rules-content-area">
+            <!-- JS will inject rules here -->
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="global-footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a> | <a href="contact.html">Contact</a>
+        </div>
+        <div class="disclaimer"><p>&copy; 2025 Eight RP Team. All Rights Reserved.</p></div>
+    </footer>
+
+    <!-- LOGIC SCRIPTS -->
+    <script src="js/script.js"></script> <!-- General Site Logic -->
+    <script type="module" src="js/rules.js"></script> <!-- Specific Rules Logic -->
+</body>
+              </html>
