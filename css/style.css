@@ -86,7 +86,7 @@ nav.scrolled { background: rgba(5, 5, 5, 0.98); box-shadow: 0 10px 30px rgba(0,0
 
 /* Logo Image Wrapper */
 .logo-img-wrap { display: flex; align-items: center; height: 100%; }
-.nav-logo { height: 45px; width: auto; object-fit: contain; transition: transform 0.3s; }
+.nav-logo { height: 65px; width: auto; object-fit: contain; transition: transform 0.3s; }
 .logo-img-wrap:hover .nav-logo { transform: scale(1.05); }
 
 .nav-links { display: flex; gap: 30px; align-items: center; }
@@ -312,7 +312,7 @@ header h1 span { color: var(--primary); }
     /* 1. Navbar */
     .nav-links.desktop-only { display: none; }
     .menu-btn { display: block; }
-    .nav-logo { height: 35px; }
+    .nav-logo { height: 50px; }
 
     /* 2. Hero */
     header { padding-top: 80px; min-height: 90vh; }
