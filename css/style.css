@@ -196,7 +196,7 @@ header h1 span { color: var(--primary); }
     top: 0; height: 0; left: 50%; margin-left: -2px; z-index: 1; border-radius: 4px;
     transition: height 2.5s ease-in-out;
 }
-.timeline.animate-line::after { height: 50%; }
+.timeline.animate-line::after { height: 40%; }
 
 /* Items */
 .time-item { 
