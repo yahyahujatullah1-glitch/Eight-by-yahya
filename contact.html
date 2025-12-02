@@ -14,13 +14,35 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Toast Styles (Embedded for this page) -->
+    <style>
+        #toast-box {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #18181b; color: white;
+            padding: 15px 25px; border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            transform: translateY(100px); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 9999; display: flex; align-items: center; gap: 15px;
+            font-family: var(--font-body); font-size: 14px; font-weight: 600;
+        }
+        #toast-box.show { transform: translateY(0); opacity: 1; }
+        #toast-box i { color: var(--primary); font-size: 18px; }
+        #toast-box.error { border-left-color: #ef4444; }
+        #toast-box.error i { color: #ef4444; }
+    </style>
 </head>
 <body>
 
-    <!-- === MOBILE MENU OVERLAY === -->
+    <!-- TOAST CONTAINER -->
+    <div id="toast-box"><i class="fa-solid fa-circle-check"></i> <span id="toast-msg">Message Sent</span></div>
+
+    <!-- MOBILE MENU OVERLAY -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
-    <!-- === SIDEBAR MENU === -->
+    <!-- SIDEBAR MENU -->
     <div class="side-menu" id="sideMenu">
         <div class="side-header"><span>MENU</span><i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i></div>
         <div class="side-links">
@@ -33,41 +55,34 @@
         </div>
     </div>
 
-    <!-- === NAVIGATION === -->
+    <!-- NAVIGATION -->
     <nav>
-        <!-- UPDATED LOGO -->
         <a href="index.html" class="logo-img-wrap">
             <img src="https://i.ibb.co/5xcxFvrk/1764426582405-removebg-preview-1-2-removebg-preview.png" alt="Eight RP Logo" class="nav-logo">
         </a>
-        
         <div class="nav-links desktop-only">
             <a href="index.html">Back to Home</a>
             <a href="privacy.html">Privacy Policy</a>
         </div>
-        <div class="menu-btn mobile-only" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars-staggered"></i>
-        </div>
+        <div class="menu-btn mobile-only" onclick="toggleMenu()"><i class="fa-solid fa-bars-staggered"></i></div>
     </nav>
 
-    <!-- === CONTENT === -->
+    <!-- CONTENT -->
     <div class="page-header-wrap">
         <h1 class="page-title">Contact Support</h1>
         <p style="color:#666; font-style: italic;">Bans, Bugs, and General Inquiries</p>
     </div>
 
     <div class="container">
-        <!-- Added ID 'contactForm' for JS -->
         <form class="contact-form" id="contactForm" onsubmit="event.preventDefault(); sendMessage();">
             <div class="input-group">
                 <label>In-Game Name / Discord ID</label>
                 <input type="text" id="c-name" placeholder="e.g. User#1234" required>
             </div>
-            
             <div class="input-group">
                 <label>Email Address</label>
                 <input type="email" id="c-email" placeholder="email@example.com" required>
             </div>
-
             <div class="input-group">
                 <label>Subject</label>
                 <select id="c-subject">
@@ -77,17 +92,17 @@
                     <option value="Donation Issue">Donation Issue</option>
                 </select>
             </div>
-
             <div class="input-group">
                 <label>Message</label>
                 <textarea id="c-message" rows="6" placeholder="Describe your issue..." required></textarea>
             </div>
-
-            <button type="submit" class="btn btn-primary full-width" id="sendBtn">Send Message</button>
+            <button type="submit" class="btn btn-primary full-width" id="sendBtn">
+                <span>Send Message</span> <i class="fa-solid fa-paper-plane"></i>
+            </button>
         </form>
     </div>
 
-    <!-- === FOOTER === -->
+    <!-- FOOTER -->
     <footer class="global-footer">
         <div class="footer-links">
             <a href="index.html">Home</a> | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a>
@@ -97,24 +112,45 @@
 
     <script src="js/script.js"></script>
 
-    <!-- CONTACT LOGIC -->
+    <!-- LOGIC -->
     <script>
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast-box');
+            const msg = document.getElementById('toast-msg');
+            const icon = toast.querySelector('i');
+
+            msg.innerText = message;
+            
+            if (type === 'error') {
+                toast.classList.add('error');
+                icon.className = 'fa-solid fa-circle-exclamation';
+            } else {
+                toast.classList.remove('error');
+                icon.className = 'fa-solid fa-circle-check';
+            }
+
+            toast.classList.add('show');
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
         async function sendMessage() {
             const btn = document.getElementById('sendBtn');
-            const originalText = btn.innerText;
+            const originalContent = btn.innerHTML;
             
-            // 1. Get Values
             const name = document.getElementById('c-name').value;
             const email = document.getElementById('c-email').value;
             const subject = document.getElementById('c-subject').value;
             const message = document.getElementById('c-message').value;
 
-            // 2. Show Loading
-            btn.innerText = "Sending...";
+            // Loading State
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
             btn.disabled = true;
             btn.style.opacity = "0.7";
 
-            // 3. Send to API
             try {
                 const response = await fetch('/api/contact', {
                     method: 'POST',
@@ -123,18 +159,18 @@
                 });
 
                 if (response.ok) {
-                    alert("Message Sent! We will check it shortly.");
+                    showToast("Message sent successfully!");
                     document.getElementById('contactForm').reset();
                 } else {
-                    alert("Error sending message. Please try again.");
+                    showToast("Failed to send message.", "error");
                 }
             } catch (error) {
                 console.error(error);
-                alert("Failed to connect to server.");
+                showToast("Connection Error.", "error");
             }
 
-            // 4. Reset Button
-            btn.innerText = originalText;
+            // Reset Button
+            btn.innerHTML = originalContent;
             btn.disabled = false;
             btn.style.opacity = "1";
         }
