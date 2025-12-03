@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /css/
+Allow: /js/
+Disallow: /admin
+
+Sitemap: https://eight-rp.vercel.app/sitemap.xml
+Host: https://eight-rp.vercel.app
