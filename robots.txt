@@ -1,8 +1,10 @@
 User-agent: *
 Allow: /
-Allow: /css/
-Allow: /js/
-Disallow: /admin
 
+# Prevent Google from indexing the Admin Panel
+Disallow: /admin.html
+Disallow: /js/admin.js
+Disallow: /css/admin.css
+
+# Explicitly point to the Sitemap
 Sitemap: https://eight-rp.vercel.app/sitemap.xml
-Host: https://eight-rp.vercel.app
