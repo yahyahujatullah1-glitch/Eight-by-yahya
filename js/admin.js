@@ -1,7 +1,7 @@
 import { supabase } from './supabase.js';
 
 // --- CONFIG ---
-const CREDENTIALS = { user: "eight@admin", pass: "eight123" };
+const CREDENTIALS = { user: "eight@admin", pass: "eight123453" };
 let db = []; // MySQL Data
 
 const ADMIN_RANKS = {
