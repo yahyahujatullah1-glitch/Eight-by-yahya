@@ -3,86 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Rules - Eight RP</title>
+    <title>Rules - Star City RP</title>
+    <link rel="icon" href="https://i.ibb.co/3m8R27Q/1764065611411.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- MOBILE MENU -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
     <div class="side-menu" id="sideMenu">
         <div class="side-header"><span>MENU</span><i class="fa-solid fa-xmark close-btn" onclick="toggleMenu()"></i></div>
         <div class="side-links">
-            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="rules.html" class="active"><i class="fa-solid fa-book-open"></i> Project Rules</a>
+            <a href="index.html">Home</a>
             <a href="contact.html">Contact</a>
         </div>
     </div>
 
-    <!-- NAVBAR -->
     <nav>
-        <a href="index.html" class="logo-img-wrap">
-            <img src="https://i.ibb.co/5xcxFvrk/1764426582405-removebg-preview-1-2-removebg-preview.png" alt="Logo" class="nav-logo">
-        </a>
-        <div class="nav-links desktop-only">
-            <a href="index.html">Home</a>
-            <a href="rules.html" class="active" style="color:var(--primary)">Rules</a>
-        </div>
+        <a href="index.html" class="logo-img-wrap"><img src="https://i.ibb.co/5xcxFvrk/1764426582405-removebg-preview-1-2-removebg-preview.png" alt="Logo" class="nav-logo"></a>
+        <div class="nav-links desktop-only"><a href="index.html">Back to Home</a></div>
         <div class="menu-btn mobile-only" onclick="toggleMenu()"><i class="fa-solid fa-bars-staggered"></i></div>
     </nav>
 
-    <!-- HEADER -->
-    <div class="page-header-wrap">
-        <h1 class="page-title">Project Rules</h1>
-        <p style="color:#888;">Live Rulebook • Updated Automatically</p>
-    </div>
+    <div class="page-header-wrap"><h1 class="page-title">Rulebook</h1></div>
 
-    <!-- RULES CONTAINER -->
     <div class="rules-container">
-        
-        <!-- SIDEBAR (Dynamic) -->
         <aside class="rules-sidebar">
-            <h3>Table of Contents</h3>
-            <div id="dynamic-tabs">
-                <p style="color:#666; font-size:12px;">Loading Categories...</p>
-            </div>
+            <h3>Categories</h3>
+            <div id="dynamic-tabs"><p>Loading...</p></div>
         </aside>
-
-        <!-- CONTENT (Dynamic) -->
-        <main class="rules-content" id="rules-content-area">
-            <p style="text-align:center; color:#666;">Loading Rulebook...</p>
-        </main>
+        <main class="rules-content" id="rules-content-area"><p>Select a category.</p></main>
     </div>
 
-    <footer class="global-footer">
-        <div class="disclaimer"><p>&copy; 2025 Eight RP Team.</p></div>
-    </footer>
-<<!-- LOGIC -->
-    <script src="js/script.js"></script> <!-- General Logic -->
-    
+    <footer class="global-footer"><div class="disclaimer"><p>&copy; 2025 Star City RP.</p></div></footer>
+
+    <script src="js/script.js"></script>
     <script type="module">
         import { supabase } from './js/supabase.js';
-
-        // 1. MAKE MENU TOGGLE GLOBAL (Fix for Mobile Menu)
-        window.toggleMenu = function() {
-            const menu = document.getElementById('sideMenu');
-            const overlay = document.querySelector('.menu-overlay');
-            if (menu && overlay) {
-                menu.classList.toggle('open');
-                overlay.classList.toggle('active');
-            }
-        };
-
-        // 2. Fetch Data
+        // ... (Paste same script from previous rules.html response here for fetching rules) ...
+        // OR Ensure you have the code that fetches rules from supabase here.
+        
         document.addEventListener('DOMContentLoaded', async () => {
-            // Fetch Categories
             const { data: categories } = await supabase.from('categories').select('*').order('order_index', { ascending: true });
-            // Fetch Rules
             const { data: rules } = await supabase.from('rules').select('*');
-
-            // Build UI
             const tabContainer = document.getElementById('dynamic-tabs');
             tabContainer.innerHTML = "";
 
@@ -94,49 +58,23 @@
                     btn.onclick = () => switchCategory(cat.slug, rules, cat.name, btn);
                     tabContainer.appendChild(btn);
                 });
-
-                // Load first tab
                 renderCategory(categories[0].slug, rules, categories[0].name);
-            } else {
-                tabContainer.innerHTML = "<p>No categories found.</p>";
             }
         });
 
-        // 3. Render Function
         function renderCategory(slug, allRules, title) {
             const container = document.getElementById('rules-content-area');
             const filtered = allRules.filter(r => r.category === slug);
-            
             let html = `<h2 class="rule-head reveal active">${title}</h2>`;
-            
-            if (filtered.length === 0) {
-                html += `<div class="rule-box reveal active"><p>No rules added yet.</p></div>`;
-            } else {
-                filtered.forEach(rule => {
-                    html += `
-                        <div class="rule-box reveal active">
-                            <h4>${rule.title}</h4>
-                            <p>${rule.content}</p>
-                        </div>
-                    `;
-                });
-            }
+            filtered.forEach(rule => { html += `<div class="rule-box reveal active"><h4>${rule.title}</h4><p>${rule.content}</p></div>`; });
             container.innerHTML = html;
         }
 
-        // 4. Switch Logic
         function switchCategory(slug, allRules, title, btn) {
             document.querySelectorAll('.rule-tab').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             renderCategory(slug, allRules, title);
-            
-            if(window.innerWidth < 768) {
-                document.getElementById('rules-content-area').scrollIntoView({behavior:'smooth'});
-            }
-            
-            // Close menu if open (Mobile UX)
-            const menu = document.getElementById('sideMenu');
-            if (menu.classList.contains('open')) window.toggleMenu();
+            if(window.innerWidth < 768) document.getElementById('rules-content-area').scrollIntoView({behavior:'smooth'});
         }
     </script>
 </body>
