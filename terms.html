@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - Eight RP</title>
+    <title>EIGHT RP</title>
     
-    <!-- Fonts & Icons -->
+    <!-- UPDATED FAVICON -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Fonts & CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -33,16 +34,22 @@
         </div>
     </div>
 
-    <!-- === NAVIGATION === -->
+    <!-- NAVBAR -->
     <nav>
-        <a href="index.html" class="logo-container">
-            <span class="logo-main glitch-hover">EIGHT</span>
-            <span class="logo-sub">ROLEPLAY</span>
+        <a href="index.html" class="logo-img-wrap">
+            <!-- UPDATED IMAGE SOURCE -->
+            <img src="logo.png" alt="Eight RP Logo" class="nav-logo">
         </a>
+        
         <div class="nav-links desktop-only">
-            <a href="index.html">Back to Home</a>
-            <a href="contact.html">Contact Support</a>
+            <a href="index.html">Home</a>
+            <a href="rules.html">Rules</a>
+            <a href="#features">Features</a> <!-- Use #features only on index.html, remove # on others -->
+            <a href="https://discord.gg/DH8g6YfZxW" target="_blank" class="discord-btn">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
         </div>
+
         <div class="menu-btn mobile-only" onclick="toggleMenu()">
             <i class="fa-solid fa-bars-staggered"></i>
         </div>
