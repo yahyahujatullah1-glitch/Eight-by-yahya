@@ -27,7 +27,7 @@ export default async function handler(req, res) {
                     { name: "💬 Message", value: message } // No blockquote, just raw text for clarity
                 ],
                 footer: { 
-                    text: "Eight RP Contact System", 
+                    text: "Star City RP Contact System", 
                     icon_url: "https://i.ibb.co/3m8R27Q/1764065611411.png" 
                 },
                 timestamp: new Date().toISOString()
