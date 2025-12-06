@@ -121,8 +121,7 @@ nav.scrolled { background: rgba(0, 0, 0, 0.98); box-shadow: 0 10px 30px rgba(255
    ========================================= */
 header {
     min-height: 100vh; width: 100%;
-    /* Use the same logo as BG but blurred/darkened or a city image */
-    background: url('https://i.ibb.co/ccjMyYR3/bg.png') center/cover no-repeat; /* Updated to a city bg if available, otherwise reuse logo */
+    background: url('https://i.ibb.co/ccjMyYR3/bg.png') center/cover no-repeat;
     display: flex; align-items: center; justify-content: center; text-align: center;
     position: relative; padding-top: 80px;
 }
@@ -184,7 +183,7 @@ header h1 span { color: var(--primary); }
 .txt-wrap p { font-size: 13px; color: #ccc; }
 
 /* =========================================
-   6. ROADMAP (Fixed Line)
+   6. ROADMAP
    ========================================= */
 .bg-gradient { background: linear-gradient(to bottom, var(--bg-dark), #000); }
 .timeline { position: relative; max-width: 800px; margin: 0 auto; width: 100%; }
@@ -199,7 +198,7 @@ header h1 span { color: var(--primary); }
     top: 0; height: 0; left: 50%; margin-left: -2px; z-index: 1; border-radius: 4px;
     transition: height 2.5s ease-in-out;
 }
-.timeline.animate-line::after { height: 50%; /* Phase 2 */ }
+.timeline.animate-line::after { height: 50%; }
 
 .time-item { 
     padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box;
@@ -231,7 +230,7 @@ header h1 span { color: var(--primary); }
 .completed h3 { color: var(--primary); }
 
 /* =========================================
-   7. SOCIAL HUB
+   7. SOCIAL HUB (UPDATED)
    ========================================= */
 .social-hub-section {
     position: relative; padding: 100px 20px; background: #050505;
@@ -261,10 +260,15 @@ header h1 span { color: var(--primary); }
 .social-text span { font-size: 12px; opacity: 0.8; text-transform: uppercase; }
 .arrow-btn { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 50%; font-size: 14px; }
 
-.tiktok-card { background: linear-gradient(135deg, #000000, #252525); border-left: 5px solid #ff0050; }
+/* SOCIAL CARDS STYLES */
 .youtube-card { background: linear-gradient(135deg, #c4302b, #ff0000, #ff4b4b); border-left: 5px solid #ffffff; }
 .insta-card { background: linear-gradient(135deg, #405de6, #833ab4, #c13584); }
 .discord-card { background: linear-gradient(135deg, #5865F2, #4752c4); }
+
+/* NEW STYLE CARDS */
+.telegram-card { background: linear-gradient(135deg, #229ED9, #0088cc); border-left: 5px solid #ffffff; }
+.facebook-card { background: linear-gradient(135deg, #1877F2, #3b5998); border-left: 5px solid #ffffff; }
+
 
 /* =========================================
    8. FOOTER & PAGES
@@ -299,9 +303,9 @@ header h1 span { color: var(--primary); }
 .rule-box h4 { color: white; font-size: 18px; margin-bottom: 10px; font-family: var(--font-body); }
 .rule-box p { color: #ccc; line-height: 1.6; font-size: 14px; }
 
-/* =================================================================
+/* =========================================
    9. MOBILE & TABLET RESPONSIVENESS FIXES
-   ================================================================= */
+   ========================================= */
 @media (max-width: 768px) {
     .nav-links.desktop-only { display: none; }
     .menu-btn { display: block; }
@@ -316,7 +320,6 @@ header h1 span { color: var(--primary); }
     .section-title { font-size: 40px; }
     .yellow-section { clip-path: none; padding: 60px 20px; margin: 30px 0; }
 
-    /* MOBILE ROADMAP */
     .timeline { margin: 0; padding: 0; width: 100%; }
     .timeline::before, .timeline::after { left: 30px; margin-left: -2px; }
     .time-item { width: 100%; padding-left: 80px; padding-right: 0; margin-bottom: 30px; z-index: 2; }
@@ -324,13 +327,11 @@ header h1 span { color: var(--primary); }
     .time-item::after { left: 22px; right: auto; top: 24px; }
     .time-item.left::after, .time-item.right::after { left: 22px; }
 
-    /* SOCIAL MOBILE */
     .bg-char-center { width: 100%; opacity: 0.2; height: auto; }
     .social-big-card { padding: 20px; }
     .social-icon-big { font-size: 28px; }
     .social-text h4 { font-size: 20px; }
 
-    /* RULES MOBILE */
     .rules-container { flex-direction: column; }
     .rules-sidebar { width: 100%; position: relative; top: 0; margin-bottom: 30px; z-index: 1; }
     .rule-head { font-size: 32px; }
