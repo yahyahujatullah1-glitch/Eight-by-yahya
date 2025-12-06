@@ -4,27 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Panel - Star City RP</title>
-    
-    <!-- Logo -->
     <link rel="icon" href="logo.png" type="image/png">
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
-    <!-- NOTIFICATIONS -->
     <div id="toast-container"></div>
-    <div class="mobile-overlay" onclick="toggleAdminMenu()"></div>
+    <div class="mobile-overlay"></div>
 
-    <!-- =========================
-         MODALS 
-    ========================== -->
-    
     <!-- CONFIRMATION MODAL -->
     <div id="confirm-modal" class="modal-overlay" style="z-index: 6000;">
         <div class="confirm-box">
@@ -32,7 +23,7 @@
             <h3 id="confirm-title">Are you sure?</h3>
             <p id="confirm-text" style="color:#94a3b8; margin-bottom:20px;">This action cannot be undone.</p>
             <div class="confirm-actions">
-                <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+                <button class="btn-cancel" id="confirm-cancel-btn">Cancel</button>
                 <button class="btn-confirm" id="confirm-yes-btn">Confirm</button>
             </div>
         </div>
@@ -43,10 +34,9 @@
         <div class="modal-box">
             <div class="modal-header">
                 <h3>Edit Player</h3>
-                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeModal()"></i>
+                <i class="fa-solid fa-xmark" id="close-edit-btn" style="cursor:pointer;"></i>
             </div>
-            <!-- Using onsubmit to trigger window function -->
-            <form id="edit-form" onsubmit="event.preventDefault(); window.savePlayerChanges();">
+            <form id="edit-form">
                 <input type="hidden" id="edit-id">
                 <div class="form-grid">
                     <div class="input-wrapper"><label>Username</label><input type="text" id="edit-name" required></div>
@@ -59,9 +49,7 @@
         </div>
     </div>
 
-    <!-- =========================
-         LOGIN SCREEN 
-    ========================== -->
+    <!-- LOGIN SCREEN -->
     <div id="login-view" class="login-wrapper">
         <div class="login-card">
             <div class="login-header">
@@ -69,9 +57,7 @@
                 <h2>STAR<span class="highlight">PANEL</span></h2>
                 <p class="subtitle">SECURE ACCESS</p>
             </div>
-            
-            <!-- CRITICAL FIX: onsubmit handles the login trigger -->
-            <form id="login-form" onsubmit="event.preventDefault(); window.attemptLogin();">
+            <form id="login-form">
                 <div class="input-group">
                     <i class="fa-solid fa-user-astronaut"></i>
                     <input type="text" id="username" placeholder="Operator ID" required>
@@ -87,52 +73,35 @@
         <div class="login-footer">&copy; 2025 Star City Systems</div>
     </div>
 
-    <!-- =========================
-         MAIN DASHBOARD 
-    ========================== -->
+    <!-- MAIN DASHBOARD -->
     <div id="dashboard-layout" class="dashboard-layout" style="display: none;">
         
         <!-- SIDEBAR -->
         <aside class="sidebar" id="adminSidebar">
             <div class="sidebar-header">
                 <div class="brand">STAR<span>PANEL</span></div>
-                <i class="fa-solid fa-xmark close-sidebar" onclick="toggleAdminMenu()"></i>
+                <i class="fa-solid fa-xmark" id="close-sidebar-btn"></i>
             </div>
             <nav class="side-nav">
                 <div class="nav-label">Mainframe</div>
-                <a onclick="switchTab('players')" class="nav-item active" id="nav-players">
-                    <i class="fa-solid fa-users"></i> Players
-                </a>
-                <a onclick="switchTab('admins')" class="nav-item" id="nav-admins">
-                    <i class="fa-solid fa-user-shield"></i> Staff
-                </a>
-                <a onclick="switchTab('rules')" class="nav-item" id="nav-rules">
-                    <i class="fa-solid fa-book"></i> Rulebook
-                </a>
+                <a class="nav-item active" id="nav-players" data-tab="players"><i class="fa-solid fa-users"></i> Players</a>
+                <a class="nav-item" id="nav-admins" data-tab="admins"><i class="fa-solid fa-user-shield"></i> Staff</a>
+                <a class="nav-item" id="nav-rules" data-tab="rules"><i class="fa-solid fa-book"></i> Rulebook</a>
                 <div class="nav-label">System</div>
-                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs">
-                    <i class="fa-solid fa-terminal"></i> Console
-                </a>
+                <a class="nav-item" id="nav-logs" data-tab="logs"><i class="fa-solid fa-terminal"></i> Console</a>
             </nav>
             <div class="user-profile">
                 <div class="avatar">A</div>
-                <div class="info">
-                    <span class="name">Administrator</span>
-                    <span class="role">System Root</span>
-                </div>
-                <button class="logout-btn" onclick="logout()" title="Logout">
-                    <i class="fa-solid fa-power-off"></i>
-                </button>
+                <div class="info"><span class="name">Administrator</span><span class="role">System Root</span></div>
+                <button class="logout-btn" id="logout-btn"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </aside>
 
-        <!-- CONTENT AREA -->
+        <!-- CONTENT -->
         <main class="content-area">
             <header class="mobile-header">
                 <div class="brand-mobile">STAR<span>PANEL</span></div>
-                <button class="menu-toggle" onclick="toggleAdminMenu()">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+                <button class="menu-toggle" id="menu-toggle-btn"><i class="fa-solid fa-bars"></i></button>
             </header>
 
             <!-- TAB 1: PLAYERS -->
@@ -141,18 +110,8 @@
                 <div class="table-container">
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>UID</th>
-                                    <th>Username</th>
-                                    <th>Stats</th>
-                                    <th>Status</th>
-                                    <th style="text-align:right;">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="player-table-body">
-                                <!-- JS Populates this -->
-                            </tbody>
+                            <thead><tr><th>UID</th><th>Username</th><th>Stats</th><th>Status</th><th style="text-align:right;">Actions</th></tr></thead>
+                            <tbody id="player-table-body"></tbody>
                         </table>
                     </div>
                 </div>
@@ -164,18 +123,8 @@
                 <div class="table-container" style="border-top: 3px solid var(--primary);">
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>UID</th>
-                                    <th>Name</th>
-                                    <th>Rank</th>
-                                    <th>Level</th>
-                                    <th style="text-align:right;">Manage</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-table-body">
-                                <!-- JS Populates this -->
-                            </tbody>
+                            <thead><tr><th>UID</th><th>Name</th><th>Rank</th><th>Level</th><th style="text-align:right;">Manage</th></tr></thead>
+                            <tbody id="admin-table-body"></tbody>
                         </table>
                     </div>
                 </div>
@@ -184,42 +133,23 @@
             <!-- TAB 3: RULES -->
             <section id="view-rules" class="tab-view" style="display:none;">
                 <header class="top-bar"><h1 class="page-title">Rule Configuration</h1></header>
-                
                 <div class="rules-admin-grid">
-                    <!-- Add Category Form -->
                     <div class="modal-box" style="width:100%; max-width:none;">
                         <h3 style="color:var(--primary); margin-bottom:15px;">New Category</h3>
-                        <form id="cat-form" onsubmit="event.preventDefault(); window.addCategory();">
-                            <div class="input-wrapper">
-                                <label>Name</label>
-                                <input type="text" id="cat-name" placeholder="e.g. General Rules" required>
-                            </div>
-                            <div class="input-wrapper">
-                                <label>Slug</label>
-                                <input type="text" id="cat-slug" placeholder="e.g. general" required>
-                            </div>
+                        <form id="cat-form">
+                            <div class="input-wrapper"><label>Name</label><input type="text" id="cat-name" required></div>
+                            <div class="input-wrapper"><label>Slug</label><input type="text" id="cat-slug" required></div>
                             <button class="btn-save">Create</button>
                         </form>
-                        <!-- Category List -->
                         <div id="category-list" style="margin-top:10px; max-height:100px; overflow-y:auto; border-top:1px solid #334155;"></div>
                     </div>
 
-                    <!-- Add Rule Form -->
                     <div class="modal-box" style="width:100%; max-width:none;">
                         <h3 style="color:white; margin-bottom:15px;">Add Rule</h3>
-                        <form id="rule-form" onsubmit="event.preventDefault(); window.addRule();">
-                            <div class="input-wrapper">
-                                <label>Category</label>
-                                <select id="rule-category-select"></select>
-                            </div>
-                            <div class="input-wrapper">
-                                <label>Title</label>
-                                <input type="text" id="rule-title" placeholder="Rule Title" required>
-                            </div>
-                            <div class="input-wrapper">
-                                <label>Content</label>
-                                <textarea id="rule-content" rows="2" placeholder="Rule Description" required></textarea>
-                            </div>
+                        <form id="rule-form">
+                            <div class="input-wrapper"><label>Category</label><select id="rule-category-select"></select></div>
+                            <div class="input-wrapper"><label>Title</label><input type="text" id="rule-title" required></div>
+                            <div class="input-wrapper"><label>Content</label><textarea id="rule-content" rows="2" required></textarea></div>
                             <button class="btn-save">Add Rule</button>
                         </form>
                     </div>
@@ -228,17 +158,8 @@
                 <div class="table-container">
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Cat</th>
-                                    <th>Title</th>
-                                    <th>Content</th>
-                                    <th style="text-align:right;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="rules-table-body">
-                                <!-- JS Populates this -->
-                            </tbody>
+                            <thead><tr><th>Cat</th><th>Title</th><th>Content</th><th style="text-align:right;">Action</th></tr></thead>
+                            <tbody id="rules-table-body"></tbody>
                         </table>
                     </div>
                 </div>
@@ -248,7 +169,7 @@
             <section id="view-logs" class="tab-view" style="display:none;">
                 <header class="top-bar"><h1 class="page-title">System Logs</h1></header>
                 <div class="terminal-window" id="log-window">
-                    <div class="log-line">System initialized... Waiting for data stream.</div>
+                    <div class="log-line">System initialized...</div>
                     <div class="log-line"><span class="time">[SYSTEM]</span> Connected to Mock Database.</div>
                 </div>
             </section>
@@ -256,7 +177,7 @@
         </main>
     </div>
 
-    <!-- JAVASCRIPT MODULE -->
+    <!-- JAVASCRIPT -->
     <script type="module" src="js/admin.js"></script>
 </body>
-</html>
+                        </html>
