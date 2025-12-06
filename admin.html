@@ -32,7 +32,7 @@
     <div id="edit-modal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header"><h3>Edit Player</h3><i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeModal()"></i></div>
-            <form onsubmit="event.preventDefault(); window.savePlayerChanges();">
+            <form id="edit-form">
                 <input type="hidden" id="edit-id">
                 <div class="form-grid">
                     <div class="input-wrapper"><label>Username</label><input type="text" id="edit-name" required></div>
@@ -53,7 +53,8 @@
                 <h2>STAR<span class="highlight">PANEL</span></h2>
                 <p class="subtitle">SECURE ACCESS</p>
             </div>
-            <form onsubmit="event.preventDefault(); window.attemptLogin();">
+            <!-- FIXED: Added ID, removed inline JS -->
+            <form id="login-form">
                 <div class="input-group"><i class="fa-solid fa-user-astronaut"></i><input type="text" id="username" placeholder="Operator ID" required></div>
                 <div class="input-group"><i class="fa-solid fa-fingerprint"></i><input type="password" id="password" placeholder="Access Key" required></div>
                 <button type="submit" class="login-btn">INITIALIZE SESSION</button>
@@ -118,7 +119,7 @@
                 <div class="rules-admin-grid">
                     <div class="modal-box" style="width:100%; max-width:none;">
                         <h3 style="color:var(--primary); margin-bottom:15px;">New Category</h3>
-                        <form onsubmit="event.preventDefault(); window.addCategory();">
+                        <form id="cat-form">
                             <div class="input-wrapper"><label>Name</label><input type="text" id="cat-name" required></div>
                             <div class="input-wrapper"><label>Slug</label><input type="text" id="cat-slug" required></div>
                             <button class="btn-save">Create</button>
@@ -127,7 +128,7 @@
                     </div>
                     <div class="modal-box" style="width:100%; max-width:none;">
                         <h3 style="color:white; margin-bottom:15px;">Add Rule</h3>
-                        <form onsubmit="event.preventDefault(); window.addRule();">
+                        <form id="rule-form">
                             <div class="input-wrapper"><label>Category</label><select id="rule-category-select"></select></div>
                             <div class="input-wrapper"><label>Title</label><input type="text" id="rule-title" required></div>
                             <div class="input-wrapper"><label>Content</label><textarea id="rule-content" rows="2" required></textarea></div>
@@ -153,4 +154,4 @@
 
     <script type="module" src="js/admin.js"></script>
 </body>
-    </html>
+</html>
