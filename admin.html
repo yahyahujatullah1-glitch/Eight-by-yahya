@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Panel - Star City RP</title>
-    <link rel="icon" href="https://i.ibb.co/23trFmfS/1765013548089-removebg-preview.png" type="image/x-icon">
+    <!-- Logo -->
+    <link rel="icon" href="logo.png" type="image/png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/admin.css">
@@ -19,7 +21,7 @@
         <div class="confirm-box">
             <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
             <h3 id="confirm-title">Are you sure?</h3>
-            <p id="confirm-text">This action cannot be undone.</p>
+            <p id="confirm-text" style="color:#94a3b8; margin-bottom:20px;">This action cannot be undone.</p>
             <div class="confirm-actions">
                 <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
                 <button class="btn-confirm" id="confirm-yes-btn">Confirm</button>
@@ -29,7 +31,7 @@
 
     <div id="edit-modal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-header"><h3>Edit Player</h3><i class="fa-solid fa-xmark" onclick="closeModal()"></i></div>
+            <div class="modal-header"><h3>Edit Player</h3><i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeModal()"></i></div>
             <form onsubmit="event.preventDefault(); window.savePlayerChanges();">
                 <input type="hidden" id="edit-id">
                 <div class="form-grid">
@@ -46,12 +48,16 @@
     <!-- LOGIN -->
     <div id="login-view" class="login-wrapper">
         <div class="login-card">
-            <div class="login-header"><h2>STAR<span class="highlight">CITY</span></h2><p class="subtitle">ADMIN GATEWAY</p></div>
+            <div class="login-header">
+                <img src="logo.png" alt="Logo" style="height: 60px; margin-bottom: 10px;">
+                <h2>STAR<span class="highlight">PANEL</span></h2>
+                <p class="subtitle">SECURE ACCESS</p>
+            </div>
             <form onsubmit="event.preventDefault(); window.attemptLogin();">
-                <div class="input-group"><i class="fa-solid fa-user-shield"></i><input type="text" id="username" placeholder="Admin ID" required></div>
-                <div class="input-group"><i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Secure Key" required></div>
-                <button type="submit" class="login-btn">AUTHENTICATE</button>
-                <p id="error-msg" class="error-text">Invalid Credentials</p>
+                <div class="input-group"><i class="fa-solid fa-user-astronaut"></i><input type="text" id="username" placeholder="Operator ID" required></div>
+                <div class="input-group"><i class="fa-solid fa-fingerprint"></i><input type="password" id="password" placeholder="Access Key" required></div>
+                <button type="submit" class="login-btn">INITIALIZE SESSION</button>
+                <p id="error-msg" class="error-text">Access Denied: Invalid Credentials</p>
             </form>
         </div>
         <div class="login-footer">&copy; 2025 Star City Systems</div>
@@ -66,13 +72,18 @@
                 <i class="fa-solid fa-xmark close-sidebar" onclick="toggleAdminMenu()"></i>
             </div>
             <nav class="side-nav">
-                <div class="nav-label">Database</div>
+                <div class="nav-label">Mainframe</div>
                 <a onclick="switchTab('players')" class="nav-item active" id="nav-players"><i class="fa-solid fa-users"></i> Players</a>
-                <a onclick="switchTab('admins')" class="nav-item" id="nav-admins"><i class="fa-solid fa-user-shield"></i> Admins</a>
-                <a onclick="switchTab('rules')" class="nav-item" id="nav-rules"><i class="fa-solid fa-book"></i> Rules</a>
+                <a onclick="switchTab('admins')" class="nav-item" id="nav-admins"><i class="fa-solid fa-user-shield"></i> Staff</a>
+                <a onclick="switchTab('rules')" class="nav-item" id="nav-rules"><i class="fa-solid fa-book"></i> Rulebook</a>
                 <div class="nav-label">System</div>
-                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs"><i class="fa-solid fa-terminal"></i> Logs</a>
+                <a onclick="switchTab('logs')" class="nav-item" id="nav-logs"><i class="fa-solid fa-terminal"></i> Console</a>
             </nav>
+            <div class="user-profile">
+                <div class="avatar">A</div>
+                <div class="info"><span class="name">Administrator</span><span class="role">System Root</span></div>
+                <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-power-off"></i></button>
+            </div>
         </aside>
 
         <main class="content-area">
@@ -83,7 +94,7 @@
 
             <!-- VIEW 1: PLAYERS -->
             <section id="view-players" class="tab-view">
-                <header class="top-bar"><h1 class="page-title">Player Management</h1></header>
+                <header class="top-bar"><h1 class="page-title">Citizen Database</h1></header>
                 <div class="table-container">
                     <div class="table-responsive">
                         <table><thead><tr><th>UID</th><th>Username</th><th>Stats</th><th>Status</th><th style="text-align:right;">Actions</th></tr></thead><tbody id="player-table-body"></tbody></table>
@@ -93,8 +104,8 @@
 
             <!-- VIEW 2: ADMINS -->
             <section id="view-admins" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">Staff Team</h1></header>
-                <div class="table-container" style="border-color:var(--primary);">
+                <header class="top-bar"><h1 class="page-title">Command Staff</h1></header>
+                <div class="table-container" style="border-top: 3px solid var(--primary);">
                     <div class="table-responsive">
                         <table><thead><tr><th>UID</th><th>Name</th><th>Rank</th><th>Level</th><th style="text-align:right;">Manage</th></tr></thead><tbody id="admin-table-body"></tbody></table>
                     </div>
@@ -103,24 +114,24 @@
 
             <!-- VIEW 3: RULES -->
             <section id="view-rules" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">Rules Manager</h1></header>
+                <header class="top-bar"><h1 class="page-title">Rule Configuration</h1></header>
                 <div class="rules-admin-grid">
-                    <div class="legal-box">
-                        <h3 style="color:var(--primary);">Create Category</h3>
+                    <div class="modal-box" style="width:100%; max-width:none;">
+                        <h3 style="color:var(--primary); margin-bottom:15px;">New Category</h3>
                         <form onsubmit="event.preventDefault(); window.addCategory();">
                             <div class="input-wrapper"><label>Name</label><input type="text" id="cat-name" required></div>
                             <div class="input-wrapper"><label>Slug</label><input type="text" id="cat-slug" required></div>
                             <button class="btn-save">Create</button>
                         </form>
-                        <div id="category-list" style="margin-top:10px; max-height:100px; overflow-y:auto;"></div>
+                        <div id="category-list" style="margin-top:10px; max-height:100px; overflow-y:auto; border-top:1px solid #334155;"></div>
                     </div>
-                    <div class="legal-box">
-                        <h3 style="color:white;">Add Rule</h3>
+                    <div class="modal-box" style="width:100%; max-width:none;">
+                        <h3 style="color:white; margin-bottom:15px;">Add Rule</h3>
                         <form onsubmit="event.preventDefault(); window.addRule();">
-                            <div class="input-wrapper"><label>Category</label><select id="rule-category-select" style="width:100%; background:#000; border:var(--border); color:white; padding:10px;"><option>Loading...</option></select></div>
+                            <div class="input-wrapper"><label>Category</label><select id="rule-category-select"></select></div>
                             <div class="input-wrapper"><label>Title</label><input type="text" id="rule-title" required></div>
-                            <div class="input-wrapper"><label>Content</label><textarea id="rule-content" rows="2" style="width:100%; background:#000; border:var(--border); color:white; padding:10px;" required></textarea></div>
-                            <button class="btn-save">Add</button>
+                            <div class="input-wrapper"><label>Content</label><textarea id="rule-content" rows="2" required></textarea></div>
+                            <button class="btn-save">Add Rule</button>
                         </form>
                     </div>
                 </div>
@@ -133,8 +144,8 @@
 
             <!-- VIEW 4: LOGS -->
             <section id="view-logs" class="tab-view" style="display:none;">
-                <header class="top-bar"><h1 class="page-title">Logs</h1></header>
-                <div class="terminal-window" id="log-window"><div class="log-line">System initialized...</div></div>
+                <header class="top-bar"><h1 class="page-title">System Logs</h1></header>
+                <div class="terminal-window" id="log-window"><div class="log-line">System initialized... Waiting for data stream.</div></div>
             </section>
 
         </main>
@@ -142,4 +153,4 @@
 
     <script type="module" src="js/admin.js"></script>
 </body>
-</html>
+    </html>
