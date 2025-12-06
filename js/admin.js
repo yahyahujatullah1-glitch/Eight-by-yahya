@@ -1,7 +1,7 @@
 import { supabase } from './supabase.js';
 
 // --- CONFIG ---
-const CREDENTIALS = { user: "star@admin", pass: "star123" };
+const CREDENTIALS = { user: "eight@admin", pass: "eight123453" };
 let db = []; 
 
 const ADMIN_RANKS = {
@@ -15,57 +15,71 @@ const ADMIN_RANKS = {
 // 1. INITIALIZATION & LOGIN
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    
+    console.log("Admin Panel Loaded");
+
     // Bind Login Form
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Stop page reload
             attemptLogin();
         });
     }
 
-    // Bind Category Form
+    // Bind other forms
     const catForm = document.getElementById('cat-form');
-    if (catForm) {
-        catForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            addCategory();
-        });
-    }
+    if (catForm) catForm.addEventListener('submit', (e) => { e.preventDefault(); addCategory(); });
 
-    // Bind Rule Form
     const ruleForm = document.getElementById('rule-form');
-    if (ruleForm) {
-        ruleForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            addRule();
-        });
-    }
+    if (ruleForm) ruleForm.addEventListener('submit', (e) => { e.preventDefault(); addRule(); });
+    
+    const editForm = document.getElementById('edit-form');
+    if (editForm) editForm.addEventListener('submit', (e) => { e.preventDefault(); savePlayerChanges(); });
 });
 
-function attemptLogin() {
-    const u = document.getElementById('username').value.trim();
-    const p = document.getElementById('password').value.trim();
+// EXPOSE LOGIN TO WINDOW (Fixes button click issues)
+window.attemptLogin = function() {
+    console.log("Attempting Login...");
+    
+    const uInput = document.getElementById('username');
+    const pInput = document.getElementById('password');
+
+    if(!uInput || !pInput) {
+        console.error("Input fields not found!");
+        return;
+    }
+
+    const u = uInput.value.trim();
+    const p = pInput.value.trim();
+
+    console.log(`Checking: ${u} vs ${CREDENTIALS.user}`);
 
     if (u === CREDENTIALS.user && p === CREDENTIALS.pass) {
+        console.log("Login Success!");
         document.getElementById('login-view').style.display = 'none';
         document.getElementById('dashboard-layout').style.display = 'flex';
-        // Auto load first tab
+        
+        // Load initial data
         switchTab('players'); 
     } else {
-        document.getElementById('error-msg').style.display = 'block';
+        console.log("Login Failed");
+        const err = document.getElementById('error-msg');
+        if(err) err.style.display = 'block';
     }
 }
 
 // ==========================================
-// 2. TAB SWITCHING (Exposed to Window)
+// 2. TAB SWITCHING
 // ==========================================
 window.switchTab = function(tabName) {
+    console.log("Switching tab to:", tabName);
+    
     document.querySelectorAll('.tab-view').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     
-    document.getElementById(`view-${tabName}`).style.display = 'block';
+    const view = document.getElementById(`view-${tabName}`);
+    if(view) view.style.display = 'block';
+    
     const navItem = document.getElementById(`nav-${tabName}`);
     if(navItem) navItem.classList.add('active');
     
@@ -75,6 +89,7 @@ window.switchTab = function(tabName) {
         renderRulesTable();
     }
     
+    // Mobile handling
     const sidebar = document.getElementById('adminSidebar');
     if(sidebar) sidebar.classList.remove('open');
     const overlay = document.querySelector('.mobile-overlay');
@@ -82,12 +97,12 @@ window.switchTab = function(tabName) {
 }
 
 // ==========================================
-// 3. MYSQL DATA (MOCKED IN API)
+// 3. MYSQL DATA (Uses API/Mock)
 // ==========================================
 async function renderPlayerTable() {
     try {
         const response = await fetch('/api/players'); 
-        if(!response.ok) throw new Error("API Error");
+        if(!response.ok) throw new Error("API Error: " + response.statusText);
         
         db = await response.json();
         
@@ -98,55 +113,55 @@ async function renderPlayerTable() {
         if(adminTbody) adminTbody.innerHTML = "";
 
         db.forEach((p, index) => {
-            if (p.adminlevel > 0) {
-                if(adminTbody) {
-                    adminTbody.innerHTML += `
-                        <tr>
-                            <td style="color:#64748b">#${p.uid}</td>
-                            <td><strong style="color:white">${p.username}</strong></td>
-                            <td style="color:var(--primary)">${ADMIN_RANKS[p.adminlevel] || "Staff"}</td>
-                            <td><span class="status-pill status-active">Lvl ${p.adminlevel}</span></td>
-                            <td style="text-align:right;">
-                                <button class="action-btn btn-up" onclick="changeAdminLevel(${p.uid}, ${p.adminlevel}, 1)"><i class="fa-solid fa-arrow-up"></i></button>
-                                <button class="action-btn btn-down" onclick="changeAdminLevel(${p.uid}, ${p.adminlevel}, -1)"><i class="fa-solid fa-arrow-down"></i></button>
-                                <button class="action-btn btn-fire" onclick="fireAdmin(${p.uid})"><i class="fa-solid fa-user-xmark"></i></button>
-                            </td>
-                        </tr>`;
-                }
-            } else {
+            // ADMIN TABLE
+            if (p.adminlevel > 0 && adminTbody) {
+                adminTbody.innerHTML += `
+                    <tr>
+                        <td style="color:#64748b">#${p.uid}</td>
+                        <td><strong style="color:white">${p.username}</strong></td>
+                        <td style="color:var(--primary)">${ADMIN_RANKS[p.adminlevel] || "Staff"}</td>
+                        <td><span class="status-pill status-active">Lvl ${p.adminlevel}</span></td>
+                        <td style="text-align:right;">
+                            <button class="action-btn btn-up" onclick="changeAdminLevel(${p.uid}, ${p.adminlevel}, 1)"><i class="fa-solid fa-arrow-up"></i></button>
+                            <button class="action-btn btn-down" onclick="changeAdminLevel(${p.uid}, ${p.adminlevel}, -1)"><i class="fa-solid fa-arrow-down"></i></button>
+                            <button class="action-btn btn-fire" onclick="fireAdmin(${p.uid})"><i class="fa-solid fa-user-xmark"></i></button>
+                        </td>
+                    </tr>`;
+            } 
+            // PLAYER TABLE
+            else if (playerTbody) {
                 const statusHtml = p.locked === 1 
                     ? '<span class="status-pill status-banned">Banned</span>' 
                     : '<span class="status-pill status-active">Active</span>';
                 
-                if(playerTbody) {
-                    playerTbody.innerHTML += `
-                        <tr>
-                            <td style="color:#64748b">#${p.uid}</td>
-                            <td><strong style="color:white">${p.username}</strong></td>
-                            <td style="font-size:12px; color:#94a3b8">Lvl: ${p.level} | $${p.cash.toLocaleString()}</td>
-                            <td>${statusHtml}</td>
-                            <td style="text-align:right;">
-                                <button class="action-btn btn-edit" onclick="openEditModal(${index})"><i class="fa-solid fa-pen"></i></button>
-                                <button class="action-btn btn-ban" onclick="requestBanToggle(${p.uid}, ${p.locked})"><i class="fa-solid fa-gavel"></i></button>
-                                <button class="action-btn btn-promote" onclick="makeAdmin(${p.uid})"><i class="fa-solid fa-shield-halved"></i></button>
-                            </td>
-                        </tr>`;
-                }
+                playerTbody.innerHTML += `
+                    <tr>
+                        <td style="color:#64748b">#${p.uid}</td>
+                        <td><strong style="color:white">${p.username}</strong></td>
+                        <td style="font-size:12px; color:#94a3b8">Lvl: ${p.level} | $${p.cash.toLocaleString()}</td>
+                        <td>${statusHtml}</td>
+                        <td style="text-align:right;">
+                            <button class="action-btn btn-edit" onclick="openEditModal(${index})"><i class="fa-solid fa-pen"></i></button>
+                            <button class="action-btn btn-ban" onclick="requestBanToggle(${p.uid}, ${p.locked})"><i class="fa-solid fa-gavel"></i></button>
+                            <button class="action-btn btn-promote" onclick="makeAdmin(${p.uid})"><i class="fa-solid fa-shield-halved"></i></button>
+                        </td>
+                    </tr>`;
             }
         });
     } catch (error) {
-        showToast("Mock Data Load Failed", "red");
+        showToast("Data Load Failed: " + error.message, "red");
         console.error(error);
     }
 }
 
 // ==========================================
-// 4. SUPABASE (MOCKED LOCALLY)
+// 4. SUPABASE (Rules)
 // ==========================================
 async function loadCategories() {
     try {
-        const { data, error } = await supabase.from('categories').select('*').order('order_index');
-        
+        const { data, error } = await supabase.from('categories').select('*').order('order_index', { ascending: true });
+        if (error) throw error;
+
         const select = document.getElementById('rule-category-select');
         const list = document.getElementById('category-list');
         
@@ -165,14 +180,12 @@ async function loadCategories() {
                 }
             });
         }
-    } catch(e) { console.error(e); }
+    } catch(e) { console.error("Rules Error:", e); }
 }
 
 async function addCategory() {
     const name = document.getElementById('cat-name').value;
     const slug = document.getElementById('cat-slug').value.toLowerCase().replace(/\s+/g, '-');
-    
-    // Mock insert
     await supabase.from('categories').insert([{ name, slug }]);
     showToast("Category Created");
     loadCategories();
@@ -187,7 +200,7 @@ window.deleteCategory = async function(slug) {
 }
 
 async function renderRulesTable() {
-    const { data } = await supabase.from('rules').select('*').order('category');
+    const { data } = await supabase.from('rules').select('*').order('category', { ascending: true });
     
     const tbody = document.getElementById('rules-table-body');
     if(!tbody) return;
@@ -199,7 +212,7 @@ async function renderRulesTable() {
                 <tr>
                     <td style="color:var(--primary); font-size:11px; font-weight:700;">${rule.category}</td>
                     <td style="font-weight:700; color:white;">${rule.title}</td>
-                    <td style="color:#94a3b8; font-size:12px;">${rule.content}</td>
+                    <td style="color:#94a3b8; font-size:12px;">${rule.content ? rule.content.substring(0,40) : ""}...</td>
                     <td style="text-align:right;">
                         <button class="action-btn btn-ban" onclick="deleteRule(${rule.id})"><i class="fa-solid fa-trash"></i></button>
                     </td>
@@ -214,11 +227,8 @@ async function addRule() {
     const content = document.getElementById('rule-content').value;
 
     await supabase.from('rules').insert([{ category, title, content }]);
-
     showToast("Rule Added");
     renderRulesTable();
-    document.getElementById('rule-title').value = '';
-    document.getElementById('rule-content').value = '';
 }
 
 window.deleteRule = async function(id) {
@@ -229,7 +239,7 @@ window.deleteRule = async function(id) {
 }
 
 // ==========================================
-// 5. PLAYER ACTIONS (USING MOCK API)
+// 5. PLAYER ACTIONS (Window Exposed)
 // ==========================================
 window.makeAdmin = function(uid) {
     showConfirm("Promote?", "User will become Level 1 Admin.", () => updateAdminRank(uid, 1));
@@ -270,6 +280,7 @@ window.openEditModal = function(index) {
 }
 window.closeModal = function() { document.getElementById('edit-modal').style.display = 'none'; }
 
+// Expose save to window or use event listener
 window.savePlayerChanges = async function() {
     const uid = document.getElementById('edit-id').value;
     const username = document.getElementById('edit-name').value;
@@ -287,9 +298,12 @@ window.savePlayerChanges = async function() {
 // 6. UTILS
 // ==========================================
 window.toggleAdminMenu = function() {
-    document.getElementById('adminSidebar').classList.toggle('open');
+    const sidebar = document.getElementById('adminSidebar');
+    sidebar.classList.toggle('open');
     const overlay = document.querySelector('.mobile-overlay');
-    if(overlay) overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+    if(overlay) {
+        overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+    }
 }
 
 window.logout = function() { location.reload(); }
@@ -310,6 +324,7 @@ window.showToast = function(msg, color="cyan") {
     t.className = 'toast';
     if(color==="red") t.style.borderLeftColor="#ef4444";
     t.innerHTML = msg;
-    document.getElementById('toast-container').appendChild(t);
+    const container = document.getElementById('toast-container');
+    if(container) container.appendChild(t);
     setTimeout(() => t.remove(), 3000);
-                                }
+    }
