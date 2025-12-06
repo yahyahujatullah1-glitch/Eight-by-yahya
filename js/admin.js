@@ -1,7 +1,7 @@
 import { supabase } from './supabase.js';
 
 // --- CONFIG ---
-const CREDENTIALS = { user: "eight@admin", pass: "eight123453" };
+const CREDENTIALS = { user: "star@admin", pass: "star123" };
 
 // --- LOCAL MOCK DATA (No API Needed) ---
 let playersDB = [
